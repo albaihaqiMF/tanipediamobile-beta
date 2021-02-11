@@ -8,14 +8,13 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
+  bool _isLoading = false;
+  bool _errorNameField = false;
+  bool _errorPhoneField = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('REGISTER'),
-      //   brightness: Brightness.light,
-      // ),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.fromLTRB(
@@ -42,6 +41,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           border: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
                               borderRadius: BorderRadius.circular(10)),
+                          errorText: _errorNameField
+                              ? 'Nama tidak boleh kosong'
+                              : null,
                         ),
                         keyboardType: TextInputType.name,
                         controller: _nameController,
@@ -54,7 +56,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             contentPadding: EdgeInsets.all(16),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            counterText: ''),
+                            counterText: '',
+                            errorText: _errorPhoneField
+                                ? 'No.Telepon tidak valid'
+                                : null,
+                            prefixText: '+62'),
                         maxLength: 15,
                         keyboardType: TextInputType.number,
                         controller: _phoneController,
@@ -63,16 +69,45 @@ class _RegisterPageState extends State<RegisterPage> {
                     Container(
                       margin: EdgeInsets.fromLTRB(
                           defaultMargin, 10, defaultMargin, 0),
-                      child: CustomButton(
-                          onPress: () {
-                            Get.to(AuthPage(),
-                                arguments: '+62${_phoneController.text}');
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         AuthPage('+62${_phoneController.text}')));
-                          },
-                          text: 'DAFTAR',
-                          color: mainColor),
+                      child: (_isLoading)
+                          ? loadingIndicator
+                          : CustomButton(
+                              onPress: () async {
+                                setState(() {
+                                  _nameController.text.isEmpty
+                                      ? _errorNameField = true
+                                      : _errorNameField = false;
+                                  _phoneController.text.isNotEmpty &&
+                                          AppValidator.phoneNumberValidator(
+                                              '+62${_phoneController.text}')
+                                      ? _errorPhoneField = false
+                                      : _errorPhoneField = true;
+                                });
+
+                                if (!_errorNameField && !_errorPhoneField) {
+                                  _isLoading = true;
+                                  await context.bloc<UserCubit>().register(
+                                      _nameController.text,
+                                      _phoneController.text);
+                                  UserState state =
+                                      context.bloc<UserCubit>().state;
+                                  if (state is UserLoaded) {
+                                    Get.offAll(AuthPage(),
+                                        arguments:
+                                            '+62${_phoneController.text}');
+                                  } else {
+                                    var message = (context
+                                            .bloc<UserCubit>()
+                                            .state as UserLoadingFailed)
+                                        .message
+                                        .toString();
+                                    showSnackbar('Terjadi kesalahan!', message);
+                                    _isLoading = false;
+                                  }
+                                }
+                              },
+                              text: 'DAFTAR',
+                              color: mainColor),
                     )
                   ],
                 ),
@@ -86,5 +121,12 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
   }
 }

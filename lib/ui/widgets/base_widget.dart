@@ -12,6 +12,28 @@ void showToast(BuildContext context, String message) {
   );
 }
 
+void showSnackbar(String title, String message) {
+  Get.snackbar(
+    "",
+    "",
+    backgroundColor: accentColor,
+    icon: Icon(
+      MdiIcons.closeCircleOutline,
+      color: Colors.white,
+    ),
+    titleText: Text(
+      title,
+      style: blackFontBoldStyle3,
+    ),
+    messageText: Text(
+      message,
+      style: blackFontStyle3,
+    ),
+  );
+}
+
+Widget loadingIndicator = SpinKitFadingCircle(size: 45, color: mainColor);
+
 class BuildProgressDialog extends StatelessWidget {
   final String loadingMessage;
   final ProgressDialog progressDialog;

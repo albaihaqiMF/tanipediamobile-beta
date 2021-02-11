@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:tanipedia_mobile_app/cubit/cubit.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:tanipedia_mobile_app/ui/pages/pages.dart';
 
@@ -23,11 +25,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: appThemeData,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: RegisterPage(),
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (_) => UserCubit())],
+      child: GetMaterialApp(
+        theme: appThemeData,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: RegisterPage(),
+        ),
       ),
     );
   }
