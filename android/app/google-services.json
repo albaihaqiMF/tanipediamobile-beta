@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "754029817857",
+    "project_id": "tanipedia-2c6cf",
+    "storage_bucket": "tanipedia-2c6cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754029817857:android:c0cf19698515d62c685000",
+        "android_client_info": {
+          "package_name": "id.co.gradien.tanipedia_mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754029817857-5c9dp3m4vl50k5ea9cff521caibu4l9a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.co.gradien.tanipedia_mobile_app",
+            "certificate_hash": "97a221276457027dd8a77c3b2fabe1b52dfaf068"
+          }
+        },
+        {
+          "client_id": "754029817857-q094tl1hmr7d6fvii7hi92qot72gt366.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAo_3_yfCZaKdZjTbVYwWAupv_TxbnXDVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754029817857-q094tl1hmr7d6fvii7hi92qot72gt366.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
