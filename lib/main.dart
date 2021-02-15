@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:tanipedia_mobile_app/cubit/cubit.dart';
+import 'package:tanipedia_mobile_app/cubit/profile_cubit.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:tanipedia_mobile_app/ui/pages/pages.dart';
+import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 
 void main() async {
   // Firebase
@@ -26,12 +28,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => UserCubit())],
+      providers: [
+        BlocProvider(create: (_) => UserCubit()),
+        BlocProvider(create: (_) => CreateProfileCubit()),
+        BlocProvider(create: (_) => ProfileCubit())
+      ],
       child: GetMaterialApp(
         theme: appThemeData,
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: RegisterPage(),
+          body: TestPage(),
         ),
       ),
     );

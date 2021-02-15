@@ -10,20 +10,25 @@ class UserServices {
 
     var body = jsonEncode(fieldFormURL);
 
-    final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.register,
-        headers: ApiUrl.headers, body: body);
+    try {
+      final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.register,
+          headers: ApiUrl.headers, body: body);
 
-    // final responseBody = json.decode(apiResponse.body.toString());
-    final responseBody = ReturnResponse.response(apiResponse);
+      // final responseBody = json.decode(apiResponse.body.toString());
+      final responseBody = ReturnResponse.response(apiResponse);
+      // response Data/Base
+      final baseResponse = Response.fromJSON(responseBody);
+      // response User
+      var responseLogin = User.fromJSON(baseResponse.data);
 
-    // response Data/Base
-    final baseResponse = Response.fromJSON(responseBody);
-    // response User
-    var responseLogin = User.fromJSON(baseResponse.data);
-
-    print('USER SERVICE : ${responseBody.toString()}');
-    print(
-        'USER SERVICE : ${baseResponse.status}, ${baseResponse.message}, ${baseResponse.data}');
-    return ApiReturnValue(responseLogin, baseResponse.message);
+      print('USER SERVICE : ${responseBody.toString()}');
+      print(
+          'USER SERVICE : ${baseResponse.status}, ${baseResponse.message}, ${baseResponse.data}');
+      return ApiReturnValue(
+          value: responseLogin, message: baseResponse.message);
+    } catch (e) {
+      print('USER Exception : ${e.toString()}');
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }
   }
 }

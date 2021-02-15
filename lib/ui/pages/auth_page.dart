@@ -8,8 +8,11 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   TextEditingController _otpController = TextEditingController();
   String _verificationCode;
-  String userId = '5';
-  String _phoneNumber = Get.arguments;
+  // List<String> arguments = Get.arguments
+  String _userId = Get.arguments[1];
+  // String userId = '5';
+  String _phoneNumber = Get.arguments[0];
+  // String _phoneNumber = Get.arguments;
   bool _isLoading = false;
   bool _errorField = false;
 
@@ -71,28 +74,30 @@ class _AuthPageState extends State<AuthPage> {
                                           smsCode: _otpController.text))
                                   .then((value) async {
                                 if (value.user != null) {
-                                  _isLoading = false;
                                   print('STATUS Success : ${value.user}');
                                   print(
                                       'STATUS Success : ${value.user.getIdToken()}');
-                                  String usernameFromAPI = (context
-                                          .bloc<UserCubit>()
+                                  String _usernameFromAPI = (context
+                                          .read<UserCubit>()
                                           .state as UserLoaded)
                                       .user
                                       .name;
 
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+
                                   FirebaseServices.registerFirestore(
-                                      userId,
+                                      _userId,
                                       value.user.uid,
-                                      Get.arguments,
-                                      usernameFromAPI);
-                                  Get.offAll(HomePage());
+                                      _phoneNumber,
+                                      _usernameFromAPI);
+                                  Get.off(CreateProfilePage(),
+                                      arguments: _userId);
                                 }
                               });
                             } catch (e) {
                               print('STATUS invalid : $e');
-                              print(
-                                  'STATUS invalid with message : ${e.message}');
                               showSnackbar('Gagal!', 'Kode OTP salah');
                               setState(() {
                                 _isLoading = false;
@@ -112,7 +117,7 @@ class _AuthPageState extends State<AuthPage> {
 
   _verifyPhone() {
     FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: Get.arguments,
+        phoneNumber: _phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) {
           // --------- Auto Login -------- //
           print('FirebaseAuth Complete: $credential');
@@ -121,10 +126,11 @@ class _AuthPageState extends State<AuthPage> {
               .then((value) async {
             _isLoading = false;
             if (value.user != null) {
-              String usernameFromAPI =
-                  (context.bloc<UserCubit>().state as UserLoaded).user.name;
+              // String usernameFromAPI =
+              //     (context.bloc<UserCubit>().state as UserLoaded).user.name;
+
               FirebaseServices.registerFirestore(
-                  userId, value.user.uid, Get.arguments, usernameFromAPI);
+                  _userId, value.user.uid, _phoneNumber, null);
               Get.to(HomePage());
             }
           });

@@ -7,3 +7,4 @@ import 'package:tanipedia_mobile_app/shared/shared.dart';
 
 part 'base_widget.dart';
 part 'custom_button.dart';
+part 'wrap_field.dart';

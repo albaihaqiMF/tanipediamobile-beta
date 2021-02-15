@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:tanipedia_mobile_app/shared/shared.dart';
+part of 'widgets.dart';
 
-class WrapField extends StatelessWidget {
+class WrapBorder extends StatelessWidget {
   final Widget widget;
-  WrapField(this.widget) : assert(widget != null);
+  WrapBorder(this.widget) : assert(widget != null);
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +11,13 @@ class WrapField extends StatelessWidget {
       child: Card(
         elevation: 5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(12.0),
           side: BorderSide(
             color: mainColor,
             width: 2.0,
           ),
         ),
-        child: Container(child: widget),
+        child: Container(padding: EdgeInsets.all(14), child: widget),
       ),
     );
   }

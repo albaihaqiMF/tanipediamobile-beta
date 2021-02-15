@@ -29,15 +29,17 @@ dependencies:
   firebase_auth: ^0.20.0+1
   firebase_core: ^0.7.0
   flutter_bloc: ^6.0.1
+  flutter_spinkit: ^4.1.2+1
   flutter_statusbarcolor: ^0.2.3
   get: ^3.4.6
   google_fonts: ^1.1.0
+  image_picker: ^0.6.7+22
   intl: ^0.16.1
+  keyboard_dismisser: ^1.0.2
   material_design_icons_flutter: ^4.0.5555
   progress_dialog: ^1.2.4
   shared_preferences: ^0.5.12
   supercharged: ^1.10.0
-  flutter_spinkit: ^4.1.2+1
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +59,7 @@ flutter:
     - assets/text_app.png
     - assets/logo_text_app.png
     - assets/logo_app.png
+    - assets/ic_profile.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

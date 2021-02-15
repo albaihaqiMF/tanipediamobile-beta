@@ -39,7 +39,8 @@ class BuildProgressDialog extends StatelessWidget {
   final ProgressDialog progressDialog;
   final bool show;
   const BuildProgressDialog(
-      {this.loadingMessage, this.progressDialog, this.show});
+      {Key key, this.loadingMessage, this.progressDialog, this.show})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

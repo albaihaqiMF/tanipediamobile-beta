@@ -1,7 +1,7 @@
 part of 'models.dart';
 
 class User extends Equatable {
-  final int id;
+  final String id;
   final String name;
   final String password;
   final String email;
@@ -21,7 +21,7 @@ class User extends Equatable {
 
   factory User.fromJSON(Map<String, dynamic> json) {
     return User(
-      // id: json['id'].toString(),
+      id: json['id'].toString(),
       name: json['username'],
       password: json['password'],
       // email: json['jam'],

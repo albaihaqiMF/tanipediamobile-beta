@@ -7,30 +7,38 @@ class ReturnResponse {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(responseBody);
-        print('API_BASE : $responseJson');
+        print('CREATE_200 : $responseJson');
         return responseJson;
 
       case 201:
         var responseJson = json.decode(responseBody);
-        print('API_BASE : $responseJson');
+        print('CREATED_201 : $responseJson');
         return responseJson;
 
       case 400:
         final responseJSON = Response.fromJSON(json.decode(responseBody));
-        print('APIBASE : ${response.body.toString()}');
+        print('NETWORK_EXCEPTION : ${response.body.toString()}');
         throw BadRequestException(responseJSON.message);
 
       case 401:
-        throw UnauthorisedException(response.body.toString());
+        print('NETWORK_EXCEPTION : ${response.body.toString()}');
+        throw UnauthorisedException('Anda harus login terlebih dahulu.');
 
       case 403:
-        final responseJSON = Response.fromJSON(json.decode(responseBody));
-        print(response.body.toString());
-        print(response.statusCode.toString());
-        throw InvalidInputException(responseJSON.message);
+        //final responseJSON = Response.fromJSON(json.decode(responseBody));
+        print('NETWORK_EXCEPTION ${response.body.toString()}');
+        print('NETWORK_EXCEPTION ${response.statusCode.toString()}');
+        throw InvalidInputException('Anda tidak memiliki akses.');
+
+      case 404:
+        //final responseJSON = Response.fromJSON(json.decode(responseBody));
+        print('NETWORK_EXCEPTION ${response.body.toString()}');
+        print('NETWORK_EXCEPTION ${response.statusCode.toString()}');
+        throw AddressNotFoundException('Alamat URL tidak ditemukan.');
 
       case 500:
-        throw InternalServerErrorException(response.body.toString());
+        print('NETWORK_EXCEPTION : ${response.body.toString()}');
+        throw InternalServerErrorException('Terjadi Kesalahan');
 
       default:
         throw FetchDataException(
@@ -61,6 +69,11 @@ class BadRequestException extends AppException {
 
 class UnauthorisedException extends AppException {
   UnauthorisedException([message]) : super(message, "Unauthorized: ");
+}
+
+class AddressNotFoundException extends AppException {
+  AddressNotFoundException([String message])
+      : super(message, "Address Not Found: ");
 }
 
 class InvalidInputException extends AppException {
