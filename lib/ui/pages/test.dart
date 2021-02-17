@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tanipedia_mobile_app/cubit/get_list_pupuk_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/profile_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/upload_photo_profile_cubit.dart';
-import 'package:tanipedia_mobile_app/local_storage/shared_preference.dart';
 import 'package:tanipedia_mobile_app/model/dropdown/dropdowns.dart';
 import 'package:tanipedia_mobile_app/network/api_url.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
@@ -68,6 +64,13 @@ class _TestPageState extends State<TestPage> {
               Get.to(CreateProfilePage(), arguments: 164);
             },
             text: 'Create Profile',
+            color: mainColor),
+        CustomButton(
+            onPress: () {
+              context.bloc<GetListPupukCubit>().getListPupuk();
+              Get.to(ListPupukPage());
+            },
+            text: 'To List Pupuk',
             color: mainColor)
       ],
     );

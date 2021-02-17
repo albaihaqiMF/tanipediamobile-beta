@@ -64,9 +64,8 @@ class ProfileServices {
           'PROFILE_SERVICE GET : ${apiResponse.statusCode}, ${apiResponse.body}, ${apiResponse.headers}');
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
-      final responseGetProfile = Profile.fromJSON(baseResponse.data);
-      return ApiReturnValue(
-          value: responseGetProfile, message: baseResponse.message);
+      final dataProfil = Profile.fromJSON(baseResponse.data);
+      return ApiReturnValue(value: dataProfil, message: baseResponse.message);
     } catch (e) {
       print('PROFILE_SERVICE Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
@@ -86,9 +85,8 @@ class ProfileServices {
           headers: ApiUrl.headersAuth, body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
-      final responseGetProfile = Profile.fromJSON(baseResponse.data);
-      return ApiReturnValue(
-          value: responseGetProfile, message: baseResponse.message);
+      final dataProfil = Profile.fromJSON(baseResponse.data);
+      return ApiReturnValue(value: dataProfil, message: baseResponse.message);
     } catch (e) {
       print('PROFILE_SERVICE Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());

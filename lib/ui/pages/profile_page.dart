@@ -6,15 +6,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  PickedFile _photoFile;
   final ImagePicker _imagePicker = ImagePicker();
   final scaffoldState = GlobalKey<ScaffoldState>();
-  // String _fotoProfil;
   String _updateFotoProfil;
-
-  // String _fotoProfil = (context.watch<ProfileCubit>().state as ProfileLoaded).profile.fotoProfil.substring(8);
-  // String fotoProfil =
-  //     'https://assets.pikiran-rakyat.com/crop/3x282:688x907/x/photo/2020/10/10/2212111952.png';
 
   Widget build(BuildContext context) {
     ProfileState stateProfile = context.watch<ProfileCubit>().state;

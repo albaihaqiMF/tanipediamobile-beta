@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:path/path.dart';
 
 part 'app_style.dart';
 part 'app_constant.dart';
