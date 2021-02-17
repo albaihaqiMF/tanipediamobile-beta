@@ -3,10 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanipedia_mobile_app/cubit/create_profile_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/profile_cubit.dart';
+import 'package:tanipedia_mobile_app/cubit/upload_photo_profile_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/user_cubit.dart';
+import 'package:tanipedia_mobile_app/local_storage/shared_preference.dart';
+import 'package:tanipedia_mobile_app/model/dropdown/dropdowns.dart';
+import 'package:tanipedia_mobile_app/network/api_url.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

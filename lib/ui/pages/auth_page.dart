@@ -8,13 +8,16 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   TextEditingController _otpController = TextEditingController();
   String _verificationCode;
-  // List<String> arguments = Get.arguments
   String _userId = Get.arguments[1];
-  // String userId = '5';
   String _phoneNumber = Get.arguments[0];
-  // String _phoneNumber = Get.arguments;
   bool _isLoading = false;
   bool _errorField = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _verifyPhone();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +96,7 @@ class _AuthPageState extends State<AuthPage> {
                                       _phoneNumber,
                                       _usernameFromAPI);
                                   Get.off(CreateProfilePage(),
-                                      arguments: _userId);
+                                      arguments: [_userId, _phoneNumber]);
                                 }
                               });
                             } catch (e) {
@@ -126,12 +129,12 @@ class _AuthPageState extends State<AuthPage> {
               .then((value) async {
             _isLoading = false;
             if (value.user != null) {
-              // String usernameFromAPI =
-              //     (context.bloc<UserCubit>().state as UserLoaded).user.name;
+              String usernameFromAPI =
+                  (context.bloc<UserCubit>().state as UserLoaded).user.name;
 
               FirebaseServices.registerFirestore(
-                  _userId, value.user.uid, _phoneNumber, null);
-              Get.to(HomePage());
+                  _userId, value.user.uid, _phoneNumber, usernameFromAPI);
+              Get.off(CreateProfilePage(), arguments: [_userId, _phoneNumber]);
             }
           });
         },
@@ -158,11 +161,5 @@ class _AuthPageState extends State<AuthPage> {
           });
         },
         timeout: Duration(seconds: 120));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _verifyPhone();
   }
 }

@@ -1,6 +1,6 @@
 class ApiUrl {
   // Initial Setup
-  static const baseURL = "https://99f7fca3bd1c.ngrok.io/";
+  static const baseURL = "https://492e9b02078c.ngrok.io/";
   static const contentType = 'application/json';
   static const appKey = 'okYC7opyhD4DTIauhPvMq2Wkvc6bz08t';
 
@@ -9,7 +9,7 @@ class ApiUrl {
     'Content-Type': ApiUrl.contentType,
     'APP-KEY': ApiUrl.appKey,
     'Authorization':
-        'Gradien 859a37720c27b9f70e11b79bab9318feUwX9Eow8udCeXuWmAKgD1b43rJGCzVPKTwo9FBAyQPriNwlVjTzwi8HJRKa180OqToY1hjIHYeExOEP9LhobEAAX5u6YZEUcqCfkgpEfIN4wqxLGvNKCSqabIYgq4t5m'
+        'Gradien 859a37720c27b9f70e11b79bab9318fevKy8TIabuW9axMdVdZ4SEfZMKhVrPfGIrTvNpYH2wiQnDaDYwu48T9FRdsfOf4JtRB89HKUTY2HevVmNn1YgNSot5MvUVovVf7yPRh3y96Es7v2cMBgsnyqNuc872nAY'
   };
 
   static Map<String, String> headers = {
@@ -18,6 +18,7 @@ class ApiUrl {
   };
 
   // End Point URL
-  static const register = "register";
-  static const profile = "profil";
+  static const register = 'register';
+  static const profile = 'profil';
+  static const uploadPhoto = 'profil/image';
 }

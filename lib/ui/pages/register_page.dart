@@ -92,7 +92,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         margin: EdgeInsets.fromLTRB(
                             defaultMargin, 10, defaultMargin, 0),
                         child: (_isLoading)
-                            ? loadingIndicator
+                            ? Container(
+                                margin: EdgeInsets.only(top: 10),
+                                child: loadingIndicator)
                             : CustomButton(
                                 onPress: () async {
                                   setState(() {
@@ -115,7 +117,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                         context.read<UserCubit>().state;
                                     try {
                                       if (state is UserLoaded) {
-                                        // saveSharedPreference();
                                         var userId = (context
                                                 .read<UserCubit>()
                                                 .state as UserLoaded)
@@ -123,12 +124,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                             .id
                                             .toString();
 
+                                        saveSharedPreference(userId,
+                                            '+62${_phoneController.text}');
+
                                         setState(() {
                                           _isLoading = false;
                                         });
-                                        // Get.offAll(AuthPage(),
-                                        //     arguments:
-                                        //         '+62${_phoneController.text}');
                                         Get.offAll(AuthPage(), arguments: [
                                           '+62${_phoneController.text}',
                                           userId
@@ -171,12 +172,11 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  // void saveSharedPreference() async {
-  //   var userId =
-  //       (context.watch<UserCubit>().state as UserLoaded).user.id.toString();
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   await prefs.setString(KeySharedPreference.userId, userId);
-  // }
+  void saveSharedPreference(String idUser, String phoneNumber) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(KeySharedPreference.idUser, idUser);
+    await prefs.setString(KeySharedPreference.phoneNumber, phoneNumber);
+  }
 
   @override
   void dispose() {

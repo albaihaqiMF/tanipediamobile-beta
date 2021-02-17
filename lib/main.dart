@@ -8,6 +8,7 @@ import 'package:tanipedia_mobile_app/cubit/profile_cubit.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:tanipedia_mobile_app/ui/pages/pages.dart';
 import 'package:tanipedia_mobile_app/ui/pages/test.dart';
+import 'cubit/upload_photo_profile_cubit.dart';
 
 void main() async {
   // Firebase
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => UserCubit()),
         BlocProvider(create: (_) => CreateProfileCubit()),
-        BlocProvider(create: (_) => ProfileCubit())
+        BlocProvider(create: (_) => ProfileCubit()),
+        BlocProvider(create: (_) => UploadPhotoProfileCubit())
       ],
       child: GetMaterialApp(
         theme: appThemeData,

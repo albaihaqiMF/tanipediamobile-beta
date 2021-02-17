@@ -5,6 +5,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 
-part 'base_widget.dart';
+part 'basic_widget.dart';
 part 'custom_button.dart';
-part 'wrap_field.dart';
+part 'wrap_border.dart';
+part 'progress_dialog.dart';
+part 'wrap_dropdown.dart';

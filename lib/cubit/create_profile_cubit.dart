@@ -8,10 +8,40 @@ part 'create_profile_state.dart';
 class CreateProfileCubit extends Cubit<CreateProfileState> {
   CreateProfileCubit() : super(CreateProfileInitial());
 
-  Future<void> createProfile(int idUser, String nama, int nik, String tglLahir,
-      int kodePos, String rt, String rw) async {
+  Future<void> createProfile(
+      int idUser,
+      String nama,
+      int nik,
+      int kk,
+      String tglLahir,
+      int kodePos,
+      String rt,
+      String rw,
+      String gender,
+      String golDarah,
+      String suku,
+      String agama,
+      String pendidikan,
+      String pekerjaan,
+      String kategori,
+      String telp) async {
     ApiReturnValue<Profile> result = await ProfileServices.create(
-        idUser, nama, nik, tglLahir, kodePos, rt, rw);
+        idUser,
+        nama,
+        nik,
+        kk,
+        tglLahir,
+        kodePos,
+        rt,
+        rw,
+        gender,
+        golDarah,
+        suku,
+        agama,
+        pendidikan,
+        pekerjaan,
+        kategori,
+        telp);
     if (result.value != null) {
       emit(CreateProfileLoaded(result.value));
     } else {
