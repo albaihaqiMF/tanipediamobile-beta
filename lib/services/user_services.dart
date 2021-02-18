@@ -1,6 +1,7 @@
 part of 'services.dart';
 
 class UserServices {
+  static const String tag = 'USER_SERVICE';
   static Future<ApiReturnValue<User>> register(
       String username, String password) async {
     Map<String, String> fieldFormURL = {
@@ -21,13 +22,13 @@ class UserServices {
       // response User
       var responseLogin = User.fromJSON(baseResponse.data);
 
-      print('USER SERVICE : ${responseBody.toString()}');
+      print('$tag : ${responseBody.toString()}');
       print(
-          'USER SERVICE : ${baseResponse.status}, ${baseResponse.message}, ${baseResponse.data}');
+          '$tag : ${baseResponse.status}, ${baseResponse.message}, ${baseResponse.data}');
       return ApiReturnValue(
           value: responseLogin, message: baseResponse.message);
     } catch (e) {
-      print('USER Exception : ${e.toString()}');
+      print('$tag : ${e.toString()}');
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
     }
   }

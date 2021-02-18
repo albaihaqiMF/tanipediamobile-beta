@@ -1,11 +1,13 @@
+part of 'models.dart';
+
 class Pupuk {
   String id;
   String jenis;
   int kapasitas;
   int satuan;
-  String idPoktan;
-  String idPetani;
-  String idInstansi;
+  String poktan;
+  String petani;
+  String instansi;
   String tglDistribusi;
   String keterangan;
 
@@ -14,10 +16,10 @@ class Pupuk {
       this.jenis,
       this.kapasitas,
       this.satuan,
-      this.idPoktan,
-      this.idPetani,
+      this.poktan,
+      this.petani,
       this.tglDistribusi,
-      this.idInstansi,
+      this.instansi,
       this.keterangan});
 
   factory Pupuk.fromJSON(Map<String, dynamic> json) {
@@ -26,9 +28,9 @@ class Pupuk {
       jenis: json['jenis_pupuk'],
       kapasitas: json['kapasitas'],
       satuan: json['satuan'],
-      idPoktan: json['id_poktan'].toString(),
-      idPetani: json['id_petani'].toString(),
-      idInstansi: json['id_instansi'].toString(),
+      poktan: json['id_poktan'].toString(),
+      petani: json['id_petani'].toString(),
+      instansi: json['id_instansi'].toString(),
       tglDistribusi: json['tgl_distribusi'],
       keterangan: json['keterangan'],
     );

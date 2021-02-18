@@ -1,6 +1,8 @@
 part of 'services.dart';
 
 class ProfileServices {
+  static const String tag = 'PROFILE_SERVICE';
+
   static Future<ApiReturnValue<Profile>> create(
       int idUser,
       String nama,
@@ -49,25 +51,25 @@ class ProfileServices {
       return ApiReturnValue(
           value: responseCreateProfile, message: baseResponse.message);
     } catch (e) {
-      print('PROFILE_SERVICE : ${e.toString()}');
+      print('$tag : ${e.toString()}');
       // return ApiReturnValue(message: "Tidak ada koneksi internet!");
       return ApiReturnValue(message: e.toString());
     }
   }
 
-  static Future<ApiReturnValue<Profile>> read(int idUser) async {
+  static Future<ApiReturnValue<Profile>> read(String idUser) async {
     try {
       final apiResponse = await http.get(
-          ApiUrl.baseURL + ApiUrl.profile + '/$idUser',
+          ApiUrl.baseURL + ApiUrl.profile + '/' + idUser,
           headers: ApiUrl.headersAuth);
       print(
-          'PROFILE_SERVICE GET : ${apiResponse.statusCode}, ${apiResponse.body}, ${apiResponse.headers}');
+          '$tag GET : ${apiResponse.statusCode}, ${apiResponse.body}, ${apiResponse.headers}');
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final dataProfil = Profile.fromJSON(baseResponse.data);
       return ApiReturnValue(value: dataProfil, message: baseResponse.message);
     } catch (e) {
-      print('PROFILE_SERVICE Exception : ${e.toString()}');
+      print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
   }
@@ -88,7 +90,7 @@ class ProfileServices {
       final dataProfil = Profile.fromJSON(baseResponse.data);
       return ApiReturnValue(value: dataProfil, message: baseResponse.message);
     } catch (e) {
-      print('PROFILE_SERVICE Exception : ${e.toString()}');
+      print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
   }

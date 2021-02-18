@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/model/models.dart';
-import 'package:tanipedia_mobile_app/model/pupuk.dart';
 import 'package:tanipedia_mobile_app/services/services.dart';
 
 part 'get_list_pupuk_state.dart';

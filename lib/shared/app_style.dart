@@ -1,6 +1,6 @@
 part of 'shared.dart';
 
-Color mainColor = "55DE7C".toColor();
+Color mainColor = "0CC23F".toColor();
 Color accentColor = "B9E77F".toColor();
 Color greyColor = "8D92A3".toColor();
 Color secondaryColor = 'CAFFD9'.toColor();
@@ -28,5 +28,14 @@ TextStyle blackFontStyle3 = GoogleFonts.poppins().copyWith(color: Colors.black);
 
 TextStyle blackFontStyle4 =
     GoogleFonts.poppins().copyWith(fontSize: 14, color: Colors.black);
+
+TextStyle mainFontBoldStyle1 = GoogleFonts.poppins()
+    .copyWith(color: mainColor, fontSize: 22, fontWeight: FontWeight.bold);
+
+TextStyle mainFontBoldStyle2 = GoogleFonts.poppins()
+    .copyWith(color: mainColor, fontSize: 16, fontWeight: FontWeight.bold);
+
+TextStyle mainFontBoldStyle3 = GoogleFonts.poppins()
+    .copyWith(color: mainColor, fontWeight: FontWeight.bold);
 
 const double defaultMargin = 24;

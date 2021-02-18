@@ -34,37 +34,6 @@ void showSnackbar(String title, String message) {
 
 Widget loadingIndicator = SpinKitFadingCircle(size: 45, color: mainColor);
 
-class BuildProgressDialog extends StatelessWidget {
-  final String loadingMessage;
-  final ProgressDialog progressDialog;
-  final bool show;
-  const BuildProgressDialog(
-      {Key key, this.loadingMessage, this.progressDialog, this.show})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final progressDialog =
-        ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(
-      message: loadingMessage,
-      progressWidget: Container(
-          padding: EdgeInsets.all(8.0), child: CircularProgressIndicator()),
-      maxProgress: 100.0,
-      progressTextStyle: TextStyle(
-          color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
-      messageTextStyle: TextStyle(color: Colors.black, fontSize: 14.0),
-    );
-    // progressDialog.show();
-    if (show == false) {
-      progressDialog.hide();
-    } else {
-      progressDialog.show();
-    }
-    return Container();
-  }
-}
-
 customCard(BuildContext context,
     {Function onPress, IconData icons, double height, double width}) {
   return Card(

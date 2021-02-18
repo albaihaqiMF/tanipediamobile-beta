@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:tanipedia_mobile_app/cubit/get_list_pupuk_cubit.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'cubit/cubit.dart';
@@ -33,7 +32,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => CreateProfileCubit()),
         BlocProvider(create: (_) => ProfileCubit()),
         BlocProvider(create: (_) => UploadPhotoProfileCubit()),
-        BlocProvider(create: (_) => GetListPupukCubit())
+        BlocProvider(create: (_) => GetListPupukCubit()),
+        BlocProvider(create: (_) => DetailPupukCubit()),
+        BlocProvider(create: (_) => GetListPupukCubit()),
+        BlocProvider(create: (_) => GetDetailLahanCubit()),
+        BlocProvider(create: (_) => GetListLahanCubit()),
       ],
       child: GetMaterialApp(
         theme: appThemeData,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tanipedia_mobile_app/cubit/get_list_pupuk_cubit.dart';
-import 'package:tanipedia_mobile_app/cubit/profile_cubit.dart';
-import 'package:tanipedia_mobile_app/cubit/upload_photo_profile_cubit.dart';
+import 'package:tanipedia_mobile_app/cubit/cubit.dart';
+import 'package:tanipedia_mobile_app/cubit/pupuk/get_list_pupuk_cubit.dart';
+import 'package:tanipedia_mobile_app/cubit/profile/profile_cubit.dart';
+import 'package:tanipedia_mobile_app/cubit/profile/upload_photo_profile_cubit.dart';
 import 'package:tanipedia_mobile_app/model/dropdown/dropdowns.dart';
 import 'package:tanipedia_mobile_app/network/api_url.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
@@ -35,7 +36,7 @@ class _TestPageState extends State<TestPage> {
         Center(
           child: CustomButton(
               onPress: () {
-                context.bloc<ProfileCubit>().getProfile(77);
+                context.bloc<ProfileCubit>().getProfile('77');
                 Get.to(ProfilePage());
               },
               text: 'Get Profile',
@@ -53,7 +54,7 @@ class _TestPageState extends State<TestPage> {
               // SharedPreferences sf = await SharedPreferences.getInstance();
               // sf.setInt(KeySharedPreference.idProfile, 164);
               // final iddProfile = sf.getInt(KeySharedPreference.idProfile);
-              await context.bloc<ProfileCubit>().getProfile(169);
+              await context.bloc<ProfileCubit>().getProfile('169');
 
               Get.to(ProfilePage());
             },
@@ -71,6 +72,13 @@ class _TestPageState extends State<TestPage> {
               Get.to(ListPupukPage());
             },
             text: 'To List Pupuk',
+            color: mainColor),
+        CustomButton(
+            onPress: () {
+              context.bloc<GetListLahanCubit>().getListLahan();
+              Get.to(ListLahanPage());
+            },
+            text: 'To List Lahan',
             color: mainColor)
       ],
     );

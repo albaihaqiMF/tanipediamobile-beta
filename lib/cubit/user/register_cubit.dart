@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/model/models.dart';
 import 'package:tanipedia_mobile_app/services/services.dart';
 
-part 'user_state.dart';
+part 'register_state.dart';
 
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(UserInitial());

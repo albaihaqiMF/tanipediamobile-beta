@@ -425,7 +425,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                           // Get Data Profile
                           await context
                               .bloc<ProfileCubit>()
-                              .getProfile(int.tryParse(_idProfile));
+                              .getProfile(_idProfile);
 
                           Get.offAll(ProfilePage(), arguments: _userId);
                         } else if (state is CreateProfileLoadingFailed) {

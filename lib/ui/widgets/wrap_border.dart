@@ -26,3 +26,30 @@ class WrapBorder extends StatelessWidget {
     );
   }
 }
+
+class WrapBorderCircle extends StatelessWidget {
+  final Widget child;
+  final Color color;
+  WrapBorderCircle({this.child, this.color}) : assert(child != null);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.8),
+            spreadRadius: 2,
+            blurRadius: 2,
+            offset: Offset(3, 3),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}

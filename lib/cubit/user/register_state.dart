@@ -1,4 +1,4 @@
-part of 'user_cubit.dart';
+part of 'register_cubit.dart';
 
 abstract class UserState extends Equatable {
   const UserState();
