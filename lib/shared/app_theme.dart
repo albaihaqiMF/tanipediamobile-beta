@@ -6,7 +6,7 @@ final ThemeData appThemeData = ThemeData(
   accentColor: mainColor,
   splashColor: mainColor,
   highlightColor: Colors.green,
-  fontFamily: 'Roboto',
+  fontFamily: 'Poppins',
   buttonColor: mainColor,
   // bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.black54),
 );

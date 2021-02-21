@@ -40,6 +40,7 @@ dependencies:
   progress_dialog: ^1.2.4
   shared_preferences: ^0.5.12
   supercharged: ^1.10.0
+  pin_code_fields: ^6.1.0
 
 dev_dependencies:
   flutter_test:

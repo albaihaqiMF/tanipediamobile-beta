@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanipedia_mobile_app/cubit/panen/get_list_panen_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/profile/create_profile_cubit.dart';
@@ -24,6 +26,7 @@ import 'package:tanipedia_mobile_app/ui/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
 
 part 'login_page.dart';
 part 'auth_page.dart';

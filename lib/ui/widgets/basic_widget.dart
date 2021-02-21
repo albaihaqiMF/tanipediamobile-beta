@@ -18,8 +18,8 @@ void showSnackbar(String title, String message) {
     "",
     backgroundColor: accentColor,
     icon: Icon(
-      MdiIcons.closeCircleOutline,
-      color: Colors.white,
+      Icons.cancel,
+      color: Colors.red,
     ),
     titleText: Text(
       title,

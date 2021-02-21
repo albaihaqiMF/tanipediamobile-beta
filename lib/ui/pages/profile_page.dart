@@ -300,49 +300,42 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void takePhoto(ImageSource source, BuildContext context) async {
     final _pickedFile = await _imagePicker.getImage(source: source);
-    String imagePath = AppConverter.toBase64(_pickedFile);
-    SharedPreferences sf = await SharedPreferences.getInstance();
-    final idProfil = sf.getInt(KeySharedPreference.idProfile);
-    showProgressDialog(context);
+    if (_pickedFile != null) {
+      String imagePath = AppConverter.toBase64(_pickedFile);
+      SharedPreferences sf = await SharedPreferences.getInstance();
+      final idProfil = sf.getInt(KeySharedPreference.idProfile);
+      showProgressDialog(context);
 
-    await context
-        .read<UploadPhotoProfileCubit>()
-        .uploadPhotoProfile(idProfil, imagePath);
-    showProgressDialog(context);
+      await context
+          .read<UploadPhotoProfileCubit>()
+          .uploadPhotoProfile(idProfil, imagePath);
+      Get.back();
 
-    Get.back();
-
-    UploadPhotoProfileState state =
-        context.read<UploadPhotoProfileCubit>().state;
-    try {
-      if (state is UploadPhotoProfileLoaded) {
-        String _dataImage = (context.bloc<UploadPhotoProfileCubit>().state
-                as UploadPhotoProfileLoaded)
-            .profile
-            .fotoProfil;
-        String pathImage = _dataImage.substring(8);
-        setState(() {
-          _updateFotoProfil = ApiUrl.baseURL + pathImage;
-          print('Image API : $_updateFotoProfil');
-        });
+      UploadPhotoProfileState state =
+          context.read<UploadPhotoProfileCubit>().state;
+      try {
+        if (state is UploadPhotoProfileLoaded) {
+          String _dataImage = (context.bloc<UploadPhotoProfileCubit>().state
+                  as UploadPhotoProfileLoaded)
+              .profile
+              .fotoProfil;
+          String pathImage = _dataImage.substring(8);
+          setState(() {
+            _updateFotoProfil = ApiUrl.baseURL + pathImage;
+            print('Image API : $_updateFotoProfil');
+          });
+          dismissProgressDialog(context);
+        } else {
+          print('Else Statement');
+          print('$state');
+          showSnackbar('Terjadi Kesalahan', 'Gagal mengganti foto profil.');
+        }
+      } catch (e) {
+        print('GAGAL masang foto ${e.toString()}');
         dismissProgressDialog(context);
-      } else {
-        print('Else Statement');
-        print('$state');
         showSnackbar('Terjadi Kesalahan', 'Gagal mengganti foto profil.');
       }
-    } catch (e) {
-      print('GAGAL masang foto ${e.toString()}');
-      dismissProgressDialog(context);
-      showSnackbar('Terjadi Kesalahan', 'Gagal mengganti foto profil.');
     }
-  }
-
-  Widget showBackground() {
-    return Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        color: Colors.black.withOpacity(.5));
   }
 
   Widget imageProfile(
@@ -374,7 +367,6 @@ class _ProfilePageState extends State<ProfilePage> {
             right: 0,
             child: InkWell(
               onTap: () {
-                showBackground();
                 scaffoldState.currentState
                     .showBottomSheet((context) => bottomSheet(context));
               },

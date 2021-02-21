@@ -55,42 +55,51 @@ class _RegisterPageState extends State<RegisterPage> {
                               ? 'Nama tidak boleh kosong'
                               : null,
                         ),
+                        style: blackFontStyle3,
                         keyboardType: TextInputType.name,
                         controller: _nameController,
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Masukkan Telepon',
-                            contentPadding: EdgeInsets.all(16),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.blue, width: 2),
-                                borderRadius: BorderRadius.circular(10)),
-                            enabledBorder: (OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: mainColor,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(10))),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            counterText: '',
-                            errorText: _errorPhoneField
-                                ? 'No.Telepon tidak valid'
-                                : null,
-                            prefixText: '+62',
-                            hintStyle: greyFontStyle),
-                        maxLength: 15,
-                        keyboardType: TextInputType.number,
-                        controller: _phoneController,
-                      ),
+                      Stack(children: [
+                        TextField(
+                          style: blackFontStyle3,
+                          decoration: InputDecoration(
+                              hintText: 'Masukkan Telepon',
+                              contentPadding: EdgeInsets.all(16),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 2),
+                                  borderRadius: BorderRadius.circular(10)),
+                              enabledBorder: (OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: mainColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10))),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              counterText: '',
+                              errorText: _errorPhoneField
+                                  ? 'No.Telepon tidak valid'
+                                  : null,
+                              hintStyle: greyFontStyle,
+                              prefixIcon: Container(
+                                  padding: EdgeInsets.fromLTRB(15, 11, 0, 11),
+                                  child: Text(
+                                    '+62',
+                                    style: blackFontStyle2,
+                                  ))),
+                          maxLength: 15,
+                          keyboardType: TextInputType.number,
+                          controller: _phoneController,
+                        ),
+                      ]),
                       Container(
                         margin: EdgeInsets.fromLTRB(
-                            defaultMargin, 10, defaultMargin, 0),
+                            defaultMargin, 10, defaultMargin, 10),
                         child: (_isLoading)
                             ? Container(
                                 margin: EdgeInsets.only(top: 10),
@@ -156,6 +165,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                 },
                                 text: 'DAFTAR',
                                 color: mainColor),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Sudah punya akun? '),
+                          InkWell(
+                            onTap: () => Get.to(LoginPage()),
+                            child: Text(
+                              'Masuk',
+                              style: mainFontStyle3,
+                            ),
+                          )
+                        ],
                       )
                     ],
                   ),

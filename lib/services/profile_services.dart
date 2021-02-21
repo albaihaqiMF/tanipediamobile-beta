@@ -81,6 +81,7 @@ class ProfileServices {
       'foto_profil': photoProfile
     };
     var body = jsonEncode(fieldFormURL);
+    print('$tag, $fieldFormURL');
 
     try {
       final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.uploadPhoto,

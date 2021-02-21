@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanipedia_mobile_app/cubit/cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/pupuk/get_list_pupuk_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/profile/profile_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/profile/upload_photo_profile_cubit.dart';
+import 'package:tanipedia_mobile_app/local_storage/shared_preference.dart';
 import 'package:tanipedia_mobile_app/model/dropdown/dropdowns.dart';
 import 'package:tanipedia_mobile_app/network/api_url.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
@@ -51,10 +53,10 @@ class _TestPageState extends State<TestPage> {
             color: mainColor),
         CustomButton(
             onPress: () async {
-              // SharedPreferences sf = await SharedPreferences.getInstance();
-              // sf.setInt(KeySharedPreference.idProfile, 164);
-              // final iddProfile = sf.getInt(KeySharedPreference.idProfile);
-              await context.bloc<ProfileCubit>().getProfile('168');
+              SharedPreferences sf = await SharedPreferences.getInstance();
+              sf.setInt(KeySharedPreference.idProfile, 180);
+              final iddProfile = sf.getInt(KeySharedPreference.idProfile);
+              await context.bloc<ProfileCubit>().getProfile('$iddProfile');
 
               Get.to(ProfilePage());
             },
