@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tanipedia_mobile_app/cubit/panen/get_list_panen_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/profile/create_profile_cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/pupuk/get_detail_pupuk_cubit.dart';
@@ -34,3 +35,7 @@ part 'list_pupuk_page.dart';
 part 'detail_pupuk_page.dart';
 part 'list_lahan_page.dart';
 part 'detail_lahan_page.dart';
+part 'create_lahan_page.dart';
+part 'create_panen_page.dart';
+part 'list_panen_page.dart';
+part 'detail_panen_page.dart';

@@ -2,6 +2,10 @@ part of 'services.dart';
 
 class UserServices {
   static const String tag = 'USER_SERVICE';
+
+  //--------------------------------------------------------------------
+  //                          REGISTER User
+  //--------------------------------------------------------------------
   static Future<ApiReturnValue<User>> register(
       String username, String password) async {
     Map<String, String> fieldFormURL = {

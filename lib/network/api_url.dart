@@ -1,6 +1,6 @@
 class ApiUrl {
   // Initial Setup
-  static const baseURL = "https://09321842513f.ngrok.io/";
+  static const baseURL = "https://a140a4350336.ngrok.io/";
   static const contentType = 'application/json';
   static const appKey = 'okYC7opyhD4DTIauhPvMq2Wkvc6bz08t';
 
@@ -23,4 +23,5 @@ class ApiUrl {
   static const uploadPhoto = 'profil/image';
   static const jadwalPupuk = 'jadwal-pupuk';
   static const lahan = 'lahan';
+  static const panen = 'panen';
 }

@@ -54,7 +54,7 @@ class _TestPageState extends State<TestPage> {
               // SharedPreferences sf = await SharedPreferences.getInstance();
               // sf.setInt(KeySharedPreference.idProfile, 164);
               // final iddProfile = sf.getInt(KeySharedPreference.idProfile);
-              await context.bloc<ProfileCubit>().getProfile('169');
+              await context.bloc<ProfileCubit>().getProfile('168');
 
               Get.to(ProfilePage());
             },
@@ -75,10 +75,22 @@ class _TestPageState extends State<TestPage> {
             color: mainColor),
         CustomButton(
             onPress: () {
-              context.bloc<GetListLahanCubit>().getListLahan();
+              // context.bloc<GetListLahanCubit>().getListLahan();
               Get.to(ListLahanPage());
             },
             text: 'To List Lahan',
+            color: mainColor),
+        CustomButton(
+            onPress: () {
+              Get.to(CreateLahanPage());
+            },
+            text: 'To Created Lahan',
+            color: mainColor),
+        CustomButton(
+            onPress: () {
+              Get.to(ListPanenPage());
+            },
+            text: 'ToListPanen',
             color: mainColor)
       ],
     );

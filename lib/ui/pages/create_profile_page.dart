@@ -380,10 +380,10 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                 .createProfile(
                                     _userId,
                                     _nameController.text,
-                                    int.tryParse(_nikController.text),
-                                    int.tryParse(_kkController.text),
+                                    _nikController.text,
+                                    _kkController.text,
                                     _tglLahirController.text,
-                                    int.tryParse(_kodePosController.text),
+                                    _kodePosController.text,
                                     _rtController.text,
                                     _rwController.text,
                                     selectedGender.code,

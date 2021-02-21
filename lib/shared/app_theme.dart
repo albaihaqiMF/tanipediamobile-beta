@@ -8,4 +8,5 @@ final ThemeData appThemeData = ThemeData(
   highlightColor: Colors.green,
   fontFamily: 'Roboto',
   buttonColor: mainColor,
+  // bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.black54),
 );

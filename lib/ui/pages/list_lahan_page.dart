@@ -3,6 +3,7 @@ part of 'pages.dart';
 class ListLahanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    context.watch<GetListLahanCubit>().getListLahan();
     return Scaffold(
       body: BlocBuilder<GetListLahanCubit, GetListLahanState>(
         builder: (_, state) {
@@ -75,6 +76,13 @@ class ListLahanPage extends StatelessWidget {
                                     Text(
                                         'Longitude : ${listLahan[index].longitude}',
                                         style: blackFontStyle4),
+                                    InkWell(
+                                        onTap: () async {
+                                          await context
+                                              .bloc<DeleteLahanCubit>()
+                                              .deleteLahan(listLahan[index].id);
+                                        },
+                                        child: Icon(Icons.delete)),
                                   ],
                                 )
                               ],
@@ -91,7 +99,7 @@ class ListLahanPage extends StatelessWidget {
             }
           } else if (state is GetListLahanFailed) {
             return (Center(
-              child: Text('List Lahan gagal di muat...'),
+              child: Text('List Lahan gagal dimuat...'),
             ));
           } else {
             return Center(

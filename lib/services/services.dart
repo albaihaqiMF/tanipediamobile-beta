@@ -12,3 +12,4 @@ part 'user_services.dart';
 part 'profile_services.dart';
 part 'pupuk_services.dart';
 part 'lahan_services.dart';
+part 'panen_services.dart';

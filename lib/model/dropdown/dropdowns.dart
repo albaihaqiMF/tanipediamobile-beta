@@ -8,3 +8,7 @@ part 'ethnics.dart';
 part 'genders.dart';
 part 'professions.dart';
 part 'religions.dart';
+part 'kecamatan.dart';
+part 'kabupaten.dart';
+part 'provinsi.dart';
+part 'instansi.dart';

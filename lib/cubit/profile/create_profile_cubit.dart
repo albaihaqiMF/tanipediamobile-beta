@@ -11,10 +11,10 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
   Future<void> createProfile(
       int idUser,
       String nama,
-      int nik,
-      int kk,
+      String nik,
+      String kk,
       String tglLahir,
-      int kodePos,
+      String kodePos,
       String rt,
       String rw,
       String gender,

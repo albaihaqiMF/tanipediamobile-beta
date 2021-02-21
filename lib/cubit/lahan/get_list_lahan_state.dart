@@ -12,8 +12,8 @@ class GetListLahanInitial extends GetListLahanState {}
 class GetListLahanLoaded extends GetListLahanState {
   final List<Lahan> lahan;
   GetListLahanLoaded(this.lahan);
-  // @override
-  // List<Object> get props => [lahan];
+  @override
+  List<Object> get props => [lahan];
 }
 
 class GetListLahanFailed extends GetListLahanState {

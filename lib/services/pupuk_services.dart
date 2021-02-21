@@ -3,6 +3,9 @@ part of 'services.dart';
 class PupukServices {
   static const String tag = 'PUPUK_SERVICE';
 
+  //--------------------------------------------------------------------
+  //                          GET List Pupuk
+  //--------------------------------------------------------------------
   static Future<ApiReturnValue<List<Pupuk>>> getlistPupuk() async {
     try {
       final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.jadwalPupuk,
@@ -22,6 +25,9 @@ class PupukServices {
     }
   }
 
+  //--------------------------------------------------------------------
+  //                          GET Detail Pupuk
+  //--------------------------------------------------------------------
   static Future<ApiReturnValue<Pupuk>> getDetailPupuk(String idPupuk) async {
     try {
       final apiResponse = await http.get(

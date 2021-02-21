@@ -338,6 +338,13 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Widget showBackground() {
+    return Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.black.withOpacity(.5));
+  }
+
   Widget imageProfile(
       BuildContext context, String imageUrl, String imageUpdate) {
     UploadPhotoProfileState statePhoto =
@@ -367,6 +374,7 @@ class _ProfilePageState extends State<ProfilePage> {
             right: 0,
             child: InkWell(
               onTap: () {
+                showBackground();
                 scaffoldState.currentState
                     .showBottomSheet((context) => bottomSheet(context));
               },
