@@ -27,6 +27,7 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   void dispose() {
+    _otpController.dispose();
     errorController.close();
     super.dispose();
   }

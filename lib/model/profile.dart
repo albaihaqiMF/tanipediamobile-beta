@@ -12,13 +12,13 @@ class Profile {
   final String suku;
   final String tglLahir;
   final String pendidikan;
-  // final String alamat;
-  // final String rt;
-  // final String rw;
-  // final int desa;
-  // final int kecamatan;
-  // final int kabupaten;
-  // final int provinsi;
+  final String alamat;
+  final String rt;
+  final String rw;
+  final String desa;
+  final String kecamatan;
+  final String kabupaten;
+  final String provinsi;
   final String kodepos;
   // final int latitude;
   // final int longtitude;
@@ -47,15 +47,15 @@ class Profile {
     this.kategori,
     this.kk,
     this.kodepos,
-    // this.alamat,
+    this.alamat,
     // this.latitude,
     // this.longtitude,
-    // this.rt,
-    // this.rw,
-    // this.desa,
-    // this.kabupaten,
-    // this.kecamatan,
-    // this.provinsi,
+    this.rt,
+    this.rw,
+    this.desa,
+    this.kabupaten,
+    this.kecamatan,
+    this.provinsi,
     // this.fotoKK,
     // this.fotoKtp,
     this.fotoProfil,
@@ -83,15 +83,15 @@ class Profile {
       kategori: json['kategori'].toString(),
       kk: json['kk'].toString(),
       kodepos: json['kodepos'].toString(),
-      // alamat: json['alamat'],
+      alamat: json['alamat'],
       // latitude: json['latitude'],
       // longtitude: json['longtitude'],
-      // rt: json['rt'],
-      // rw: json['rw'],
-      // desa: json['id_desa'],
-      // kecamatan: json['id_kecamatan'],
-      // kabupaten: json['id_kabupaten'],
-      // provinsi: json['id_provinsi'],
+      rt: json['rt'],
+      rw: json['rw'],
+      desa: json['id_desa'],
+      kecamatan: json['id_kecamatan'],
+      kabupaten: json['id_kabupaten'],
+      provinsi: json['id_provinsi'],
       // fotoKK: json['foto_kk'],
       // fotoKtp: json['foto_ktp'],
       fotoProfil: json['foto_profil'],

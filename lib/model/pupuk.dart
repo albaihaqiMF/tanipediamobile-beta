@@ -5,6 +5,7 @@ class Pupuk {
   String jenis;
   int kapasitas;
   int satuan;
+  String idPoktan;
   String poktan;
   String petani;
   String instansi;
@@ -16,6 +17,7 @@ class Pupuk {
       this.jenis,
       this.kapasitas,
       this.satuan,
+      this.idPoktan,
       this.poktan,
       this.petani,
       this.tglDistribusi,
@@ -28,7 +30,8 @@ class Pupuk {
       jenis: json['jenis_pupuk'],
       kapasitas: json['kapasitas'],
       satuan: json['satuan'],
-      poktan: json['id_poktan'].toString(),
+      idPoktan: json['id_poktan'].toString(),
+      poktan: json['poktan'].toString(),
       petani: json['id_petani'].toString(),
       instansi: json['id_instansi'].toString(),
       tglDistribusi: json['tgl_distribusi'],

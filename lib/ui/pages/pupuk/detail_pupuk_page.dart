@@ -1,13 +1,24 @@
-part of 'pages.dart';
+part of '../pages.dart';
 
 class DetailPupukPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DetailPupukState state = context.watch<DetailPupukCubit>().state;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Distribusi Pupuk'),
-        brightness: Brightness.light,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: AppBar(
+          title: Text('Detail Distribusi Pupuk', style: mainFontBoldStyle1),
+          brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_rounded, color: mainColor),
+                onPressed: () => Get.back()),
+          ),
+        ),
       ),
       body: (state is DetailPupukLoaded)
           ? Container(

@@ -16,4 +16,8 @@ class GetDetailLahanCubit extends Cubit<GetDetailLahanState> {
       emit(GetDetailLahanFailed(result.message));
     }
   }
+
+  void toInitial() {
+    emit(GetDetailLahanInitial());
+  }
 }

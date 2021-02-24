@@ -16,4 +16,8 @@ class DetailPupukCubit extends Cubit<DetailPupukState> {
       emit(DetailPupukFailed(result.message));
     }
   }
+
+  void toInitial() {
+    emit(DetailPupukInitial());
+  }
 }

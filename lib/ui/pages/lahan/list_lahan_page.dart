@@ -1,4 +1,4 @@
-part of 'pages.dart';
+part of '../pages.dart';
 
 class ListLahanPage extends StatelessWidget {
   @override
@@ -16,6 +16,7 @@ class ListLahanPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
+                        context.read<GetDetailLahanCubit>().toInitial();
                         context
                             .read<GetDetailLahanCubit>()
                             .getDetailLahan(listLahan[index].id);

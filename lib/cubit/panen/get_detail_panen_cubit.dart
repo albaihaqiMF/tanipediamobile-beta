@@ -16,4 +16,8 @@ class GetDetailPanenCubit extends Cubit<GetDetailPanenState> {
       emit(GetDetailPanenFailed(result.message));
     }
   }
+
+  void toInitial() {
+    emit(GetDetailPanenInitial());
+  }
 }
