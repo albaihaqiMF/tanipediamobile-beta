@@ -2,34 +2,40 @@ part of 'models.dart';
 
 class Profile {
   final String id;
+  // Page 1
+  final int idUser;
   final String nama;
-  final String nik;
-  final String kk;
-  final String kategori;
-  final String pekerjaan;
+  final String telepon;
+  final String tglLahir;
   final String gender;
+  final String golDarah;
   final String agama;
   final String suku;
-  final String tglLahir;
   final String pendidikan;
+  final String pekerjaan;
+  // Page 2
+  final String nik;
+  final String kk;
+  // Page 3
   final String alamat;
+  final String kodepos;
   final String rt;
   final String rw;
   final String desa;
   final String kecamatan;
   final String kabupaten;
   final String provinsi;
-  final String kodepos;
+
+  // Etc.
   // final int latitude;
   // final int longtitude;
   final String fotoProfil;
   // final String fotoKtp;
   // final String fotoKK;
-  final String golDarah;
-  final String telepon;
   // final String email;
   // final String facebook;
-  final int idUser;
+
+  final String kategori;
 
   Profile({
     this.id,
@@ -62,9 +68,6 @@ class Profile {
     // this.email,
     // this.facebook,
   });
-
-  // @override
-  // List<Object> get props => throw UnimplementedError();
 
   factory Profile.fromJSON(Map<String, dynamic> json) {
     return Profile(

@@ -10,3 +10,4 @@ part 'custom_button.dart';
 part 'wrap_border.dart';
 part 'progress_dialog.dart';
 part 'wrap_dropdown.dart';
+part 'custom_dialog.dart';

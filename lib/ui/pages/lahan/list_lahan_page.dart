@@ -5,6 +5,25 @@ class ListLahanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.watch<GetListLahanCubit>().getListLahan();
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: AppBar(
+          title: Text('Lahan Pertanian', style: mainFontBoldStyle1),
+          brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_rounded, color: mainColor),
+                onPressed: () => Get.back()),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add, color: Colors.white),
+      ),
       body: BlocBuilder<GetListLahanCubit, GetListLahanState>(
         builder: (_, state) {
           if (state is GetListLahanLoaded) {
@@ -20,7 +39,7 @@ class ListLahanPage extends StatelessWidget {
                         context
                             .read<GetDetailLahanCubit>()
                             .getDetailLahan(listLahan[index].id);
-                        Get.to(DetailLahanPage());
+                        Get.toNamed(AppRoutes.DETAIL_LAHAN);
                       },
                       child: Card(
                         child: Padding(
@@ -31,61 +50,37 @@ class ListLahanPage extends StatelessWidget {
                                 Container(
                                   width: 60,
                                   height: 60,
-                                  decoration: BoxDecoration(
-                                    color: mainColor,
+                                  child: ClipRRect(
                                     borderRadius: BorderRadius.circular(60 / 2),
+                                    child: Image(
+                                        image: AssetImage(
+                                          "assets/ic_sawah.png",
+                                        ),
+                                        fit: BoxFit.cover),
                                   ),
                                 ),
                                 SizedBox(
-                                  width: 10,
+                                  width: 15,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Text('${listLahan[index].kategori}',
+                                        style: blackFontBoldStyle4),
                                     Text(
-                                        'Kategori : ${listLahan[index].kategori}',
-                                        style: blackFontBoldStyle3),
-                                    Text('Luas : ${listLahan[index].luas}',
-                                        style: blackFontStyle4),
+                                        (listLahan[index].kecamatan != null)
+                                            ? '${listLahan[index].kecamatan}'
+                                            : 'Tidak ada data kecamatan',
+                                        style: greyFontStyleSmall),
                                     Text(
-                                        'Keterangan : ${listLahan[index].keterangan}',
-                                        style: blackFontStyle4),
-                                    Text('Alamat : ${listLahan[index].alamat}',
-                                        style: blackFontStyle4),
-                                    Text(
-                                        'Usia Tanam : ${listLahan[index].usiaTanam}',
-                                        style: blackFontStyle4),
-                                    Text('Satuan : ${listLahan[index].satuan}',
-                                        style: blackFontStyle4),
-                                    Text(
-                                        'Petani : ${listLahan[index].idPetani}',
-                                        style: blackFontStyle4),
-                                    Text('Desa : ${listLahan[index].desa}',
-                                        style: blackFontStyle4),
-                                    Text(
-                                        'Kecamatan : ${listLahan[index].kecamatan}',
-                                        style: blackFontStyle4),
-                                    Text(
-                                        'Kabupaten : ${listLahan[index].kabupaten}',
-                                        style: blackFontStyle4),
-                                    Text(
-                                        'Provinsi : ${listLahan[index].provinsi}',
-                                        style: blackFontStyle4),
-                                    Text(
-                                        'Latitude : ${listLahan[index].latitude}',
-                                        style: blackFontStyle4),
-                                    Text(
-                                        'Longitude : ${listLahan[index].longitude}',
-                                        style: blackFontStyle4),
-                                    InkWell(
-                                        onTap: () async {
-                                          await context
-                                              .bloc<DeleteLahanCubit>()
-                                              .deleteLahan(listLahan[index].id);
-                                        },
-                                        child: Icon(Icons.delete)),
+                                        (listLahan[index].kabupaten != null)
+                                            ? '${listLahan[index].kabupaten}'
+                                            : 'Tidak ada data kabupaten',
+                                        style: greyFontStyleSmall),
                                   ],
-                                )
+                                ),
+                                Spacer(),
+                                Icon(Icons.arrow_forward_ios_rounded)
                               ],
                             ),
                           ),

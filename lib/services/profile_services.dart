@@ -3,43 +3,57 @@ part of 'services.dart';
 class ProfileServices {
   static const String tag = 'PROFILE_SERVICE';
 
+  //--------------------------------------------------------------------
+  //                          CREATE Profile
+  //--------------------------------------------------------------------
   static Future<ApiReturnValue<Profile>> create(
       int idUser,
       String nama,
-      String nik,
-      String kk,
+      String telp,
       String tglLahir,
-      String kodePos,
-      String rt,
-      String rw,
       String gender,
       String golDarah,
-      String suku,
       String agama,
+      String suku,
       String pendidikan,
       String pekerjaan,
-      String kategori,
-      String telp) async {
+      String nik,
+      String kk,
+      String alamat,
+      String rt,
+      String rw,
+      String kodePos,
+      String provinsi,
+      String kabupaten,
+      String kecamatan,
+      String desa) async {
+    // assert(nama != null);
     Map<String, dynamic> fieldFormURL = {
       'id_user': idUser,
       'nama': nama,
-      'nik': nik,
-      'kk': kk,
+      'telp': telp,
       'tgl_lahir': tglLahir,
-      'kodepos': kodePos,
-      'rt': rt,
-      'rw': rw,
       'gender': gender,
       'gol_darah': golDarah,
-      'suku': suku,
       'agama': agama,
+      'suku': suku,
       'pendidikan': pendidikan,
       'pekerjaan': pekerjaan,
-      'kategori': kategori,
-      'telp': telp
+      'nik': nik,
+      'kk': kk,
+      // 'kategori': kategori,
+      'alamat': alamat,
+      'rt': rt,
+      'rw': rw,
+      'kodepos': kodePos,
+      'id_provinsi': provinsi,
+      'id_kabupaten': kabupaten,
+      'id_kecamatan': kecamatan,
+      'id_desa': desa
     };
     print('Data Post : $fieldFormURL');
     var body = jsonEncode(fieldFormURL);
+    print('Data Post Encoded : $body');
     try {
       final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.profile,
           headers: ApiUrl.headersAuth, body: body);
@@ -53,10 +67,13 @@ class ProfileServices {
     } catch (e) {
       print('$tag : ${e.toString()}');
       // return ApiReturnValue(message: "Tidak ada koneksi internet!");
-      return ApiReturnValue(message: e.toString());
+      return ApiReturnValue(message: 'Terjadi Kesalahan..');
     }
   }
 
+  //--------------------------------------------------------------------
+  //                          GET Profile
+  //--------------------------------------------------------------------
   static Future<ApiReturnValue<Profile>> read(String idUser) async {
     try {
       final apiResponse = await http.get(
@@ -74,6 +91,9 @@ class ProfileServices {
     }
   }
 
+  //--------------------------------------------------------------------
+  //                          EDIT Photo Profile
+  //--------------------------------------------------------------------
   static Future<ApiReturnValue<Profile>> editPhotoProfile(
       int idProfile, String photoProfile) async {
     Map<String, dynamic> fieldFormURL = {

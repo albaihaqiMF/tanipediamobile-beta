@@ -182,7 +182,7 @@ class _AuthPageState extends State<AuthPage> {
                                         value.user.uid,
                                         _phoneNumber,
                                         _usernameFromAPI);
-                                    Get.off(CreateProfilePage(),
+                                    Get.offNamed(AppRoutes.CREATE_PROFILE_PAGE1,
                                         arguments: [_userId, _phoneNumber]);
                                   }
                                 });

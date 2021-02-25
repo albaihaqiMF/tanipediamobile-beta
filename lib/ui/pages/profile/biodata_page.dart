@@ -51,159 +51,140 @@ class BiodataPage extends StatelessWidget {
                     ),
                     child: Container(
                       margin: EdgeInsets.all(14),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Tanggal Lahir',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Jenis Kelamin',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Golongan Darah',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Agama',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Suku',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Pekerjaan',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Pendidikan',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Kategori',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Nomor KK',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'NIK',
-                                  style: greyFontStyle,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Kode Pos',
-                                  style: greyFontStyle,
-                                ),
-                              ]),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                (tglLahir != null) ? tglLahir : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (gender != null) ? gender : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (golDarah != null) ? golDarah : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (agama != null) ? agama : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (suku != null) ? suku : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (pekerjaan != null) ? pekerjaan : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (pendidikan != null) ? pendidikan : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (kategori != null) ? kategori : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (kk != null) ? kk : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (nik != null) ? nik : '-',
-                                style: blackFontStyle4,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                (kodePos != null) ? kodePos : '-',
-                                style: blackFontStyle4,
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Tanggal Lahir',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Jenis Kelamin',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Golongan Darah',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Agama',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Suku',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Pekerjaan',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Pendidikan',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Kategori',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Nomor KK',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'NIK',
+                                      style: greyFontStyle,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Kode Pos',
+                                      style: greyFontStyle,
+                                    ),
+                                  ]),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    (tglLahir != null) ? tglLahir : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (gender != null) ? gender : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (golDarah != null) ? golDarah : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (agama != null) ? agama : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (suku != null) ? suku : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (pekerjaan != null) ? pekerjaan : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (pendidikan != null) ? pendidikan : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (kategori != null) ? kategori : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (kk != null) ? kk : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (nik != null) ? nik : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    (kodePos != null) ? kodePos : '-',
+                                    style: blackFontStyle4,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomButton2(
+                              onPress: () {},
+                              text: 'Ubah',
+                              icon: Icons.edit_outlined),
                         ],
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 140,
-                    height: 50,
-                    child: InkWell(
-                      onTap: () {},
-                      customBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Card(
-                          color: mainColor,
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.edit_outlined,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text('Ubah',
-                                  style: TextStyle(color: Colors.white))
-                            ],
-                          )),
                     ),
                   ),
                 ],

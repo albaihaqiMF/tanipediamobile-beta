@@ -5,39 +5,102 @@ class DetailLahanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     GetDetailLahanState state = context.watch<GetDetailLahanCubit>().state;
     return Scaffold(
-        appBar: AppBar(title: Text('Detail Lahan')),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            title: Text('Detail Lahan Pertanian', style: mainFontBoldStyle1),
+            brightness: Brightness.light,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                  icon: Icon(Icons.arrow_back_ios_rounded, color: mainColor),
+                  onPressed: () => Get.back()),
+            ),
+          ),
+        ),
         body: Scaffold(
           body: (state is GetDetailLahanLoaded)
-              ? Center(
-                  child: Column(
-                    children: [
-                      Text('Kategori : ${state.lahan.kategori}',
-                          style: blackFontBoldStyle3),
-                      Text('Luas : ${state.lahan.luas}',
-                          style: blackFontStyle4),
-                      Text('Keterangan : ${state.lahan.keterangan}',
-                          style: blackFontStyle4),
-                      Text('Alamat : ${state.lahan.alamat}',
-                          style: blackFontStyle4),
-                      Text('Usia Tanam : ${state.lahan.usiaTanam}',
-                          style: blackFontStyle4),
-                      Text('Satuan : ${state.lahan.satuan}',
-                          style: blackFontStyle4),
-                      Text('Petani : ${state.lahan.idPetani}',
-                          style: blackFontStyle4),
-                      Text('Desa : ${state.lahan.desa}',
-                          style: blackFontStyle4),
-                      Text('Kecamatan : ${state.lahan.kecamatan}',
-                          style: blackFontStyle4),
-                      Text('Kabupaten : ${state.lahan.kabupaten}',
-                          style: blackFontStyle4),
-                      Text('Provinsi : ${state.lahan.provinsi}',
-                          style: blackFontStyle4),
-                      Text('Latitude : ${state.lahan.latitude}',
-                          style: blackFontStyle4),
-                      Text('Longitude : ${state.lahan.longitude}',
-                          style: blackFontStyle4),
-                    ],
+              ? SingleChildScrollView(
+                  child: Container(
+                    margin: EdgeInsets.all(defaultMargin),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    (state.lahan.luas != null)
+                                        ? 'Varietas : ${state.lahan.kategori}'
+                                        : 'Varietas : -',
+                                    style: blackFontStyle4),
+                                SizedBox(height: 10),
+                                Text(
+                                    (state.lahan.luas != null)
+                                        ? 'Luas Lahan : ${state.lahan.luas}m²'
+                                        : 'Luas Lahan : -',
+                                    style: blackFontStyle4),
+                                SizedBox(height: 10),
+                                Text(
+                                    (state.lahan.usiaTanam != null)
+                                        ? 'Usia Pertanian : ${state.lahan.usiaTanam} minggu'
+                                        : 'Usia Pertanian : -',
+                                    style: blackFontStyle4),
+                                SizedBox(height: 10),
+                                Text('Alamat Pertanian',
+                                    style: blackFontBoldStyle4),
+                                Text(
+                                    (state.lahan.alamat != null)
+                                        ? '${state.lahan.alamat}'
+                                        : '',
+                                    style: blackFontStyle4),
+                                Text(
+                                    (state.lahan.desa != null)
+                                        ? 'Kelurahan ${state.lahan.desa}'
+                                        : '',
+                                    style: blackFontStyle4),
+                                Text(
+                                    (state.lahan.kabupaten != null)
+                                        ? '${state.lahan.kabupaten} - ${state.lahan.kecamatan}'
+                                        : '',
+                                    style: blackFontStyle4),
+                                Text(
+                                    (state.lahan.kodepos != null)
+                                        ? 'Kode Pos ${state.lahan.kodepos}'
+                                        : 'Kode Pos : -',
+                                    style: blackFontStyle4),
+                                SizedBox(height: 15),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomButton2(
+                                        onPress: () {},
+                                        text: 'Ubah',
+                                        icon: Icons.edit_outlined),
+                                    CustomButton2(
+                                        onPress: () {},
+                                        text: 'Hapus',
+                                        icon: Icons.delete_outline,
+                                        color: Colors.red),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : loadingIndicator,

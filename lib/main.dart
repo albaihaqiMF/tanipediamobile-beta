@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:tanipedia_mobile_app/routes/app_pages.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'cubit/cubit.dart';
@@ -42,10 +43,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => GetPanenCubit()),
         BlocProvider(create: (_) => GetDetailPanenCubit()),
         BlocProvider(create: (_) => DeletePanenCubit()),
+        BlocProvider(create: (_) => ProvinsiCubit()),
+        BlocProvider(create: (_) => KabupatenCubit()),
+        BlocProvider(create: (_) => KecamatanCubit()),
+        BlocProvider(create: (_) => DesaCubit()),
       ],
       child: GetMaterialApp(
         theme: appThemeData,
         debugShowCheckedModeBanner: false,
+        // initialRoute: SplashPage(),
+        // defaultTransition: Transition.fade(),
+        getPages: AppPages(),
         home: Scaffold(
           body: TestPage(),
         ),

@@ -25,7 +25,7 @@ class PanenServices {
   }
 
   //--------------------------------------------------------------------
-  //                          READ Detail Panen
+  //                          GET Detail Panen
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Panen>> getDetailPanen(String idPanen) async {
     try {

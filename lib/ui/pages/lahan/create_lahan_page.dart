@@ -259,7 +259,18 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                     context
                                         .bloc<GetListLahanCubit>()
                                         .getListLahan();
-                                    Get.to(ListLahanPage());
+
+                                    showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (context) => SuccessDialog(
+                                              title: 'Succes',
+                                              description:
+                                                  'Anda berhasil menambahkan lahan',
+                                              onPress: () =>
+                                                  Get.offNamed(AppRoutes.LAHAN),
+                                            ));
+                                    // Get.to(ListLahanPage());
                                   } else if (state is CreateLahanFailed) {
                                     var message = (context
                                             .bloc<CreateLahanCubit>()

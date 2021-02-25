@@ -15,3 +15,8 @@ export 'panen/get_list_panen_cubit.dart';
 export 'panen/create_panen_cubit.dart';
 export 'panen/delete_panen_cubit.dart';
 export 'panen/get_detail_panen_cubit.dart';
+
+export 'wilayah/provinsi_cubit.dart';
+export 'wilayah/kabupaten_cubit.dart';
+export 'wilayah/kecamatan_cubit.dart';
+export 'wilayah/desa_cubit.dart';

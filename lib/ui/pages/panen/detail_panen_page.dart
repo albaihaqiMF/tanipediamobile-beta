@@ -43,26 +43,30 @@ class DetailPanenPage extends StatelessWidget {
                             children: [
                               Column(
                                 children: [
+                                  SizedBox(height: 10),
                                   Container(
                                     width: 70,
                                     height: 70,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: Image(
-                                          image: AssetImage("assets/padi.jpg"),
+                                          image:
+                                              AssetImage("assets/img_padi.jpg"),
                                           fit: BoxFit.cover),
                                     ),
                                   ),
-                                  Text('Varietas : ${state.panen.varietas}',
+                                  SizedBox(height: 10),
+                                  Text('${state.panen.kategori}',
                                       style: blackFontStyle3),
-                                  Text('Satuan : ${state.panen.satuan}',
+                                  Text('${state.panen.satuan} Kwintal',
                                       style: blackFontBoldStyle2),
                                 ],
                               ),
                             ],
                           ),
+                          SizedBox(height: 10),
                           Divider(color: Colors.black),
-                          Text('Jenis Pertanian : ${state.panen.kategori}',
+                          Text('Jenis Pertanian : ${state.panen.varietas}',
                               style: blackFontStyle4),
                           Divider(color: Colors.black),
                           Text('Tanggal Tanam : ${state.panen.tglTanam}',
@@ -70,7 +74,8 @@ class DetailPanenPage extends StatelessWidget {
                           Text('Tanggal Panen : ${state.panen.tglPanen}',
                               style: blackFontStyle4),
                           Divider(color: Colors.black),
-                          Text('${state.panen.alamat}, ${state.panen.desa}',
+                          Text('${state.panen.alamat}', style: blackFontStyle4),
+                          Text('Kelurahan ${state.panen.desa}',
                               style: blackFontStyle4),
                           Text(
                               '${state.panen.kabupaten}-${state.panen.kecamatan}'),
@@ -79,73 +84,29 @@ class DetailPanenPage extends StatelessWidget {
                           Divider(color: Colors.black),
                           Text('Penulis: ${state.panen.petani}',
                               style: blackFontStyle4),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CustomButton2(
+                                  onPress: () {},
+                                  text: 'Ubah',
+                                  icon: Icons.edit_outlined),
+                              CustomButton2(
+                                onPress: () {},
+                                text: 'Hapus',
+                                icon: Icons.delete_outline_rounded,
+                                color: Colors.red,
+                              ),
+                            ],
+                          ),
                         ],
                       )),
                 ),
                 SizedBox(
                   height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: 140,
-                      height: 50,
-                      child: InkWell(
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        onTap: () {},
-                        child: Card(
-                            color: mainColor,
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.edit_outlined,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(width: 10),
-                                Text('Ubah',
-                                    style: TextStyle(color: Colors.white))
-                              ],
-                            )),
-                      ),
-                    ),
-                    Container(
-                      width: 140,
-                      height: 50,
-                      child: InkWell(
-                        highlightColor: Colors.red[900],
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        onTap: () {},
-                        child: Card(
-                            color: Colors.red,
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.delete_outline_rounded,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(width: 10),
-                                Text('Hapus',
-                                    style: TextStyle(color: Colors.white))
-                              ],
-                            )),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),

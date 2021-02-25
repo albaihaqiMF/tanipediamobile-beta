@@ -148,53 +148,6 @@ class DetailPupukPage extends StatelessWidget {
                         ]),
                       ],
                     ),
-
-                    // Salah
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //   children: [
-                    //     Column(
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       children: [
-                    //         Row(
-                    //           children: [
-                    //             Icon(Icons.date_range_outlined, color: mainColor),
-                    //             Text('Tanggal Distribusi'),
-                    //           ],
-                    //         ),
-                    //         Row(
-                    //           children: [
-                    //             Icon(Icons.shopping_basket_outlined,
-                    //                 color: mainColor),
-                    //             Text('Kapasitas'),
-                    //           ],
-                    //         ),
-                    //         Row(
-                    //           children: [
-                    //             Icon(Icons.indeterminate_check_box_outlined,
-                    //                 color: Colors.red),
-                    //             Text('Status'),
-                    //           ],
-                    //         ),
-                    //         Row(
-                    //           children: [
-                    //             Icon(Icons.domain_outlined, color: mainColor),
-                    //             Text('Status'),
-                    //           ],
-                    //         )
-                    //       ],
-                    //     ),
-                    //     Column(
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       children: [
-                    //         Text('${state.pupuk.tglDistribusi}'),
-                    //         Text('${state.pupuk.kapasitas}'),
-                    //         Text('${state.pupuk.keterangan}'),
-                    //         Text('${state.pupuk.instansi}'),
-                    //       ],
-                    //     )
-                    //   ],
-                    // )
                   ],
                 ),
               ))

@@ -15,6 +15,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
       String kk,
       String tglLahir,
       String kodePos,
+      String alamat,
       String rt,
       String rw,
       String gender,
@@ -23,25 +24,32 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
       String agama,
       String pendidikan,
       String pekerjaan,
-      String kategori,
-      String telp) async {
+      String telp,
+      String provinsi,
+      String kabupaten,
+      String kecamatan,
+      String desa) async {
     ApiReturnValue<Profile> result = await ProfileServices.create(
         idUser,
         nama,
-        nik,
-        kk,
+        telp,
         tglLahir,
-        kodePos,
-        rt,
-        rw,
         gender,
         golDarah,
-        suku,
         agama,
+        suku,
         pendidikan,
         pekerjaan,
-        kategori,
-        telp);
+        nik,
+        kk,
+        alamat,
+        rt,
+        rw,
+        kodePos,
+        provinsi,
+        kabupaten,
+        kecamatan,
+        desa);
     if (result.value != null) {
       emit(CreateProfileLoaded(result.value));
     } else {

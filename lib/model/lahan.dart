@@ -16,6 +16,7 @@ class Lahan {
   String latitude;
   String longitude;
   String keterangan;
+  String kodepos;
 
   Lahan(
       {this.id,
@@ -32,7 +33,8 @@ class Lahan {
       this.provinsi,
       this.latitude,
       this.longitude,
-      this.keterangan});
+      this.keterangan,
+      this.kodepos});
 
   factory Lahan.fromJSON(Map<String, dynamic> json) {
     return Lahan(
@@ -44,10 +46,11 @@ class Lahan {
         usiaTanam: json['usia_tanam'],
         idPetani: json['id_petani'].toString(),
         instansi: json['id_instansi'].toString(),
-        desa: json['id_desa'].toString(),
-        kecamatan: json['id_kecamatan'].toString(),
-        kabupaten: json['id_kabupaten'].toString(),
-        provinsi: json['id_provinsi'].toString(),
+        desa: json['desa'].toString(),
+        kecamatan: json['kecamatan'].toString(),
+        kabupaten: json['kabupaten'].toString(),
+        provinsi: json['provinsi'].toString(),
+        kodepos: json['kodepos'].toString(),
         latitude: json['latitude'],
         longitude: json['longtitude'],
         keterangan: json['keterangan']);

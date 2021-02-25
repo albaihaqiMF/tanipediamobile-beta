@@ -37,7 +37,7 @@ class ListPanenPage extends StatelessWidget {
                       context
                           .read<GetDetailPanenCubit>()
                           .getDetailPanen(listPanen[index].id);
-                      Get.to(DetailPanenPage());
+                      Get.toNamed(AppRoutes.DETAIL_PANEN);
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 15),
@@ -57,7 +57,8 @@ class ListPanenPage extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: Image(
-                                          image: AssetImage("assets/padi.jpg"),
+                                          image:
+                                              AssetImage("assets/img_padi.jpg"),
                                           fit: BoxFit.cover),
                                     ),
                                   ),
@@ -69,58 +70,17 @@ class ListPanenPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          'Kategori : ${listPanen[index].kategori}',
+                                          '${listPanen[index].varietas} ${listPanen[index].kategori}',
                                           style: blackFontStyle4),
-                                      // Text('Luas : ${listPanen[index].luas}',
-                                      //     style: blackFontBoldStyle3),
-                                      Text(
-                                          'Satuan : ${listPanen[index].satuan}',
+                                      Text('${listPanen[index].satuan} Kwintal',
                                           style: blackFontBoldStyle4),
-                                      // Text(
-                                      //     'Alamat : ${listPanen[index].alamat}',
-                                      //     style: blackFontStyle4),
-                                      // Text(
-                                      //     'Usia Tanam : ${listPanen[index].usiaTanam}',
-                                      //     style: blackFontStyle4),
-                                      // Text(
-                                      //     'Id Petani : ${listPanen[index].idPetani}',
-                                      //     style: blackFontStyle4),
-                                      // Text(
-                                      //     'Petani : ${listPanen[index].petani}',
-                                      //     style: blackFontStyle4),
-                                      // Text('Desa : ${listPanen[index].desa}',
-                                      //     style: blackFontStyle4),
                                       Text(
                                           '${listPanen[index].kecamatan} - ${listPanen[index].kabupaten}',
                                           style: greyFontStyleSmall),
-                                      // Text(
-                                      //     'Kabupaten : ${listPanen[index].kabupaten}',
-                                      //     style: blackFontStyle4),
-                                      // Text(
-                                      //     'Provinsi : ${listPanen[index].provinsi}',
-                                      //     style: blackFontStyle4),
-                                      // Text(
-                                      //     'Latitude : ${listPanen[index].latitude}',
-                                      //     style: blackFontStyle4),
-                                      // Text(
-                                      //     'Longitude : ${listPanen[index].longitude}',
-                                      //     style: blackFontStyle4),
-                                      // Text(
-                                      //     'Keterangan : ${listPanen[index].keterangan}',
-                                      //     style: blackFontStyle4),
                                     ],
                                   ),
                                   Spacer(),
                                   Icon(Icons.arrow_forward_ios_rounded),
-                                  // InkWell(
-                                  //   onTap: () async {
-                                  //     await context
-                                  //         .bloc<DeletePanenCubit>()
-                                  //         .deleteLahan(listPanen[index].id);
-                                  //   },
-                                  //   child: Icon(Icons.delete_outline,
-                                  //       color: mainColor),
-                                  // ),
                                 ],
                               ),
                             ),

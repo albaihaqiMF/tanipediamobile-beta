@@ -6,3 +6,4 @@ part 'profile.dart';
 part 'pupuk.dart';
 part 'lahan.dart';
 part 'panen.dart';
+part 'wilayah.dart';

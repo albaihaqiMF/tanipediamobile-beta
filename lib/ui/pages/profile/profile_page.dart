@@ -30,8 +30,28 @@ class _ProfilePageState extends State<ProfilePage> {
             ? loadingIndicator
             : ListView(
                 children: [
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        'Profil Saya',
+                        style: mainFontBoldStyle1,
+                      ),
+                      Spacer(),
+                      IconButton(
+                          icon: Icon(Icons.notifications,
+                              color: mainColor, size: 30),
+                          onPressed: () {}),
+                      SizedBox(
+                        width: 15,
+                      ),
+                    ],
+                  ),
                   Container(
-                    margin: EdgeInsets.all(30),
+                    margin: EdgeInsets.all(20),
                     child: Row(
                       children: [
                         imageProfile(context, _fotoProfil, _updateFotoProfil),
@@ -54,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Spacer(),
                         InkWell(
                             onTap: () {
-                              Get.to(BiodataPage());
+                              Get.toNamed(AppRoutes.BIODATA);
                             },
                             child: Icon(Icons.arrow_forward_ios_rounded))
                       ],
@@ -68,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
-                              // Get.to(HelpPage());
+                              // Get.toNamed(AppRoutes.MY_INTEREST);
                             },
                             child: Card(
                               elevation: 3,
@@ -96,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
-                              Get.to(AddressPage());
+                              Get.toNamed(AppRoutes.ADDRESS);
                             },
                             child: Card(
                               elevation: 3,
@@ -122,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
-                              Get.to(ProfilePertanian());
+                              Get.toNamed(AppRoutes.PROFILE_PERTANIAN);
                             },
                             child: Card(
                               elevation: 3,
@@ -148,7 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
-                              Get.to(HelpPage());
+                              Get.toNamed(AppRoutes.HELP);
                             },
                             child: Card(
                               elevation: 3,
@@ -177,7 +197,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
-                              // Get.to(HelpPage());
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => ConfirmDialog(
+                                      title: 'Konfirmasi',
+                                      description:
+                                          'Apakah Anda yakin ingin keluar?',
+                                      confirmPress: () {
+                                        // Get.toNamed(AppRoutes.LOGIN);
+                                        Get.back();
+                                      },
+                                      cancelPress: () {
+                                        Get.back();
+                                      }));
                             },
                             child: Card(
                               elevation: 3,

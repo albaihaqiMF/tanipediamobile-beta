@@ -16,40 +16,41 @@ class AddressPage extends StatelessWidget {
     String kodepos = data.profile.kodepos;
 
     return Scaffold(
-      body: (alamat == null &&
-              rt == null &&
-              rw == null &&
-              desa == null &&
-              kecamatan == null &&
-              kabupaten == null &&
-              provinsi == null)
-          ? Center(child: Text('Anda belum mengisi alamat'))
-          : (stateProfile is ProfileInitial)
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: AppBar(
+          title: Text('Alamat Saya', style: mainFontBoldStyle1),
+          brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_rounded, color: mainColor),
+                onPressed: () => Get.back()),
+          ),
+        ),
+      ),
+      body:
+          // (alamat == null &&
+          //         rt == null &&
+          //         rw == null &&
+          //         desa == null &&
+          //         kecamatan == null &&
+          //         kabupaten == null &&
+          //         provinsi == null)
+          //     ? Center(child: Text('Anda belum mengisi alamat'))
+          //     :
+          (stateProfile is ProfileInitial)
               ? loadingIndicator
               : Container(
-                  margin: EdgeInsets.all(defaultMargin),
+                  width: double.infinity,
+                  color: Colors.white,
+                  margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 30),
-                      Row(
-                        children: [
-                          InkWell(
-                              onTap: () => Get.back(),
-                              child: Icon(
-                                Icons.arrow_back_ios_rounded,
-                                color: mainColor,
-                              )),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            'Alamat Saya',
-                            style: mainFontBoldStyle1,
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10),
                       Text(
                         (nama != null) ? nama : '-',
                         style: blackFontStyle3,
@@ -85,34 +86,10 @@ class AddressPage extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        width: 140,
-                        height: 50,
-                        child: InkWell(
-                          customBorder: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          onTap: () {},
-                          child: Card(
-                              color: mainColor,
-                              elevation: 3,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.edit_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text('Ubah',
-                                      style: TextStyle(color: Colors.white))
-                                ],
-                              )),
-                        ),
-                      ),
+                      CustomButton2(
+                          onPress: () {},
+                          text: 'Ubah',
+                          icon: Icons.edit_outlined)
                     ],
                   ),
                 ),

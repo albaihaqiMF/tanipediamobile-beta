@@ -32,7 +32,7 @@ class ListPupukPage extends StatelessWidget {
                       context
                           .read<DetailPupukCubit>()
                           .getDetailPupuk(listPupuk[index].id);
-                      Get.to(DetailPupukPage());
+                      Get.toNamed(AppRoutes.DETAIL_PUPUK);
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 15),

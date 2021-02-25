@@ -10,6 +10,7 @@ import 'package:tanipedia_mobile_app/local_storage/shared_preference.dart';
 import 'package:tanipedia_mobile_app/model/dropdown/dropdowns.dart';
 import 'package:tanipedia_mobile_app/network/api_url.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
+import 'package:tanipedia_mobile_app/ui/pages/frustate_page.dart';
 import 'package:tanipedia_mobile_app/ui/pages/pages.dart';
 import 'package:tanipedia_mobile_app/ui/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +65,8 @@ class _TestPageState extends State<TestPage> {
             color: mainColor),
         CustomButton(
             onPress: () {
-              Get.to(CreateProfilePage(), arguments: 164);
+              Get.off(CreateProfilePage(),
+                  arguments: ['1141', '+628985953469']);
             },
             text: 'Create Profile',
             color: mainColor),
@@ -93,6 +95,48 @@ class _TestPageState extends State<TestPage> {
               Get.to(ListPanenPage());
             },
             text: 'ToListPanen',
+            color: mainColor),
+        CustomButton(
+            onPress: () {
+              Get.off(RegisterPage());
+            },
+            text: 'To Register',
+            color: Colors.yellow),
+        CustomButton(
+            onPress: () {
+              // context.bloc<GetListLahanCubit>().getListLahan();
+              Get.to(FrustatedPage());
+            },
+            text: 'To http',
+            color: mainColor),
+        CustomButton(
+            onPress: () {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => SuccessDialog(
+                        title: 'Succes',
+                        description: 'Anda berhasil menambahkan lahan',
+                        onPress: () => Get.offAll(CreateLahanPage()),
+                      ));
+            },
+            text: 'Dialog Tes',
+            color: mainColor),
+        CustomButton(
+            onPress: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => ConfirmDialog(
+                      title: 'asd',
+                      description: 'asd',
+                      confirmPress: () {
+                        Get.back();
+                      },
+                      cancelPress: () {
+                        Get.back();
+                      }));
+            },
+            text: 'Confirm Dialog Tes',
             color: mainColor)
       ],
     );

@@ -1,6 +1,6 @@
 class ApiUrl {
   // Initial Setup
-  static const baseURL = "https://233be0e03b2e.ngrok.io/";
+  static const baseURL = "https://3d113c372633.ngrok.io/";
   static const contentType = 'application/json';
   static const appKey = 'okYC7opyhD4DTIauhPvMq2Wkvc6bz08t';
 
@@ -24,4 +24,9 @@ class ApiUrl {
   static const jadwalPupuk = 'jadwal-pupuk';
   static const lahan = 'lahan';
   static const panen = 'panen';
+  static const wilayah = 'wilayah';
+  static const provinsi = '$wilayah/provinsi';
+  static const kabupaten = '$wilayah/kabupatenkota';
+  static const kecamatan = '$wilayah/kecamatan';
+  static const desa = '$wilayah/kelurahan';
 }
