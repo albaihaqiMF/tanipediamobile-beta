@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,7 @@ import 'package:tanipedia_mobile_app/model/models.dart';
 import 'package:tanipedia_mobile_app/network/api_url.dart';
 import 'package:tanipedia_mobile_app/routes/app_routes.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
+import 'package:supercharged/supercharged.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,11 +28,15 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tanipedia_mobile_app/services/services.dart';
 import 'package:tanipedia_mobile_app/ui/pages/frustate_page.dart';
+import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'package:tanipedia_mobile_app/ui/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+
+// Initial
+part 'main_page.dart';
 
 // Auth
 part 'login_page.dart';
@@ -40,6 +46,8 @@ part 'register_page.dart';
 part 'create_profile_page.dart';
 part 'create_profile_page2.dart';
 part 'create_profile_page3.dart';
+part 'splash_page.dart';
+part 'dashboard_page.dart';
 
 // Profile
 part 'profile/profile_page.dart';

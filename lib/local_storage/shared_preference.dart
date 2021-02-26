@@ -1,5 +1,6 @@
 class KeySharedPreference {
-  static const idUser = 'userId';
-  static const idProfile = 'idProfile';
+  static const idUser = 'user-id';
+  static const idProfile = 'id-profile';
   static const phoneNumber = 'telp';
+  static const name = 'name';
 }

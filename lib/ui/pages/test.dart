@@ -9,11 +9,12 @@ import 'package:tanipedia_mobile_app/cubit/profile/upload_photo_profile_cubit.da
 import 'package:tanipedia_mobile_app/local_storage/shared_preference.dart';
 import 'package:tanipedia_mobile_app/model/dropdown/dropdowns.dart';
 import 'package:tanipedia_mobile_app/network/api_url.dart';
+import 'package:tanipedia_mobile_app/routes/app_routes.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:tanipedia_mobile_app/ui/pages/frustate_page.dart';
 import 'package:tanipedia_mobile_app/ui/pages/pages.dart';
 import 'package:tanipedia_mobile_app/ui/widgets/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as cubit;
 
 class TestPage extends StatefulWidget {
   @override
@@ -31,114 +32,113 @@ class _TestPageState extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        imageProfile(context, fotoProfil),
-        Text((selectedItem != null) ? selectedItem.name : "Anda belum memilih"),
-        Center(
-          child: CustomButton(
-              onPress: () {
-                context.bloc<ProfileCubit>().getProfile('77');
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          imageProfile(context, fotoProfil),
+          Text((selectedItem != null)
+              ? selectedItem.name
+              : "Anda belum memilih"),
+          CustomButton(
+              onPress: () async {
+                SharedPreferences sf = await SharedPreferences.getInstance();
+                sf.setInt(KeySharedPreference.idProfile, 180);
+                final iddProfile = sf.getInt(KeySharedPreference.idProfile);
+                await context.bloc<ProfileCubit>().getProfile('$iddProfile');
+
                 Get.to(ProfilePage());
               },
-              text: 'Get Profile',
+              text: 'to Profile Page',
               color: mainColor),
-        ),
-        CustomButton(
-            onPress: () {
-              imagePath = AppConverter.toBase64(_photoFile);
-              print('Converted Base64 : ${imagePath}');
-            },
-            text: 'Convert Image Base64',
-            color: mainColor),
-        CustomButton(
-            onPress: () async {
-              SharedPreferences sf = await SharedPreferences.getInstance();
-              sf.setInt(KeySharedPreference.idProfile, 180);
-              final iddProfile = sf.getInt(KeySharedPreference.idProfile);
-              await context.bloc<ProfileCubit>().getProfile('$iddProfile');
-
-              Get.to(ProfilePage());
-            },
-            text: 'to Profile Page',
-            color: mainColor),
-        CustomButton(
-            onPress: () {
-              Get.off(CreateProfilePage(),
-                  arguments: ['1141', '+628985953469']);
-            },
-            text: 'Create Profile',
-            color: mainColor),
-        CustomButton(
-            onPress: () {
-              context.bloc<GetListPupukCubit>().getListPupuk();
-              Get.to(ListPupukPage());
-            },
-            text: 'To List Pupuk',
-            color: mainColor),
-        CustomButton(
-            onPress: () {
-              // context.bloc<GetListLahanCubit>().getListLahan();
-              Get.to(ListLahanPage());
-            },
-            text: 'To List Lahan',
-            color: mainColor),
-        CustomButton(
-            onPress: () {
-              Get.to(CreateLahanPage());
-            },
-            text: 'To Created Lahan',
-            color: mainColor),
-        CustomButton(
-            onPress: () {
-              Get.to(ListPanenPage());
-            },
-            text: 'ToListPanen',
-            color: mainColor),
-        CustomButton(
-            onPress: () {
-              Get.off(RegisterPage());
-            },
-            text: 'To Register',
-            color: Colors.yellow),
-        CustomButton(
-            onPress: () {
-              // context.bloc<GetListLahanCubit>().getListLahan();
-              Get.to(FrustatedPage());
-            },
-            text: 'To http',
-            color: mainColor),
-        CustomButton(
-            onPress: () {
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) => SuccessDialog(
-                        title: 'Succes',
-                        description: 'Anda berhasil menambahkan lahan',
-                        onPress: () => Get.offAll(CreateLahanPage()),
-                      ));
-            },
-            text: 'Dialog Tes',
-            color: mainColor),
-        CustomButton(
-            onPress: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => ConfirmDialog(
-                      title: 'asd',
-                      description: 'asd',
-                      confirmPress: () {
-                        Get.back();
-                      },
-                      cancelPress: () {
-                        Get.back();
-                      }));
-            },
-            text: 'Confirm Dialog Tes',
-            color: mainColor)
-      ],
+          CustomButton(
+              onPress: () {
+                Get.off(CreateProfilePage(),
+                    arguments: ['1141', '+628985953469']);
+              },
+              text: 'Create Profile',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                context.bloc<GetListPupukCubit>().getListPupuk();
+                Get.to(ListPupukPage());
+              },
+              text: 'To List Pupuk',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                // context.bloc<GetListLahanCubit>().getListLahan();
+                Get.to(ListLahanPage());
+              },
+              text: 'To List Lahan',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                Get.toNamed(AppRoutes.CREATE_LAHAN);
+              },
+              text: 'To Created Lahan',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                Get.to(ListPanenPage());
+              },
+              text: 'ToListPanen',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                Get.off(RegisterPage());
+              },
+              text: 'To Register',
+              color: Colors.yellow),
+          CustomButton(
+              onPress: () {
+                // context.bloc<GetListLahanCubit>().getListLahan();
+                Get.to(FrustatedPage());
+              },
+              text: 'To http',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => SuccessDialog(
+                          title: 'Succes',
+                          description: 'Anda berhasil menambahkan lahan',
+                          onPress: () => Get.offAll(CreateLahanPage()),
+                        ));
+              },
+              text: 'Dialog Tes',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => ConfirmDialog(
+                        title: 'asd',
+                        description: 'asd',
+                        confirmPress: () {
+                          Get.back();
+                        },
+                        cancelPress: () {
+                          Get.back();
+                        }));
+              },
+              text: 'Confirm Dialog Tes',
+              color: mainColor),
+          CustomButton(
+              onPress: () => Get.to(SplashPage()),
+              text: 'Splash',
+              color: mainColor),
+          CustomButton(
+              onPress: () => Get.offAll(
+                    DashboardPage(),
+                    arguments: ['123', 'token', 'Nanda'],
+                  ),
+              text: 'Dashboard',
+              color: mainColor),
+        ],
+      ),
     );
   }
 

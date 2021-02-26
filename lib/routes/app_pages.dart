@@ -1,12 +1,17 @@
 import 'package:get/get.dart';
 import 'package:tanipedia_mobile_app/ui/pages/frustate_page.dart';
 import 'package:tanipedia_mobile_app/ui/pages/pages.dart';
+import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'app_routes.dart';
 
 // ignore: non_constant_identifier_names
 AppPages() => [
-      GetPage(name: AppRoutes.TEST, page: () => FrustatedPage()),
-      // GetPage(name: AppRoutes.INITIAL, page: () => SplashPage()),
+      GetPage(
+          name: AppRoutes.TEST,
+          page: () => TestPage(),
+          transitionDuration: Duration(milliseconds: 500)),
+      GetPage(name: AppRoutes.MAIN, page: () => MainPage()),
+      GetPage(name: AppRoutes.INITIAL, page: () => SplashPage()),
       GetPage(name: AppRoutes.LOGIN, page: () => LoginPage()),
       GetPage(name: AppRoutes.REGISTER, page: () => RegisterPage()),
       GetPage(name: AppRoutes.OTP, page: () => AuthPage()),
@@ -40,6 +45,11 @@ AppPages() => [
       // Lahan
       GetPage(name: AppRoutes.LAHAN, page: () => ListLahanPage()),
       GetPage(name: AppRoutes.DETAIL_LAHAN, page: () => DetailLahanPage()),
+      GetPage(
+          name: AppRoutes.CREATE_LAHAN,
+          page: () => CreateLahanPage(),
+          transition: Transition.rightToLeft,
+          transitionDuration: Duration(seconds: 1)),
 
       //// Add Routes
       // GetPage(name: '/end_point', page: () => YourPage(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 1000)),

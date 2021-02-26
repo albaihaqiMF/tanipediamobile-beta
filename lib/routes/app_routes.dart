@@ -2,6 +2,7 @@ class AppRoutes {
   static const TEST = '/tes';
 
   static const INITIAL = '/splash';
+  static const MAIN = '/main';
   static const LOGIN = '/login';
   static const REGISTER = '/register';
   static const OTP = '/otp';
@@ -27,4 +28,5 @@ class AppRoutes {
   // Lahan
   static const LAHAN = '/lahan';
   static const DETAIL_LAHAN = '/pupuk-lahan';
+  static const CREATE_LAHAN = '/create-lahan';
 }

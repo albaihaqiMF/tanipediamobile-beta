@@ -26,9 +26,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       key: scaffoldState,
       body: Container(
-        child: (stateProfile is ProfileInitial)
-            ? loadingIndicator
-            : ListView(
+        child: (stateProfile is ProfileLoaded)
+            ? ListView(
                 children: [
                   SizedBox(height: 10),
                   Row(
@@ -231,7 +230,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ],
-              ),
+              )
+            : Center(child: Text('Data Profil Gagal dimuat')),
       ),
     );
   }

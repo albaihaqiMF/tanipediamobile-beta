@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as getX;
 import 'package:tanipedia_mobile_app/routes/app_pages.dart';
+import 'package:tanipedia_mobile_app/routes/app_routes.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'cubit/cubit.dart';
@@ -48,14 +49,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => KecamatanCubit()),
         BlocProvider(create: (_) => DesaCubit()),
       ],
-      child: GetMaterialApp(
+      child: getX.GetMaterialApp(
         theme: appThemeData,
         debugShowCheckedModeBanner: false,
-        // initialRoute: SplashPage(),
-        // defaultTransition: Transition.fade(),
+        // initialRoute: AppRoutes.INITIAL,
         getPages: AppPages(),
         home: Scaffold(
-          body: TestPage(),
+          body: SplashPage(),
+          // body: MainPage(),
         ),
       ),
     );
