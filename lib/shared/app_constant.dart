@@ -1,3 +1,3 @@
 part of 'shared.dart';
 
-class AppConstant {}
+const double defaultMargin = 24;

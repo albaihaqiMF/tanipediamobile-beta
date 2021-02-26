@@ -33,11 +33,9 @@ class SuccessDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(17),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.8),
-                    spreadRadius: 2,
-                    blurRadius: 2,
-                    offset: Offset(3, 3),
-                  ),
+                      color: Colors.black,
+                      offset: Offset(0.0, 10.0),
+                      blurRadius: 10.0)
                 ]),
             child: Column(
               children: [

@@ -18,11 +18,10 @@ class _SplashPageState extends State<SplashPage> {
           KeySharedPreference.name, 'Nanda Kista Permana');
 
       // Get DataUser from Local Storage
-      final iddProfile =
-          sharedPreferences.getInt(KeySharedPreference.idProfile);
+      final idProfile = sharedPreferences.getInt(KeySharedPreference.idProfile);
 
       // Get Data From Server
-      await context.read<ProfileCubit>().getProfile('$iddProfile');
+      await context.read<ProfileCubit>().getProfile('$idProfile');
       context.read<GetListPupukCubit>().getListPupuk();
       context.read<GetPanenCubit>().getListPanen();
       Get.offAllNamed(AppRoutes.MAIN);

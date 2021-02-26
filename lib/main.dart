@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as getX;
 import 'package:tanipedia_mobile_app/routes/app_pages.dart';
-import 'package:tanipedia_mobile_app/routes/app_routes.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'cubit/cubit.dart';
@@ -55,7 +54,8 @@ class MyApp extends StatelessWidget {
         // initialRoute: AppRoutes.INITIAL,
         getPages: AppPages(),
         home: Scaffold(
-          body: SplashPage(),
+          body: TestPage(),
+          // body: SplashPage(),
           // body: MainPage(),
         ),
       ),

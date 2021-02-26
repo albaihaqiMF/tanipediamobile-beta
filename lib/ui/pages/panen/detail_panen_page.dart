@@ -50,8 +50,8 @@ class DetailPanenPage extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: Image(
-                                          image:
-                                              AssetImage("assets/img_padi.jpg"),
+                                          image: NetworkImage(
+                                              'http://bulelengkab.go.id/assets/instansikab/71/artikel/waspada-serangan-hama-padi-di-musim-hujan-mengintai-16.jpg'),
                                           fit: BoxFit.cover),
                                     ),
                                   ),

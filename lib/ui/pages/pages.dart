@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +26,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tanipedia_mobile_app/services/services.dart';
-import 'package:tanipedia_mobile_app/ui/pages/frustate_page.dart';
 import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'package:tanipedia_mobile_app/ui/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

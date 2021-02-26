@@ -542,7 +542,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                   ? loadingIndicator
                   : CustomButton(
                       onPress: () async {
-                        if (!validationField()) {
+                        if (validationField()) {
                           print('Data ID User : $_userId');
                           print('Data Nama : ${_nameController.text}');
                           print('Data No.Telp : ${_noTelpController.text}');
@@ -567,118 +567,10 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                 _selectedEducation,
                                 _selectedProfession
                               ]);
-
-                          // Get.toNamed(AppRoutes.TEST, arguments: [
-                          //   1141,
-                          //   'Julius',
-                          //   // nik,
-                          //   '1111',
-                          //   // kk
-                          //   '2222',
-                          //   '01-01-1990',
-                          //   //kodepos
-                          //   '35122',
-                          //   //alamat
-                          //   'KebayoranLama',
-                          //   //rt
-                          //   '10',
-                          //   //rw
-                          //   '11',
-                          //   //gender
-                          //   '1000101',
-                          //   // golDarah,
-                          //   '1000402',
-                          //   // suku,
-                          //   // '1000501',
-                          //   _selectedEthnic.toString(),
-                          //   // agama,
-                          //   '1000201',
-                          //   // pendidikan,
-                          //   // '1000301',
-
-                          //   _selectedEducation.toString(),
-                          //   _selectedProfession.toString(),
-                          //   // pekerjaan,
-                          //   // '1000601',
-                          //   '+628985953469',
-                          //   //provinsi
-                          //   '18',
-                          //   //kabupaten
-                          //   '6',
-                          //   //kec
-                          //   '8',
-                          //   //desa
-                          //   '2001'
-                          // ]);
-
-                          // try {
-                          //   await context
-                          //       .bloc<CreateProfileCubit>()
-                          //       .createProfile(
-                          //           _userId,
-                          //           _nameController.text,
-                          //           _nikController.text,
-                          //           _kkController.text,
-                          //           _tglLahirController.text,
-                          //           _kodePosController.text,
-                          //           _rtController.text,
-                          //           _rwController.text,
-                          //           selectedGender.code,
-                          //           selectedBlood.code,
-                          //           selectedEthnic.code,
-                          //           selectedReligion.code,
-                          //           selectedEducation.code,
-                          //           selectedProfession.code,
-                          //           selectedCategory.code,
-                          //           telp);
-                          // } catch (e) {
-                          // setState(() {
-                          //   _isLoading = false;
-                          // });
-                          // print('Exception : ${e.toString()}');
-                          // showSnackbar('Terjadi Kesalahan',
-                          //     'Semua Kolom harus diisi.');
-                          // }
                         } else {
                           showSnackbar(
                               'Terjadi Kesalahan', 'Semua kolom harus diisi');
                         }
-                        // CreateProfileState state =
-                        //     context.bloc<CreateProfileCubit>().state;
-
-                        // if (state is CreateProfileLoaded) {
-                        //   setState(() {
-                        //     _isLoading = false;
-                        //   });
-
-                        //   var _idProfile = (context
-                        //           .bloc<CreateProfileCubit>()
-                        //           .state as CreateProfileLoaded)
-                        //       .profile
-                        //       .id;
-
-                        //   SharedPreferences prefs =
-                        //       await SharedPreferences.getInstance();
-                        //   await prefs.setInt(KeySharedPreference.idProfile,
-                        //       int.tryParse(_idProfile));
-
-                        //   // Get Data Profile
-                        //   await context
-                        //       .bloc<ProfileCubit>()
-                        //       .getProfile(_idProfile);
-
-                        //   Get.offAll(ProfilePage(), arguments: _userId);
-                        // } else if (state is CreateProfileLoadingFailed) {
-                        //   var message = (context
-                        //           .bloc<CreateProfileCubit>()
-                        //           .state as CreateProfileLoadingFailed)
-                        //       .message
-                        //       .toString();
-                        //   showSnackbar('Terjadi kesalahan!', message);
-                        //   setState(() {
-                        //     _isLoading = false;
-                        //   });
-                        // }
                       },
                       text: 'Selanjutnya',
                       color: mainColor),

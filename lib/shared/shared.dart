@@ -12,3 +12,4 @@ part 'app_constant.dart';
 part 'app_theme.dart';
 part 'app_validator.dart';
 part 'app_converter.dart';
+part 'app_color.dart';

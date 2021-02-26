@@ -53,22 +53,23 @@ class AddressPage extends StatelessWidget {
                     children: [
                       Text(
                         (nama != null) ? nama : '-',
-                        style: blackFontStyle3,
+                        style: blackFontBoldStyle3,
                       ),
+                      SizedBox(height: 10),
                       Text(
                         (alamat != null) ? alamat : '-',
                         style: blackFontStyle4,
                       ),
                       Text(
-                        (rt != null) ? 'RT.$rt' : '-',
+                        (rt != null) ? 'RT. $rt' : '-',
                         style: blackFontStyle4,
                       ),
                       Text(
-                        (rw != null) ? 'RW.$rw' : '-',
+                        (rw != null) ? 'RW. $rw' : '-',
                         style: blackFontStyle4,
                       ),
                       Text(
-                        (desa != null) ? 'Desa $desa' : '-',
+                        (desa != null) ? 'Kelurahan $desa' : '-',
                         style: blackFontStyle4,
                       ),
                       Text(

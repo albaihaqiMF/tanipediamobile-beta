@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:tanipedia_mobile_app/ui/pages/frustate_page.dart';
 import 'package:tanipedia_mobile_app/ui/pages/pages.dart';
 import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'app_routes.dart';

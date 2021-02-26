@@ -117,8 +117,7 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
                 margin: EdgeInsets.only(bottom: defaultMargin),
                 child: CustomButton(
                     onPress: () async {
-                      if (!validationField()) {
-                        // await context.read<ProvinsiCubit>().getProvinsi();
+                      if (validationField()) {
                         Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE3, arguments: [
                           _userId,
                           _name,
@@ -133,45 +132,6 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
                           _nikController.text,
                           _kkController.text,
                         ]);
-
-                        // Get.toNamed(AppRoutes.TEST, arguments: [
-                        //   1131,
-                        //   'Julius',
-                        //   // nik,
-                        //   '1111',
-                        //   // kk
-                        //   '2222',
-                        //   '01-01-1990',
-                        //   //kodepos
-                        //   '35122',
-                        //   //alamat
-                        //   'KebayoranLama',
-                        //   //rt
-                        //   '10',
-                        //   //rw
-                        //   '11',
-                        //   //gender
-                        //   '1000101',
-                        //   // golDarah,
-                        //   '1000402',
-                        //   // suku,
-                        //   '1000501',
-                        //   // agama,
-                        //   '1000201',
-                        //   // pendidikan,
-                        //   '1000301',
-                        //   // pekerjaan,
-                        //   '1000601',
-                        //   '+628985953469',
-                        //   //provinsi
-                        //   '18',
-                        //   //kabupaten
-                        //   '6',
-                        //   //kec
-                        //   '8',
-                        //   //desa
-                        //   '2001'
-                        // ]);
                       } else {
                         showSnackbar(
                             'Terjadi Kesalahan', 'Semua kolom harus diisi');

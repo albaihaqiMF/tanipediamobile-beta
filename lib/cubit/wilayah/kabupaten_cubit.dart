@@ -7,9 +7,15 @@ part 'kabupaten_state.dart';
 
 class KabupatenCubit extends Cubit<KabupatenState> {
   KabupatenCubit() : super(KabupatenInitial());
-  Future<void> getKabupaten(String provinsi) async {
-    ApiReturnValue<List<Wilayah>> result =
-        await WilayahServices.getKabupaten(provinsi);
+  Future<void> getKabupaten(String provinsi, {String kabupaten}) async {
+    ApiReturnValue<List<Wilayah>> result;
+    if (provinsi != null) {
+      result =
+          await WilayahServices.getKabupaten(provinsi, kabupaten: kabupaten);
+    } else {
+      result = await WilayahServices.getKabupaten(provinsi);
+    }
+
     if (result.value != null) {
       emit(KabupatenLoaded(result.value));
     } else {

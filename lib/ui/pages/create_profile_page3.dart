@@ -28,6 +28,12 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
   int _selectedKecamatan;
   int _selectedKabupaten;
   int _selectedProvinsi;
+  // Data Post
+  String _idDesa;
+  String _idKecamatan;
+  String _idKabupaten;
+  String _idProvinsi;
+
   List<S2Choice<String>> listProvinsi = [];
   List<S2Choice<String>> listKabupaten = [];
   List<S2Choice<String>> listKecamatan = [];
@@ -55,17 +61,6 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
   @override
   Widget build(BuildContext context) {
     context.read<ProvinsiCubit>().getProvinsi();
-    // (context.bloc<ProvinsiCubit>().state as ProvinsiLoaded);
-    // List<Wilayah> listProvinsiAPI =
-    //     (context.bloc<ProvinsiCubit>().state as ProvinsiLoaded)
-    //         .wilayah
-    //         .toList();
-    // List<Wilayah> listProvinsiAPI = state.wilayah.toList();
-    // for (int i = 0; i < listProvinsiAPI.length; i++) {
-    //   listProvinsi.add(S2Choice<String>(
-    //       value: listProvinsiAPI[i].provinsi, title: listProvinsiAPI[i].name));
-    // }
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
@@ -87,6 +82,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
       ),
       body: BlocBuilder<ProvinsiCubit, ProvinsiState>(builder: (_, state) {
         if (state is ProvinsiLoaded) {
+          //// Add List Provinsi
           List<Wilayah> listProvinsiAPI = state.wilayah.toList();
           for (int i = 0; i < listProvinsiAPI.length; i++) {
             listProvinsi.add(S2Choice<String>(
@@ -216,7 +212,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                     modalType: S2ModalType.popupDialog,
                     value: _selectedProvinsi.toString(),
                     choiceItems: listProvinsi,
-                    onChange: (selected) {
+                    onChange: (selected) async {
                       _selectedProvinsi = int.tryParse(selected.value);
                       _selectedKabupaten = null;
                       _selectedKecamatan = null;
@@ -227,6 +223,18 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                       context.read<KabupatenCubit>().toInitial();
                       context.read<KecamatanCubit>().toInitial();
                       context.read<DesaCubit>().toInitial();
+                      //// Get id/value Provinsi
+                      try {
+                        await context
+                            .read<ProvinsiCubit>()
+                            .getProvinsi(provinsi: selected.value);
+                        final data = (context.read<ProvinsiCubit>().state
+                            as ProvinsiLoaded);
+                        List<Wilayah> listValueProvinsi = data.wilayah.toList();
+                        _idProvinsi = listValueProvinsi[0].id;
+                      } catch (e) {
+                        print('Pick Provinsi Exception : ${e.toString()}');
+                      }
                       if (_selectedProvinsi != null) {
                         context
                             .read<KabupatenCubit>()
@@ -257,7 +265,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                   ),
                 ),
                 SizedBox(height: 10),
-                // Dropdown Kabupaten
+                //// Dropdown Kabupaten
                 BlocBuilder<KabupatenCubit, KabupatenState>(
                     builder: (_, stateKabupaten) {
                   if (stateKabupaten is KabupatenLoaded) {
@@ -314,7 +322,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         modalType: S2ModalType.popupDialog,
                         value: _selectedKabupaten.toString(),
                         choiceItems: listKabupaten,
-                        onChange: (selected) {
+                        onChange: (selected) async {
                           _selectedKabupaten = int.tryParse(selected.value);
                           _selectedKecamatan = null;
                           _selectedDesa = null;
@@ -322,10 +330,25 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                           listDesa.clear();
                           context.read<KecamatanCubit>().toInitial();
                           context.read<DesaCubit>().toInitial();
+                          //// Get id/value Kabupaten
+                          try {
+                            await context.read<KabupatenCubit>().getKabupaten(
+                                _selectedProvinsi.toString(),
+                                kabupaten: _selectedKabupaten.toString());
+                            final data = (context.read<KabupatenCubit>().state
+                                as KabupatenLoaded);
+                            List<Wilayah> listValue = data.wilayah.toList();
+                            _idKabupaten = listValue[0].id;
+                          } catch (e) {
+                            print('Pick Kabupaten Exception : ${e.toString()}');
+                          }
                           if (_selectedKabupaten != null) {
                             context.read<KecamatanCubit>().getKecamatan(
                                 _selectedProvinsi.toString(),
                                 _selectedKabupaten.toString());
+                            // context
+                            //     .read<KecamatanCubit>()
+                            //     .getKecamatan('18', '71');
                           }
                         },
                         tileBuilder: (context, state) {
@@ -414,11 +437,24 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         modalType: S2ModalType.popupDialog,
                         value: _selectedKecamatan.toString(),
                         choiceItems: listKecamatan,
-                        onChange: (selected) {
+                        onChange: (selected) async {
                           _selectedKecamatan = int.tryParse(selected.value);
+                          //// Get id/value Kabupaten
                           _selectedDesa = null;
                           listDesa.clear();
                           context.read<DesaCubit>().toInitial();
+                          try {
+                            await context.read<KecamatanCubit>().getKecamatan(
+                                _selectedProvinsi.toString(),
+                                _selectedKabupaten.toString(),
+                                kecamatan: _selectedKecamatan.toString());
+                            final data = (context.read<KecamatanCubit>().state
+                                as KecamatanLoaded);
+                            List<Wilayah> listValue = data.wilayah.toList();
+                            _idKecamatan = listValue[0].id;
+                          } catch (e) {
+                            print('Pick Kecamatan Exception : ${e.toString()}');
+                          }
                           if (_selectedKecamatan != null) {
                             context.read<DesaCubit>().getDesa(
                                 _selectedProvinsi.toString(),
@@ -490,7 +526,6 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                       listDesa.add(S2Choice<String>(
                           value: listAPI[i].desa, title: listAPI[i].name));
                     }
-                    print('Daftar Desa : $listDesa');
                     return Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),
@@ -509,8 +544,23 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         modalType: S2ModalType.popupDialog,
                         value: _selectedDesa.toString(),
                         choiceItems: listDesa,
-                        onChange: (selected) =>
-                            _selectedDesa = int.tryParse(selected.value),
+                        onChange: (selected) async {
+                          _selectedDesa = int.tryParse(selected.value);
+                          //// Get id/value Kabupaten
+                          try {
+                            await context.read<DesaCubit>().getDesa(
+                                _selectedProvinsi.toString(),
+                                _selectedKabupaten.toString(),
+                                _selectedKecamatan.toString(),
+                                desa: _selectedDesa.toString());
+                            final data =
+                                (context.read<DesaCubit>().state as DesaLoaded);
+                            List<Wilayah> listValue = data.wilayah.toList();
+                            _idDesa = listValue[0].id;
+                          } catch (e) {
+                            print('Pick Kecamatan Exception : ${e.toString()}');
+                          }
+                        },
                         tileBuilder: (context, state) {
                           return ListTile(
                             title: Text(state.title,
@@ -574,270 +624,12 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                       ? loadingIndicator
                       : CustomButton(
                           onPress: () async {
-                            if (!validationField()) {
+                            if (validationField()) {
                               // _isLoading = true;
-                              // setState(() {
-                              //   _isLoading = true;
-                              // });
+                              setState(() {
+                                _isLoading = true;
+                              });
                               try {
-                                // Dummy Data
-                                // Success
-                                // Get.toNamed(AppRoutes.TEST, arguments: [
-                                // 1134,
-                                // 'Julius',
-                                // // nik,
-                                // '1111',
-                                // // kk
-                                // '2222',
-                                // '01-01-1990',
-                                // //kodepos
-                                // '35122',
-                                // //alamat
-                                // 'KebayoranLama',
-                                // //rt
-                                // '10',
-                                // //rw
-                                // '11',
-                                // //gender
-                                // '1000101',
-                                // // golDarah,
-                                // '1000402',
-                                // // suku,
-                                // '1000501',
-                                // // agama,
-                                // '1000201',
-                                // // pendidikan,
-                                // '1000301',
-                                // // pekerjaan,
-                                // '1000601',
-                                // '+628985953469',
-                                // //provinsi
-                                // '18',
-                                // //kabupaten
-                                // '6',
-                                // //kec
-                                // '8',
-                                // //desa
-                                // '2001'
-                                // ]);
-
-                                // Direct to the Service
-                                // Success
-                                // ProfileServices.create(
-                                //     1135,
-                                //     'Julius',
-                                //     '+628911231',
-                                //     '01-01-1990',
-                                //     '1000101',
-                                //     '1000101',
-                                //     '1000101',
-                                //     '1000101',
-                                //     '1000101',
-                                //     '1000101',
-                                //     '1111',
-                                //     '1111',
-                                //     'alamat',
-                                //     '01',
-                                //     '02',
-                                //     '11234',
-                                //     '18',
-                                //     '6',
-                                //     '8',
-                                //     '201');
-
-                                // ProfileServices.create(
-                                //     // _userId,
-                                //     // _name,
-                                //     // _nik,
-                                //     // _kk,
-                                //     // _tglLahir,
-                                //     // _kodePosController.text,
-                                //     // _alamatController.text,
-                                //     // _rtController.text,
-                                //     // _rwController.text,
-                                //     // _gender.toString(),
-                                //     // _golDarah.toString(),
-                                //     // _suku.toString(),
-                                //     // _agama.toString(),
-                                //     // _pendidikan.toString(),
-                                //     // _pekerjaan.toString(),
-                                //     // _noTelp,
-                                //     // _selectedProvinsi.toString(),
-                                //     // _selectedKabupaten.toString(),
-                                //     // _selectedKecamatan.toString(),
-                                //     // _selectedDesa.toString(),
-                                //     1135,
-                                //     'Julius',
-                                //     // nik,
-                                //     '1111',
-                                //     // kk
-                                //     '2222',
-                                //     '01-01-1990',
-                                //     //kodepos
-                                //     '35122',
-                                //     //alamat
-                                //     'KebayoranLama',
-                                //     //rt
-                                //     '10',
-                                //     //rw
-                                //     '11',
-                                //     //gender
-                                //     '1000101',
-                                //     // golDarah,
-                                //     '1000402',
-                                //     // suku,
-                                //     '1000501',
-                                //     // agama,
-                                //     '1000201',
-                                //     // pendidikan,
-                                //     '1000301',
-                                //     // pekerjaan,
-                                //     '1000601',
-                                //     '+628985953469',
-                                //     //provinsi
-                                //     '18',
-                                //     //kabupaten
-                                //     '6',
-                                //     //kec
-                                //     '8',
-                                //     //desa
-                                //     '2001');
-
-                                // Dummy From this page
-                                // Get.to(FrustatedPage(), arguments: [
-                                //   _userId,
-                                //   _name,
-                                //   _nik,
-                                //   _kk,
-                                //   _tglLahir,
-                                //   _kodePosController.text,
-                                //   _alamatController.text,
-                                //   _rtController.text,
-                                //   _rwController.text,
-                                //   _gender.toString(),
-                                //   _golDarah.toString(),
-                                //   _suku.toString(),
-                                //   _agama.toString(),
-                                //   _pendidikan.toString(),
-                                //   _pekerjaan.toString(),
-                                //   _noTelp,
-                                //   _selectedProvinsi.toString(),
-                                //   _selectedKabupaten.toString(),
-                                //   _selectedKecamatan.toString(),
-                                //   _selectedDesa.toString()
-                                // ]);
-
-                                // Success
-                                // await context
-                                //     .read<CreateProfileCubit>()
-                                //     .createProfile(
-                                // 1137,
-                                // 'Julius',
-                                // // nik,
-                                // '1111',
-                                // // kk
-                                // '2222',
-                                // '01-01-1990',
-                                //         //kodepos
-                                //         '35122',
-                                // //alamat
-                                // 'KebayoranLama',
-                                // //rt
-                                // '10',
-                                // //rw
-                                // '11',
-                                // //gender
-                                // '1000101',
-                                // // golDarah,
-                                // '1000402',
-                                // // suku,
-                                // '1000501',
-                                // // agama,
-                                // '1000201',
-                                // // pendidikan,
-                                // '1000301',
-                                // // pekerjaan,
-                                // '1000601',
-                                // '+628985953469',
-                                //         //provinsi
-                                //         '18',
-                                //         //kabupaten
-                                //         '6',
-                                //         //kec
-                                //         '8',
-                                //         //desa
-                                //         '2001');
-
-                                // Data From this Page
-                                // await context
-                                //     .read<CreateProfileCubit>()
-                                //     .createProfile(
-                                //         1137,
-                                //         'Julius',
-                                //         // nik,
-                                //         '1111',
-                                //         // kk
-                                //         '2222',
-                                //         '01-01-1990',
-                                //         _kodePosController.text,
-                                //         _alamatController.text,
-                                //         _rtController.text,
-                                //         _rwController.text,
-                                //         //gender
-                                //         '1000101',
-                                //         // golDarah,
-                                //         '1000402',
-                                //         // suku,
-                                //         '1000501',
-                                //         // agama,
-                                //         '1000201',
-                                //         // pendidikan,
-                                //         '1000301',
-                                //         // pekerjaan,
-                                //         '1000601',
-                                //         '+628985953469',
-                                //         // _gender.toString(),
-                                //         // _golDarah.toString(),
-                                //         // _suku.toString(),
-                                //         // _agama.toString(),
-                                //         // _pendidikan.toString(),
-                                //         // _pekerjaan.toString(),
-                                //         // _noTelp,
-                                //         _selectedProvinsi.toString(),
-                                //         _selectedKabupaten.toString(),
-                                //         _selectedKecamatan.toString(),
-                                //         _selectedDesa.toString());
-
-                                // Without Data from this Page
-                                // Success
-                                // await context
-                                //     .read<CreateProfileCubit>()
-                                //     .createProfile(
-                                //         _userId,
-                                //         _name,
-                                //         _nik,
-                                //         _kk,
-                                //         _tglLahir,
-                                //         _kodePosController.text,
-                                //         _alamatController.text,
-                                //         _rtController.text,
-                                //         _rwController.text,
-                                //         _gender.toString(),
-                                //         _golDarah.toString(),
-                                //         _suku.toString(),
-                                //         _agama.toString(),
-                                //         _pendidikan.toString(),
-                                //         _pekerjaan.toString(),
-                                //         _noTelp,
-                                //         //provinsi
-                                //         '18',
-                                //         //kabupaten
-                                //         '6',
-                                //         //kec
-                                //         '8',
-                                //         //desa
-                                //         '2001');
-
                                 await context
                                     .read<CreateProfileCubit>()
                                     .createProfile(
@@ -857,74 +649,49 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                                         _pendidikan.toString(),
                                         _pekerjaan.toString(),
                                         _noTelp,
-                                        _selectedProvinsi.toString(),
-                                        _selectedKabupaten.toString(),
-                                        _selectedKecamatan.toString(),
-                                        _selectedDesa.toString());
+                                        _idProvinsi,
+                                        _idKabupaten,
+                                        _idKecamatan,
+                                        _idDesa);
 
-                                // try {
-                                //   CreateProfileState stateProfile = context
-                                //       .bloc<CreateProfileCubit>()
-                                //       .state;
+                                //// Get Profile
+                                CreateProfileState stateProfile =
+                                    context.bloc<CreateProfileCubit>().state;
 
-                                //   if (stateProfile is CreateProfileLoaded) {
-                                //     // setState(() {
-                                //     //   _isLoading = false;
-                                //     // });
+                                if (stateProfile is CreateProfileLoaded) {
+                                  var _idProfile = (context
+                                          .bloc<CreateProfileCubit>()
+                                          .state as CreateProfileLoaded)
+                                      .profile
+                                      .id;
 
-                                //     var _idProfile = (context
-                                //             .bloc<CreateProfileCubit>()
-                                //             .state as CreateProfileLoaded)
-                                //         .profile
-                                //         .id;
-
-                                //     SharedPreferences prefs =
-                                //         await SharedPreferences.getInstance();
-                                //     await prefs.setInt(
-                                //         KeySharedPreference.idProfile,
-                                //         int.tryParse(_idProfile));
-
-                                //     // Get Data Profile
-                                //     await context
-                                //         .bloc<ProfileCubit>()
-                                //         .getProfile(_idProfile);
-
-                                //     Get.offAllNamed(AppRoutes.PROFILE,
-                                //         arguments: _userId);
-                                //   } else if (stateProfile
-                                //       is CreateProfileLoadingFailed) {
-                                //     var message = (context
-                                //                 .bloc<CreateProfileCubit>()
-                                //                 .state
-                                //             as CreateProfileLoadingFailed)
-                                //         .message
-                                //         .toString();
-                                //     showSnackbar(
-                                //         'Terjadi kesalahan!', message);
-                                //     // setState(() {
-                                //     //   _isLoading = false;
-                                //     // });
-                                //   }
-                                // } catch (e) {
-                                //   print(
-                                //       'Register Page Exception : ${e.toString()}');
-                                //   showSnackbar(
-                                //       'Terjadi kesalahan!', e.toString());
-                                // }
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setInt(
+                                      KeySharedPreference.idProfile,
+                                      int.tryParse(_idProfile));
+                                  //// Get Data Profile
+                                  await context
+                                      .bloc<ProfileCubit>()
+                                      .getProfile(_idProfile);
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                  Get.offAllNamed(AppRoutes.PROFILE);
+                                }
                               } catch (e) {
-                                // setState(() {
-                                //   _isLoading = false;
-                                // });
+                                setState(() {
+                                  _isLoading = false;
+                                });
                                 // context.read<ProvinsiCubit>().getProvinsi();
                                 print('Exception : ${e.toString()}');
                                 showSnackbar('Terjadi Kesalahan',
                                     'Semua Kolom harus diisi.');
                               }
                             } else {
-                              // setState(() {
-                              //   _isLoading = false;
-                              // });
-                              // context.read<ProvinsiCubit>().getProvinsi();
+                              setState(() {
+                                _isLoading = false;
+                              });
                               showSnackbar('Terjadi Kesalahan',
                                   'Semua kolom harus diisi');
                             }
@@ -961,10 +728,10 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
         _rwController.text.isNotEmpty &&
         _alamatController.text.isNotEmpty &&
         _kodePosController.text.isNotEmpty &&
-        _selectedProvinsi != null &&
-        _selectedKabupaten != null &&
-        _selectedKecamatan != null &&
-        _selectedDesa != null) {
+        _idProvinsi != null &&
+        _idKabupaten != null &&
+        _idKecamatan != null &&
+        _idDesa != null) {
       return true;
     } else {
       return false;

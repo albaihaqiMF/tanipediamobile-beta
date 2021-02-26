@@ -11,7 +11,6 @@ import 'package:tanipedia_mobile_app/model/dropdown/dropdowns.dart';
 import 'package:tanipedia_mobile_app/network/api_url.dart';
 import 'package:tanipedia_mobile_app/routes/app_routes.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
-import 'package:tanipedia_mobile_app/ui/pages/frustate_page.dart';
 import 'package:tanipedia_mobile_app/ui/pages/pages.dart';
 import 'package:tanipedia_mobile_app/ui/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as cubit;
@@ -45,7 +44,7 @@ class _TestPageState extends State<TestPage> {
                 SharedPreferences sf = await SharedPreferences.getInstance();
                 sf.setInt(KeySharedPreference.idProfile, 180);
                 final iddProfile = sf.getInt(KeySharedPreference.idProfile);
-                await context.bloc<ProfileCubit>().getProfile('$iddProfile');
+                await context.bloc<ProfileCubit>().getProfile('243');
 
                 Get.to(ProfilePage());
               },
@@ -54,7 +53,7 @@ class _TestPageState extends State<TestPage> {
           CustomButton(
               onPress: () {
                 Get.off(CreateProfilePage(),
-                    arguments: ['1141', '+628985953469']);
+                    arguments: ['1147', '+628985953469']);
               },
               text: 'Create Profile',
               color: mainColor),
@@ -90,13 +89,6 @@ class _TestPageState extends State<TestPage> {
               },
               text: 'To Register',
               color: Colors.yellow),
-          CustomButton(
-              onPress: () {
-                // context.bloc<GetListLahanCubit>().getListLahan();
-                Get.to(FrustatedPage());
-              },
-              text: 'To http',
-              color: mainColor),
           CustomButton(
               onPress: () {
                 showDialog(

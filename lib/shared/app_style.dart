@@ -1,10 +1,5 @@
 part of 'shared.dart';
 
-Color mainColor = "0CC23F".toColor();
-Color accentColor = "CAFFD9".toColor();
-Color greyColor = "8D92A3".toColor();
-Color secondaryColor = 'CAFFD9'.toColor();
-
 Text textVersiApp = Text('Ver 1.0', style: greyFontStyle);
 
 // Grey Normal
@@ -69,5 +64,3 @@ TextStyle whiteFontStyle3 = GoogleFonts.poppins()
 // Red Color
 TextStyle redBoldFontStyle2 = GoogleFonts.poppins()
     .copyWith(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w900);
-
-const double defaultMargin = 24;
