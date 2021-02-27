@@ -51,10 +51,9 @@ class SuccessDialog extends StatelessWidget {
                 ),
                 SizedBox(height: 24),
                 Align(
-                  alignment: Alignment.bottomRight,
-                  child: FlatButton(
-                      onPressed: () => onPress(), child: Text('Konfirmasi')),
-                )
+                    alignment: Alignment.bottomRight,
+                    child: CustomButton(
+                        onPress: onPress, text: 'OK', color: mainColor))
               ],
             ),
           ),
@@ -267,10 +266,10 @@ class ConfirmDialog extends StatelessWidget {
                   title,
                   style: blackFontBoldStyle2,
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 10),
                 Text(
                   description,
-                  style: blackFontStyle2,
+                  style: blackFontStyle3,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 24),

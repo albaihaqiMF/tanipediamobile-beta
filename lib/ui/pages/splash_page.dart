@@ -13,7 +13,7 @@ class _SplashPageState extends State<SplashPage> {
           await SharedPreferences.getInstance();
 
       // Set DataUser to Local Storage
-      sharedPreferences.setInt(KeySharedPreference.idProfile, 180);
+      sharedPreferences.setInt(KeySharedPreference.idProfile, 245);
       sharedPreferences.setString(
           KeySharedPreference.name, 'Nanda Kista Permana');
 

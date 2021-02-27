@@ -6,21 +6,11 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  String idUser;
-  String username;
-
-  void loadDataUser() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    username = sharedPreferences.getString(KeySharedPreference.name);
-  }
-
-  void initState() {
-    super.initState();
-    loadDataUser();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final data = (context.watch<ProfileCubit>().state as ProfileLoaded);
+    String username = data.profile.nama;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

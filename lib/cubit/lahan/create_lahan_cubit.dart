@@ -9,7 +9,7 @@ class CreateLahanCubit extends Cubit<CreateLahanState> {
   CreateLahanCubit() : super(CreateLahanInitial());
 
   Future<void> createLahan(
-      String kategori,
+      // String kategori,
       int luas,
       int satuan,
       String usiaTanam,
@@ -23,7 +23,7 @@ class CreateLahanCubit extends Cubit<CreateLahanState> {
       String latitude,
       String longitude) async {
     ApiReturnValue<Lahan> result = await LahanServices.createLahan(
-        kategori,
+        // kategori,
         luas,
         satuan,
         usiaTanam,

@@ -65,17 +65,18 @@ flutter:
     - assets/bottom_nav/ic_order_normal.png
     - assets/bottom_nav/ic_profile.png
     - assets/bottom_nav/ic_profile_normal.png
-    - assets/ic_sawah.png
-    - assets/text_app.png
-    - assets/text_app_white.png
-    - assets/logo_text_app.png
-    - assets/logo_app.png
-    - assets/ic_profile.png
-    - assets/img_padi.jpg
-    - assets/bg_dashboard.png
-    - assets/ic_cokelat.png
-    - assets/ic_kentang.png
-    - assets/ic_pupuk.png
+    # - assets/ic_sawah.png
+    # - assets/text_app.png
+    # - assets/text_app_white.png
+    # - assets/logo_text_app.png
+    # - assets/logo_app.png
+    # - assets/ic_profile.png
+    # - assets/img_padi.jpg
+    # - assets/bg_dashboard.png
+    # - assets/ic_cokelat.png
+    # - assets/ic_kentang.png
+    # - assets/ic_pupuk.png
+    - assets/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

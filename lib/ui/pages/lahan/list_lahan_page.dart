@@ -21,7 +21,7 @@ class ListLahanPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Get.toNamed(AppRoutes.CREATE_LAHAN),
         child: Icon(Icons.add, color: Colors.white),
       ),
       body: BlocBuilder<GetListLahanCubit, GetListLahanState>(

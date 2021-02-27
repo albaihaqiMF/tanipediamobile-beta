@@ -74,11 +74,11 @@ class DetailLahanPage extends StatelessWidget {
                                         ? '${state.lahan.kabupaten} - ${state.lahan.kecamatan}'
                                         : '',
                                     style: blackFontStyle4),
-                                Text(
-                                    (state.lahan.kodepos != null)
-                                        ? 'Kode Pos ${state.lahan.kodepos}'
-                                        : 'Kode Pos : -',
-                                    style: blackFontStyle4),
+                                // Text(
+                                //     (state.lahan.kodepos != null)
+                                //         ? 'Kode Pos ${state.lahan.kodepos}'
+                                //         : 'Kode Pos : -',
+                                //     style: blackFontStyle4),
                                 SizedBox(height: 15),
                                 Row(
                                   mainAxisAlignment:
@@ -89,7 +89,29 @@ class DetailLahanPage extends StatelessWidget {
                                         text: 'Ubah',
                                         icon: Icons.edit_outlined),
                                     CustomButton2(
-                                        onPress: () {},
+                                        onPress: () => showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  ConfirmDialog(
+                                                      title: 'Konfirmasi',
+                                                      description:
+                                                          'Apakah anda yakin untuk menghapus lahan ini ?',
+                                                      confirmPress: () async {
+                                                        Get.back();
+                                                        showProgressDialog(
+                                                            context,
+                                                            'Mohon tunggu...');
+                                                        await context
+                                                            .read<
+                                                                DeleteLahanCubit>()
+                                                            .deleteLahan(
+                                                                state.lahan.id);
+                                                        Get.offNamed(
+                                                            AppRoutes.LAHAN);
+                                                      },
+                                                      cancelPress: () =>
+                                                          Get.back()),
+                                            ),
                                         text: 'Hapus',
                                         icon: Icons.delete_outline,
                                         color: Colors.red),

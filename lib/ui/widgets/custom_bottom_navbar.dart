@@ -25,63 +25,56 @@ class CustomBottomNavBar extends StatelessWidget {
             ),
           ]),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GestureDetector(
-            onTap: () {
-              if (onTap != null) {
-                onTap(0);
-              }
-            },
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                        'assets/bottom_nav/ic_home' +
-                            ((selectedIndex == 0) ? '.png' : '_normal.png'),
-                      ),
-                      fit: BoxFit.contain)),
+          Container(
+            width: 50,
+            height: 50,
+            child: IconButton(
+              icon: Icon(
+                Icons.home_outlined,
+                size: ((selectedIndex == 0) ? 40 : 30),
+                color: ((selectedIndex == 0) ? mainColor : Colors.grey),
+              ),
+              onPressed: () {
+                if (onTap != null) {
+                  onTap(0);
+                }
+              },
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              if (onTap != null) {
-                onTap(1);
-              }
-            },
-            child: Container(
-              width: 32,
-              height: 32,
-              margin: EdgeInsets.symmetric(horizontal: 83),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                        'assets/bottom_nav/ic_order' +
-                            ((selectedIndex == 1) ? '.png' : '_normal.png'),
-                      ),
-                      fit: BoxFit.contain)),
+          Container(
+            width: 50,
+            height: 50,
+            child: IconButton(
+              icon: Icon(
+                Icons.chrome_reader_mode_outlined,
+                size: ((selectedIndex == 1) ? 35 : 25),
+                color: ((selectedIndex == 1) ? mainColor : Colors.grey),
+              ),
+              onPressed: () {
+                if (onTap != null) {
+                  onTap(1);
+                }
+              },
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              if (onTap != null) {
-                onTap(2);
-              }
-            },
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                        'assets/bottom_nav/ic_profile' +
-                            ((selectedIndex == 2) ? '.png' : '_normal.png'),
-                      ),
-                      fit: BoxFit.contain)),
+          Container(
+            width: 50,
+            height: 50,
+            child: IconButton(
+              icon: Icon(
+                Icons.person_outline,
+                size: ((selectedIndex == 2) ? 40 : 30),
+                color: ((selectedIndex == 2) ? mainColor : Colors.grey),
+              ),
+              onPressed: () {
+                if (onTap != null) {
+                  onTap(2);
+                }
+              },
             ),
-          )
+          ),
         ],
       ),
     );

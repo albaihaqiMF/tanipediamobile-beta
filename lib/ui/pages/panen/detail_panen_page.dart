@@ -58,7 +58,7 @@ class DetailPanenPage extends StatelessWidget {
                                   SizedBox(height: 10),
                                   Text('${state.panen.kategori}',
                                       style: blackFontStyle3),
-                                  Text('${state.panen.satuan} Kwintal',
+                                  Text('${state.panen.totalPanen} Kwintal',
                                       style: blackFontBoldStyle2),
                                 ],
                               ),
@@ -95,7 +95,23 @@ class DetailPanenPage extends StatelessWidget {
                                   text: 'Ubah',
                                   icon: Icons.edit_outlined),
                               CustomButton2(
-                                onPress: () {},
+                                onPress: () => showDialog(
+                                  context: context,
+                                  builder: (context) => ConfirmDialog(
+                                      title: 'Konfirmasi',
+                                      description:
+                                          'Apakah anda yakin untuk menghapus data panen ini?',
+                                      confirmPress: () async {
+                                        Get.back();
+                                        showProgressDialog(
+                                            context, 'Mohon tunggu...');
+                                        await context
+                                            .read<DeletePanenCubit>()
+                                            .deletePanen(state.panen.id);
+                                        Get.offNamed(AppRoutes.PANEN);
+                                      },
+                                      cancelPress: () => Get.back()),
+                                ),
                                 text: 'Hapus',
                                 icon: Icons.delete_outline_rounded,
                                 color: Colors.red,

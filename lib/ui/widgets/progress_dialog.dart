@@ -1,11 +1,15 @@
 part of 'widgets.dart';
 
-void showProgressDialog(BuildContext context) async {
+void showProgressDialog(BuildContext context, String message) async {
   ProgressDialog pr = ProgressDialog(context);
-  pr = ProgressDialog(context,
-      type: ProgressDialogType.Normal, isDismissible: false, showLogs: true);
+  pr = ProgressDialog(
+    context,
+    type: ProgressDialogType.Normal,
+    isDismissible: false,
+    showLogs: true,
+  );
   pr.style(
-      message: 'Uploading file...',
+      message: message,
       borderRadius: 10.0,
       backgroundColor: Colors.white,
       progressWidget: CircularProgressIndicator(),
@@ -13,9 +17,9 @@ void showProgressDialog(BuildContext context) async {
       progress: 0.0,
       maxProgress: 100.0,
       progressTextStyle: TextStyle(
-          color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+          color: Colors.black, fontSize: 8.0, fontWeight: FontWeight.w400),
       messageTextStyle: TextStyle(
-          color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600));
+          color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w600));
   await pr.show();
 }
 

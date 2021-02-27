@@ -242,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
       String imagePath = AppConverter.toBase64(_pickedFile);
       SharedPreferences sf = await SharedPreferences.getInstance();
       final idProfil = sf.getInt(KeySharedPreference.idProfile);
-      showProgressDialog(context);
+      showProgressDialog(context, 'Uploading file...');
 
       await context
           .read<UploadPhotoProfileCubit>()
@@ -292,13 +292,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     radius: 80,
                     backgroundImage: imageUpdate != null
                         ? NetworkImage(imageUpdate)
-                        : AssetImage("assets/ic_profile.png"),
+                        : AssetImage("assets/ic_profil.png"),
                   )
                 : CircleAvatar(
                     radius: 80,
                     backgroundImage: imageUrl != null
                         ? NetworkImage(imageUrl)
-                        : AssetImage("assets/ic_profile.png")),
+                        : AssetImage("assets/ic_profil.png")),
           ),
           Positioned(
             bottom: 10,

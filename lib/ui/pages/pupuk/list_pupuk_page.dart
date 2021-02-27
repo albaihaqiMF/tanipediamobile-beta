@@ -3,6 +3,7 @@ part of '../pages.dart';
 class ListPupukPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    context.watch<GetListPupukCubit>().getListPupuk();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),

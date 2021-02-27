@@ -54,8 +54,8 @@ class MyApp extends StatelessWidget {
         // initialRoute: AppRoutes.INITIAL,
         getPages: AppPages(),
         home: Scaffold(
-          body: TestPage(),
-          // body: SplashPage(),
+          // body: TestPage(),
+          body: SplashPage(),
           // body: MainPage(),
         ),
       ),

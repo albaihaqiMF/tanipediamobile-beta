@@ -70,9 +70,10 @@ class ListPanenPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          '${listPanen[index].varietas} ${listPanen[index].kategori}',
+                                          '${listPanen[index].kategori} ${listPanen[index].varietas}',
                                           style: blackFontStyle4),
-                                      Text('${listPanen[index].satuan} Kwintal',
+                                      Text(
+                                          '${listPanen[index].totalPanen} Kwintal',
                                           style: blackFontBoldStyle4),
                                       Text(
                                           '${listPanen[index].kecamatan} - ${listPanen[index].kabupaten}',
