@@ -6,27 +6,28 @@ class CreateLahanPage extends StatefulWidget {
 }
 
 class _CreateLahanPageState extends State<CreateLahanPage> {
+  bool isUpdate;
+  String _idLahan;
+  String idPetani;
+  String idInstansi = '2';
+
+  // Field
   TextEditingController _luasController = TextEditingController();
   TextEditingController _usiaTanamController = TextEditingController();
   TextEditingController _satuanController = TextEditingController();
   TextEditingController _alamatController = TextEditingController();
-
-  // Desa _selectedDesa;
-  // Kecamatan _selectedKecamatan;
-  // Kabupaten _selectedKabupaten;
-  // Provinsi _selectedProvinsi;
-  // Categories _selectedCategory;
-
-  // Dialog
+  // Dialog title
   int _selectedDesa;
   int _selectedKecamatan;
   int _selectedKabupaten;
   int _selectedProvinsi;
-  // Data Post
+  // Data Value (Post Data)
   String _idDesa;
   String _idKecamatan;
   String _idKabupaten;
   String _idProvinsi;
+
+  int _selectedKategoriPertanian;
 
   List<S2Choice<String>> listProvinsi = [];
   List<S2Choice<String>> listKabupaten = [];
@@ -39,11 +40,56 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
   bool _errorUsiaTanamField = false;
   bool _errorAlamatField = false;
 
-  String idPetani = '1';
-  String idInstansi = '2';
+  Future<bool> getUpdate() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    isUpdate = sharedPreferences.getBool(KeySharedPreference.updateLahan);
+    print('Status UPDATE : $isUpdate');
+    return isUpdate ?? false;
+  }
+
+  isUpdateLahan() {
+    getUpdate().then((value) {
+      if (value) {
+        final dataUpdate =
+            (context.read<GetDetailLahanCubit>().state as GetDetailLahanLoaded);
+        _idLahan = dataUpdate.lahan.id;
+        _luasController.text = dataUpdate.lahan.luas.toString();
+        _alamatController.text = dataUpdate.lahan.alamat;
+        _usiaTanamController.text = dataUpdate.lahan.usiaTanam.toString();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isUpdateLahan();
+    context.read<ProvinsiCubit>().toInitial();
+    context.read<KabupatenCubit>().toInitial();
+    context.read<KecamatanCubit>().toInitial();
+    context.read<DesaCubit>().toInitial();
+    _selectedProvinsi = null;
+    _selectedKabupaten = null;
+    _selectedKecamatan = null;
+    _selectedDesa = null;
+    listProvinsi.clear();
+    listKabupaten.clear();
+    listKecamatan.clear();
+    listDesa.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final dataProfile = (context.watch<ProfileCubit>().state as ProfileLoaded);
+    idPetani = dataProfile.profile.id;
+
+    //// Update belum mengerti
+    /// jika update maka harusnya get Data/parsing dari detail
+    /// lalu di laman ini set data tiap kolom dari data yg di get/parsing tsb.
+    /// Tapi data address yg di get dari respon kan berupa String bukan kode/id desa,kecamatan,kabupaten,provinsi
+    /// Sedangkan data yang di pos berupa kode/id
+    /// Jadi otomatis kolom address tidak bisa terisi oleh data sebelumnya
+
     context.read<ProvinsiCubit>().getProvinsi();
     return Scaffold(
         appBar: PreferredSize(
@@ -57,7 +103,10 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
               padding: const EdgeInsets.only(left: 8.0),
               child: IconButton(
                   icon: Icon(Icons.arrow_back_ios_rounded, color: mainColor),
-                  onPressed: () => Get.back()),
+                  onPressed: () {
+                    // setUpdate();
+                    Get.back();
+                  }),
             ),
           ),
         ),
@@ -72,333 +121,497 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                     value: listProvinsiAPI[i].provinsi,
                     title: listProvinsiAPI[i].name));
               }
-              return Container(
-                color: Colors.white,
-                margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Luas Lahan (m3)',
-                              hintText: 'Masukkan Luas Lahan (m3)',
-                              hintStyle: greyFontStyle,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.blue, width: 2),
-                                  borderRadius: BorderRadius.circular(10)),
-                              enabledBorder: (OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: mainColor,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10))),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+              return SingleChildScrollView(
+                child: Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20),
+                            TextField(
+                              decoration: InputDecoration(
+                                labelText: 'Luas Lahan (m3)',
+                                hintText: 'Masukkan Luas Lahan (m3)',
+                                hintStyle: greyFontStyle,
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.blue, width: 2),
+                                    borderRadius: BorderRadius.circular(10)),
+                                enabledBorder: (OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: mainColor,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10))),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                errorText: _errorLuasField
+                                    ? 'Kolom tidak boleh kosong'
+                                    : null,
                               ),
-                              errorText: _errorLuasField
-                                  ? 'Kolom tidak boleh kosong'
-                                  : null,
+                              controller: _luasController,
+                              keyboardType: TextInputType.number,
                             ),
-                            controller: _luasController,
-                            keyboardType: TextInputType.number,
-                          ),
-                          // SizedBox(height: 20),
-                          // TextField(
-                          //   decoration: InputDecoration(
-                          //     labelText: 'Satuan',
-                          //     hintText: 'Masukkan Satuan Lahan',
-                          //     hintStyle: greyFontStyle,
-                          //     contentPadding:
-                          //         EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          //     focusedBorder: OutlineInputBorder(
-                          //         borderSide: BorderSide(color: Colors.blue, width: 2),
-                          //         borderRadius: BorderRadius.circular(10)),
-                          //     enabledBorder: (OutlineInputBorder(
-                          //         borderSide: BorderSide(
-                          //           color: mainColor,
-                          //           width: 2,
-                          //         ),
-                          //         borderRadius: BorderRadius.circular(10))),
-                          //     border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(10),
-                          //     ),
-                          //     errorText:
-                          //         _errorSatuanField ? 'Kolom tidak boleh kosong' : null,
-                          //   ),
-                          //   controller: _satuanController,
-                          //   keyboardType: TextInputType.number,
-                          // ),
-                          SizedBox(height: 20),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Usia Tanam (minggu)',
-                              hintText: 'Masukkan Usia Tanam Lahan...',
-                              hintStyle: greyFontStyle,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.blue, width: 2),
-                                  borderRadius: BorderRadius.circular(10)),
-                              enabledBorder: (OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: mainColor,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10))),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                            // SizedBox(height: 20),
+                            // TextField(
+                            //   decoration: InputDecoration(
+                            //     labelText: 'Satuan',
+                            //     hintText: 'Masukkan Satuan Lahan',
+                            //     hintStyle: greyFontStyle,
+                            //     contentPadding:
+                            //         EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            //     focusedBorder: OutlineInputBorder(
+                            //         borderSide: BorderSide(color: Colors.blue, width: 2),
+                            //         borderRadius: BorderRadius.circular(10)),
+                            //     enabledBorder: (OutlineInputBorder(
+                            //         borderSide: BorderSide(
+                            //           color: mainColor,
+                            //           width: 2,
+                            //         ),
+                            //         borderRadius: BorderRadius.circular(10))),
+                            //     border: OutlineInputBorder(
+                            //       borderRadius: BorderRadius.circular(10),
+                            //     ),
+                            //     errorText:
+                            //         _errorSatuanField ? 'Kolom tidak boleh kosong' : null,
+                            //   ),
+                            //   controller: _satuanController,
+                            //   keyboardType: TextInputType.number,
+                            // ),
+                            SizedBox(height: 20),
+                            TextField(
+                              decoration: InputDecoration(
+                                labelText: 'Usia Tanam (minggu)',
+                                hintText: 'Masukkan Usia Tanam Lahan...',
+                                hintStyle: greyFontStyle,
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.blue, width: 2),
+                                    borderRadius: BorderRadius.circular(10)),
+                                enabledBorder: (OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: mainColor,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10))),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                suffixText: '(minggu)',
+                                errorText: _errorUsiaTanamField
+                                    ? 'Kolom tidak boleh kosong'
+                                    : null,
                               ),
-                              suffixText: '(minggu)',
-                              errorText: _errorUsiaTanamField
-                                  ? 'Kolom tidak boleh kosong'
-                                  : null,
+                              controller: _usiaTanamController,
+                              keyboardType: TextInputType.number,
                             ),
-                            controller: _usiaTanamController,
-                            keyboardType: TextInputType.number,
-                          ),
-                          // wrapDropdown(DropdownButton(
-                          //     hint: Text('Pilih Kategori', style: blackFontStyle3),
-                          //     focusColor: Colors.blue,
-                          //     isExpanded: true,
-                          //     style: blackFontStyle3,
-                          //     items: Categories.generatedItem(Categories.items),
-                          //     value: _selectedCategory,
-                          //     onChanged: (item) {
-                          //       setState(() {
-                          //         _selectedCategory = item;
-                          //       });
-                          //     })),
-                          SizedBox(height: 20),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Alamat Pertanian',
-                              hintText: 'Masukkan Alamat Lahan...',
-                              hintStyle: greyFontStyle,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.blue, width: 2),
-                                  borderRadius: BorderRadius.circular(10)),
-                              enabledBorder: (OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: mainColor,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10))),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              errorText: _errorAlamatField
-                                  ? 'Kolom tidak boleh kosong'
-                                  : null,
-                            ),
-                            controller: _alamatController,
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Dropdown Provinsi
-                    SizedBox(height: 10),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          side: BorderSide(color: mainColor, width: 2)),
-                      child: SmartSelect<String>.single(
-                        title: 'Provinsi',
-                        modalHeaderStyle: S2ModalHeaderStyle(
-                            backgroundColor: mainColor,
-                            textStyle: whiteFontBoldStyle3),
-                        modalStyle: S2ModalStyle(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
-                        modalType: S2ModalType.popupDialog,
-                        value: _selectedProvinsi.toString(),
-                        choiceItems: listProvinsi,
-                        onChange: (selected) async {
-                          _selectedProvinsi = int.tryParse(selected.value);
-                          _selectedKabupaten = null;
-                          _selectedKecamatan = null;
-                          _selectedDesa = null;
-                          listKabupaten.clear();
-                          listKecamatan.clear();
-                          listDesa.clear();
-                          context.read<KabupatenCubit>().toInitial();
-                          context.read<KecamatanCubit>().toInitial();
-                          context.read<DesaCubit>().toInitial();
-                          //// Get id/value Provinsi
-                          try {
-                            await context
-                                .read<ProvinsiCubit>()
-                                .getProvinsi(provinsi: selected.value);
-                            final data = (context.read<ProvinsiCubit>().state
-                                as ProvinsiLoaded);
-                            List<Wilayah> listValueProvinsi =
-                                data.wilayah.toList();
-                            _idProvinsi = listValueProvinsi[0].id;
-                          } catch (e) {
-                            print('Pick Provinsi Exception : ${e.toString()}');
-                          }
-                          if (_selectedProvinsi != null) {
-                            context
-                                .read<KabupatenCubit>()
-                                .getKabupaten(_selectedProvinsi.toString());
-                          }
-                        },
-                        tileBuilder: (context, state) {
-                          return ListTile(
-                            title: Text(state.title,
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.grey)),
-                            subtitle: Text(
-                              (state.valueTitle != null)
-                                  ? state.valueTitle.toString()
-                                  : 'Pilih provinsi',
-                              style: (state.valueTitle != null)
-                                  ? blackFontBoldStyle4
-                                  : greyFontStyle,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            trailing: const Icon(
-                              Icons.keyboard_arrow_down,
-                              color: Colors.black,
-                            ),
-                            onTap: state.showModal,
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    //// Dropdown Kabupaten
-                    BlocBuilder<KabupatenCubit, KabupatenState>(
-                        builder: (_, stateKabupaten) {
-                      if (stateKabupaten is KabupatenLoaded) {
-                        List<Wilayah> listKabupatenAPI =
-                            stateKabupaten.wilayah.toList();
-
-                        for (int i = 0; i < listKabupatenAPI.length; i++) {
-                          listKabupaten.add(S2Choice<String>(
-                              value: listKabupatenAPI[i].kabupaten,
-                              title: listKabupatenAPI[i].name));
-                        }
-
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(color: mainColor, width: 2)),
-                          child: SmartSelect<String>.single(
-                            title: 'Kabupaten',
-                            modalHeaderStyle: S2ModalHeaderStyle(
-                                backgroundColor: mainColor,
-                                textStyle: whiteFontBoldStyle3),
-                            modalStyle: S2ModalStyle(
+                            SizedBox(height: 10),
+                            Card(
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                            ),
-                            choiceEmptyBuilder: (context, value) => Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.search,
-                                    size: 150,
-                                    color: Colors.grey[500],
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  side: BorderSide(color: mainColor, width: 2)),
+                              child: SmartSelect<String>.single(
+                                choiceStyle:
+                                    S2ChoiceStyle(accentColor: Colors.red),
+                                title: 'Kategori',
+                                modalHeaderStyle: S2ModalHeaderStyle(
+                                    backgroundColor: mainColor,
+                                    textStyle: whiteFontBoldStyle3),
+                                modalStyle: S2ModalStyle(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  Text('Woops', style: greyFontStyleSuperBig),
-                                  Text('Terjadi Kesalahan!',
-                                      style: greyFontStyleVeryBig),
-                                  Text('Klik tombol dibawah ini',
-                                      style: greyFontStyle),
-                                  SizedBox(height: 10),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.refresh_outlined,
-                                        color: Colors.blue,
-                                        size: 44,
-                                      )),
-                                ],
+                                ),
+                                modalType: S2ModalType.popupDialog,
+                                value: _selectedKategoriPertanian.toString(),
+                                choiceItems: LocalData.jenisPertanian,
+                                onChange: (selected) =>
+                                    _selectedKategoriPertanian =
+                                        int.tryParse(selected.value),
+                                tileBuilder: (context, state) {
+                                  return ListTile(
+                                    title: Text(state.title,
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.grey)),
+                                    subtitle: Text(
+                                      (state.valueTitle != null)
+                                          ? state.valueTitle.toString()
+                                          : 'Pilih Kategori',
+                                      style: (state.valueTitle != null)
+                                          ? blackFontBoldStyle4
+                                          : greyFontStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    trailing: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: Colors.black,
+                                    ),
+                                    onTap: state.showModal,
+                                  );
+                                },
                               ),
                             ),
-                            modalType: S2ModalType.popupDialog,
-                            value: _selectedKabupaten.toString(),
-                            choiceItems: listKabupaten,
-                            onChange: (selected) async {
-                              _selectedKabupaten = int.tryParse(selected.value);
-                              _selectedKecamatan = null;
-                              _selectedDesa = null;
-                              listKecamatan.clear();
-                              listDesa.clear();
-                              context.read<KecamatanCubit>().toInitial();
-                              context.read<DesaCubit>().toInitial();
-                              //// Get id/value Kabupaten
+
+                            SizedBox(height: 20),
+                            TextField(
+                              decoration: InputDecoration(
+                                labelText: 'Alamat Pertanian',
+                                hintText: 'Masukkan Alamat Lahan...',
+                                hintStyle: greyFontStyle,
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.blue, width: 2),
+                                    borderRadius: BorderRadius.circular(10)),
+                                enabledBorder: (OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: mainColor,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10))),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                errorText: _errorAlamatField
+                                    ? 'Kolom tidak boleh kosong'
+                                    : null,
+                              ),
+                              controller: _alamatController,
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Dropdown Provinsi
+                      SizedBox(height: 10),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            side: BorderSide(color: mainColor, width: 2)),
+                        child: SmartSelect<String>.single(
+                          title: 'Provinsi',
+                          modalHeaderStyle: S2ModalHeaderStyle(
+                              backgroundColor: mainColor,
+                              textStyle: whiteFontBoldStyle3),
+                          modalStyle: S2ModalStyle(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          modalType: S2ModalType.popupDialog,
+                          value: _selectedProvinsi.toString(),
+                          choiceItems: listProvinsi,
+                          onChange: (selected) async {
+                            _selectedProvinsi = int.tryParse(selected.value);
+                            _selectedKabupaten = null;
+                            _selectedKecamatan = null;
+                            _selectedDesa = null;
+                            listKabupaten.clear();
+                            listKecamatan.clear();
+                            listDesa.clear();
+                            context.read<KabupatenCubit>().toInitial();
+                            context.read<KecamatanCubit>().toInitial();
+                            context.read<DesaCubit>().toInitial();
+                            //// Get id/value Provinsi
+                            if (_selectedProvinsi != null) {
                               try {
                                 await context
-                                    .read<KabupatenCubit>()
-                                    .getKabupaten(_selectedProvinsi.toString(),
-                                        kabupaten:
-                                            _selectedKabupaten.toString());
+                                    .read<ProvinsiCubit>()
+                                    .getProvinsi(provinsi: selected.value);
                                 final data = (context
+                                    .read<ProvinsiCubit>()
+                                    .state as ProvinsiLoaded);
+                                List<Wilayah> listValueProvinsi =
+                                    data.wilayah.toList();
+                                _idProvinsi = listValueProvinsi[0].id;
+                                context
                                     .read<KabupatenCubit>()
-                                    .state as KabupatenLoaded);
-                                List<Wilayah> listValue = data.wilayah.toList();
-                                _idKabupaten = listValue[0].id;
+                                    .getKabupaten(_selectedProvinsi.toString());
                               } catch (e) {
                                 print(
-                                    'Pick Kabupaten Exception : ${e.toString()}');
+                                    'Pick Provinsi Exception : ${e.toString()}');
                               }
-                              if (_selectedKabupaten != null) {
-                                context.read<KecamatanCubit>().getKecamatan(
-                                    _selectedProvinsi.toString(),
-                                    _selectedKabupaten.toString());
-                              }
-                            },
-                            tileBuilder: (context, state) {
-                              return ListTile(
-                                title: Text(state.title,
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey)),
-                                subtitle: Text(
-                                  (state.valueTitle != null)
-                                      ? state.valueTitle.toString()
-                                      : 'Pilih kabupaten',
-                                  style: (state.valueTitle != null)
-                                      ? blackFontBoldStyle4
-                                      : greyFontStyle,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
+                            }
+                          },
+                          tileBuilder: (context, state) {
+                            return ListTile(
+                              title: Text(state.title,
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.grey)),
+                              subtitle: Text(
+                                (state.valueTitle != null)
+                                    ? state.valueTitle.toString()
+                                    : 'Pilih provinsi',
+                                style: (state.valueTitle != null)
+                                    ? blackFontBoldStyle4
+                                    : greyFontStyle,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              trailing: const Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Colors.black,
+                              ),
+                              onTap: state.showModal,
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      //// Dropdown Kabupaten
+                      BlocBuilder<KabupatenCubit, KabupatenState>(
+                          builder: (_, stateKabupaten) {
+                        if (stateKabupaten is KabupatenLoaded) {
+                          List<Wilayah> listKabupatenAPI =
+                              stateKabupaten.wilayah.toList();
+
+                          for (int i = 0; i < listKabupatenAPI.length; i++) {
+                            listKabupaten.add(S2Choice<String>(
+                                value: listKabupatenAPI[i].kabupaten,
+                                title: listKabupatenAPI[i].name));
+                          }
+
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                                side: BorderSide(color: mainColor, width: 2)),
+                            child: SmartSelect<String>.single(
+                              title: 'Kabupaten',
+                              modalHeaderStyle: S2ModalHeaderStyle(
+                                  backgroundColor: mainColor,
+                                  textStyle: whiteFontBoldStyle3),
+                              modalStyle: S2ModalStyle(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                trailing: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.black,
+                              ),
+                              choiceEmptyBuilder: (context, value) => Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.search,
+                                      size: 150,
+                                      color: Colors.grey[500],
+                                    ),
+                                    Text('Woops', style: greyFontStyleSuperBig),
+                                    Text('Terjadi Kesalahan!',
+                                        style: greyFontStyleVeryBig),
+                                    Text('Klik tombol dibawah ini',
+                                        style: greyFontStyle),
+                                    SizedBox(height: 10),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.refresh_outlined,
+                                          color: Colors.blue,
+                                          size: 44,
+                                        )),
+                                  ],
                                 ),
-                                onTap: state.showModal,
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        return Center(
-                          child: Card(
+                              ),
+                              modalType: S2ModalType.popupDialog,
+                              value: _selectedKabupaten.toString(),
+                              choiceItems: listKabupaten,
+                              onChange: (selected) async {
+                                _selectedKabupaten =
+                                    int.tryParse(selected.value);
+                                _selectedKecamatan = null;
+                                _selectedDesa = null;
+                                listKecamatan.clear();
+                                listDesa.clear();
+                                context.read<KecamatanCubit>().toInitial();
+                                context.read<DesaCubit>().toInitial();
+
+                                if (_selectedKabupaten != null) {
+                                  //// Get id/value Kabupaten
+                                  try {
+                                    await context
+                                        .read<KabupatenCubit>()
+                                        .getKabupaten(
+                                            _selectedProvinsi.toString(),
+                                            kabupaten:
+                                                _selectedKabupaten.toString());
+                                    final data = (context
+                                        .read<KabupatenCubit>()
+                                        .state as KabupatenLoaded);
+                                    List<Wilayah> listValue =
+                                        data.wilayah.toList();
+                                    _idKabupaten = listValue[0].id;
+                                  } catch (e) {
+                                    print(
+                                        'Pick Kabupaten Exception : ${e.toString()}');
+                                  }
+                                  context.read<KecamatanCubit>().getKecamatan(
+                                      _selectedProvinsi.toString(),
+                                      _selectedKabupaten.toString());
+                                }
+                              },
+                              tileBuilder: (context, state) {
+                                return ListTile(
+                                  title: Text(state.title,
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey)),
+                                  subtitle: Text(
+                                    (state.valueTitle != null)
+                                        ? state.valueTitle.toString()
+                                        : 'Pilih kabupaten',
+                                    style: (state.valueTitle != null)
+                                        ? blackFontBoldStyle4
+                                        : greyFontStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.black,
+                                  ),
+                                  onTap: state.showModal,
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  side:
+                                      BorderSide(color: Colors.grey, width: 2)),
+                              child: SmartSelect<String>.single(
+                                title: 'Kabupaten',
+                                value: _selectedKabupaten.toString(),
+                                choiceItems: listKabupaten,
+                                onChange: (selected) => _selectedKabupaten =
+                                    int.tryParse(selected.value),
+                                tileBuilder: (context, state) {
+                                  return ListTile(
+                                    title: Text(state.title,
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.grey)),
+                                    subtitle: Text(
+                                      'Pilih kabupaten',
+                                      style: greyFontStyle,
+                                    ),
+                                    trailing: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: Colors.black,
+                                    ),
+                                    enabled: false,
+                                  );
+                                },
+                              ),
+                            ),
+                          );
+                        }
+                      }),
+                      SizedBox(height: 10),
+                      // Dropdown Kecamatan
+                      BlocBuilder<KecamatanCubit, KecamatanState>(
+                          builder: (_, stateKecamatan) {
+                        if (stateKecamatan is KecamatanLoaded) {
+                          List<Wilayah> listAPI =
+                              stateKecamatan.wilayah.toList();
+
+                          for (int i = 0; i < listAPI.length; i++) {
+                            listKecamatan.add(S2Choice<String>(
+                                value: listAPI[i].kecamatan,
+                                title: listAPI[i].name));
+                          }
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                                side: BorderSide(color: mainColor, width: 2)),
+                            child: SmartSelect<String>.single(
+                              choiceStyle:
+                                  S2ChoiceStyle(accentColor: Colors.red),
+                              title: 'Kecamatan',
+                              modalHeaderStyle: S2ModalHeaderStyle(
+                                  backgroundColor: mainColor,
+                                  textStyle: whiteFontBoldStyle3),
+                              modalStyle: S2ModalStyle(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                              ),
+                              modalType: S2ModalType.popupDialog,
+                              value: _selectedKecamatan.toString(),
+                              choiceItems: listKecamatan,
+                              onChange: (selected) async {
+                                _selectedKecamatan =
+                                    int.tryParse(selected.value);
+                                _selectedDesa = null;
+                                listDesa.clear();
+                                context.read<DesaCubit>().toInitial();
+                                if (_selectedKecamatan != null) {
+                                  //// Get id/value Kabupaten
+                                  try {
+                                    await context
+                                        .read<KecamatanCubit>()
+                                        .getKecamatan(
+                                            _selectedProvinsi.toString(),
+                                            _selectedKabupaten.toString(),
+                                            kecamatan:
+                                                _selectedKecamatan.toString());
+                                    final data = (context
+                                        .read<KecamatanCubit>()
+                                        .state as KecamatanLoaded);
+                                    List<Wilayah> listValue =
+                                        data.wilayah.toList();
+                                    _idKecamatan = listValue[0].id;
+                                  } catch (e) {
+                                    print(
+                                        'Pick Kecamatan Exception : ${e.toString()}');
+                                  }
+                                  context.read<DesaCubit>().getDesa(
+                                      _selectedProvinsi.toString(),
+                                      _selectedKabupaten.toString(),
+                                      _selectedKecamatan.toString());
+                                }
+                              },
+                              tileBuilder: (context, state) {
+                                return ListTile(
+                                  title: Text(state.title,
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey)),
+                                  subtitle: Text(
+                                    (state.valueTitle != null)
+                                        ? state.valueTitle.toString()
+                                        : 'Pilih kecamatan',
+                                    style: (state.valueTitle != null)
+                                        ? blackFontBoldStyle4
+                                        : greyFontStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.black,
+                                  ),
+                                  onTap: state.showModal,
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 side: BorderSide(color: Colors.grey, width: 2)),
                             child: SmartSelect<String>.single(
-                              title: 'Kabupaten',
+                              title: 'Kecamatan',
                               value: _selectedKabupaten.toString(),
                               choiceItems: listKabupaten,
                               onChange: (selected) => _selectedKabupaten =
@@ -409,7 +622,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                       style: TextStyle(
                                           fontSize: 14, color: Colors.grey)),
                                   subtitle: Text(
-                                    'Pilih kabupaten',
+                                    'Pilih Kecamatan',
                                     style: greyFontStyle,
                                   ),
                                   trailing: const Icon(
@@ -420,311 +633,132 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                 );
                               },
                             ),
-                          ),
-                        );
-                      }
-                    }),
-                    SizedBox(height: 10),
-                    // Dropdown Kecamatan
-                    BlocBuilder<KecamatanCubit, KecamatanState>(
-                        builder: (_, stateKecamatan) {
-                      if (stateKecamatan is KecamatanLoaded) {
-                        List<Wilayah> listAPI = stateKecamatan.wilayah.toList();
-
-                        for (int i = 0; i < listAPI.length; i++) {
-                          listKecamatan.add(S2Choice<String>(
-                              value: listAPI[i].kecamatan,
-                              title: listAPI[i].name));
+                          );
                         }
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(color: mainColor, width: 2)),
-                          child: SmartSelect<String>.single(
-                            choiceStyle: S2ChoiceStyle(accentColor: Colors.red),
-                            title: 'Kecamatan',
-                            modalHeaderStyle: S2ModalHeaderStyle(
-                                backgroundColor: mainColor,
-                                textStyle: whiteFontBoldStyle3),
-                            modalStyle: S2ModalStyle(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
+                      }),
+                      SizedBox(height: 10),
+                      // Dropdown Desa
+                      BlocBuilder<DesaCubit, DesaState>(
+                          builder: (_, stateDesa) {
+                        if (stateDesa is DesaLoaded) {
+                          List<Wilayah> listAPI = stateDesa.wilayah.toList();
+                          for (int i = 0; i < listAPI.length; i++) {
+                            listDesa.add(S2Choice<String>(
+                                value: listAPI[i].desa,
+                                title: listAPI[i].name));
+                          }
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                                side: BorderSide(color: mainColor, width: 2)),
+                            child: SmartSelect<String>.single(
+                              choiceStyle:
+                                  S2ChoiceStyle(accentColor: Colors.red),
+                              title: 'Desa',
+                              modalHeaderStyle: S2ModalHeaderStyle(
+                                  backgroundColor: mainColor,
+                                  textStyle: whiteFontBoldStyle3),
+                              modalStyle: S2ModalStyle(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
                               ),
-                            ),
-                            modalType: S2ModalType.popupDialog,
-                            value: _selectedKecamatan.toString(),
-                            choiceItems: listKecamatan,
-                            onChange: (selected) async {
-                              _selectedKecamatan = int.tryParse(selected.value);
-                              //// Get id/value Kabupaten
-                              _selectedDesa = null;
-                              listDesa.clear();
-                              context.read<DesaCubit>().toInitial();
-                              try {
-                                await context
-                                    .read<KecamatanCubit>()
-                                    .getKecamatan(_selectedProvinsi.toString(),
+                              modalType: S2ModalType.popupDialog,
+                              value: _selectedDesa.toString(),
+                              choiceItems: listDesa,
+                              onChange: (selected) async {
+                                _selectedDesa = int.tryParse(selected.value);
+                                if (_selectedDesa != null) {
+                                  //// Get id/value Kabupaten
+                                  try {
+                                    await context.read<DesaCubit>().getDesa(
+                                        _selectedProvinsi.toString(),
                                         _selectedKabupaten.toString(),
-                                        kecamatan:
-                                            _selectedKecamatan.toString());
-                                final data = (context
-                                    .read<KecamatanCubit>()
-                                    .state as KecamatanLoaded);
-                                List<Wilayah> listValue = data.wilayah.toList();
-                                _idKecamatan = listValue[0].id;
-                              } catch (e) {
-                                print(
-                                    'Pick Kecamatan Exception : ${e.toString()}');
-                              }
-                              if (_selectedKecamatan != null) {
-                                context.read<DesaCubit>().getDesa(
-                                    _selectedProvinsi.toString(),
-                                    _selectedKabupaten.toString(),
-                                    _selectedKecamatan.toString());
-                              }
-                            },
-                            tileBuilder: (context, state) {
-                              return ListTile(
-                                title: Text(state.title,
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey)),
-                                subtitle: Text(
-                                  (state.valueTitle != null)
-                                      ? state.valueTitle.toString()
-                                      : 'Pilih kecamatan',
-                                  style: (state.valueTitle != null)
-                                      ? blackFontBoldStyle4
-                                      : greyFontStyle,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                trailing: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.black,
-                                ),
-                                onTap: state.showModal,
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(color: Colors.grey, width: 2)),
-                          child: SmartSelect<String>.single(
-                            title: 'Kecamatan',
-                            value: _selectedKabupaten.toString(),
-                            choiceItems: listKabupaten,
-                            onChange: (selected) => _selectedKabupaten =
-                                int.tryParse(selected.value),
-                            tileBuilder: (context, state) {
-                              return ListTile(
-                                title: Text(state.title,
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey)),
-                                subtitle: Text(
-                                  'Pilih Kecamatan',
-                                  style: greyFontStyle,
-                                ),
-                                trailing: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.black,
-                                ),
-                                enabled: false,
-                              );
-                            },
-                          ),
-                        );
-                      }
-                    }),
-                    SizedBox(height: 10),
-                    // Dropdown Desa
-                    BlocBuilder<DesaCubit, DesaState>(builder: (_, stateDesa) {
-                      if (stateDesa is DesaLoaded) {
-                        List<Wilayah> listAPI = stateDesa.wilayah.toList();
-                        for (int i = 0; i < listAPI.length; i++) {
-                          listDesa.add(S2Choice<String>(
-                              value: listAPI[i].desa, title: listAPI[i].name));
-                        }
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(color: mainColor, width: 2)),
-                          child: SmartSelect<String>.single(
-                            choiceStyle: S2ChoiceStyle(accentColor: Colors.red),
-                            title: 'Desa',
-                            modalHeaderStyle: S2ModalHeaderStyle(
-                                backgroundColor: mainColor,
-                                textStyle: whiteFontBoldStyle3),
-                            modalStyle: S2ModalStyle(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                            ),
-                            modalType: S2ModalType.popupDialog,
-                            value: _selectedDesa.toString(),
-                            choiceItems: listDesa,
-                            onChange: (selected) async {
-                              _selectedDesa = int.tryParse(selected.value);
-                              //// Get id/value Kabupaten
-                              try {
-                                await context.read<DesaCubit>().getDesa(
-                                    _selectedProvinsi.toString(),
-                                    _selectedKabupaten.toString(),
-                                    _selectedKecamatan.toString(),
-                                    desa: _selectedDesa.toString());
-                                final data = (context.read<DesaCubit>().state
-                                    as DesaLoaded);
-                                List<Wilayah> listValue = data.wilayah.toList();
-                                _idDesa = listValue[0].id;
-                              } catch (e) {
-                                print(
-                                    'Pick Kecamatan Exception : ${e.toString()}');
-                              }
-                            },
-                            tileBuilder: (context, state) {
-                              return ListTile(
-                                title: Text(state.title,
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey)),
-                                subtitle: Text(
-                                  (state.valueTitle != null)
-                                      ? state.valueTitle.toString()
-                                      : 'Pilih desa',
-                                  style: (state.valueTitle != null)
-                                      ? blackFontBoldStyle4
-                                      : greyFontStyle,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                trailing: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.black,
-                                ),
-                                onTap: state.showModal,
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(color: Colors.grey, width: 2)),
-                          child: SmartSelect<String>.single(
-                            title: 'Desa',
-                            value: _selectedKabupaten.toString(),
-                            choiceItems: listKabupaten,
-                            onChange: (selected) => _selectedKabupaten =
-                                int.tryParse(selected.value),
-                            tileBuilder: (context, state) {
-                              return ListTile(
-                                title: Text(state.title,
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey)),
-                                subtitle: Text(
-                                  'Pilih Desa',
-                                  style: greyFontStyle,
-                                ),
-                                trailing: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.black,
-                                ),
-                                enabled: false,
-                              );
-                            },
-                          ),
-                        );
-                      }
-                    }),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    //// ------------------------------------------- Button Session-------------------------------------------
-                    Container(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        margin: EdgeInsets.only(bottom: defaultMargin),
-                        child: (_isLoading)
-                            ? loadingIndicator
-                            : CustomButton(
-                                onPress: () async {
-                                  setState(() {
-                                    _validationField();
-                                  });
-                                  if (!_errorAlamatField &&
-                                      !_errorLuasField &&
-                                      !_errorUsiaTanamField) {
-                                    try {
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-
-                                      await context
-                                          .read<CreateLahanCubit>()
-                                          .createLahan(
-                                              // _selectedCategory.code,
-                                              int.tryParse(
-                                                  _luasController.text),
-                                              int.tryParse(
-                                                  _satuanController.text),
-                                              _usiaTanamController.text,
-                                              idPetani,
-                                              idInstansi,
-                                              _alamatController.text,
-                                              _idProvinsi,
-                                              _idKabupaten,
-                                              _idKecamatan,
-                                              _idDesa,
-                                              '-111.00',
-                                              '-134.00');
-                                    } catch (e) {
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                      print('Exception : ${e.toString()}');
-                                      showSnackbar('Terjadi Kesalahan',
-                                          'Semua Kolom harus diisi.');
-                                    }
-
-                                    CreateLahanState state =
-                                        context.read<CreateLahanCubit>().state;
-                                    if (state is CreateLahanLoaded) {
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                      context
-                                          .read<GetListLahanCubit>()
-                                          .getListLahan();
-
-                                      showDialog(
-                                          barrierDismissible: false,
-                                          context: context,
-                                          builder: (context) => SuccessDialog(
-                                                title: 'Succes',
-                                                description:
-                                                    'Anda berhasil menambahkan lahan',
-                                                onPress: () => Get.offNamed(
-                                                    AppRoutes.LAHAN),
-                                              ));
-                                      // Get.to(ListLahanPage());
-                                    } else if (state is CreateLahanFailed) {
-                                      var message = (context
-                                              .read<CreateLahanCubit>()
-                                              .state as CreateLahanFailed)
-                                          .message
-                                          .toString();
-                                      showSnackbar(
-                                          'Terjadi kesalahan!', message);
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                    }
+                                        _selectedKecamatan.toString(),
+                                        desa: _selectedDesa.toString());
+                                    final data = (context
+                                        .read<DesaCubit>()
+                                        .state as DesaLoaded);
+                                    List<Wilayah> listValue =
+                                        data.wilayah.toList();
+                                    _idDesa = listValue[0].id;
+                                  } catch (e) {
+                                    print(
+                                        'Pick Kecamatan Exception : ${e.toString()}');
                                   }
-                                },
-                                text: 'Selesai',
-                                color: mainColor)),
-                  ],
+                                }
+                              },
+                              tileBuilder: (context, state) {
+                                return ListTile(
+                                  title: Text(state.title,
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey)),
+                                  subtitle: Text(
+                                    (state.valueTitle != null)
+                                        ? state.valueTitle.toString()
+                                        : 'Pilih desa',
+                                    style: (state.valueTitle != null)
+                                        ? blackFontBoldStyle4
+                                        : greyFontStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.black,
+                                  ),
+                                  onTap: state.showModal,
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                                side: BorderSide(color: Colors.grey, width: 2)),
+                            child: SmartSelect<String>.single(
+                              title: 'Desa',
+                              value: _selectedKabupaten.toString(),
+                              choiceItems: listKabupaten,
+                              onChange: (selected) => _selectedKabupaten =
+                                  int.tryParse(selected.value),
+                              tileBuilder: (context, state) {
+                                return ListTile(
+                                  title: Text(state.title,
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey)),
+                                  subtitle: Text(
+                                    'Pilih Desa',
+                                    style: greyFontStyle,
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.black,
+                                  ),
+                                  enabled: false,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      }),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      //// ------------------------------------------- Button Session-------------------------------------------
+                      Container(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          margin: EdgeInsets.only(bottom: defaultMargin),
+                          child: (_isLoading)
+                              ? loadingIndicator
+                              : CustomButton(
+                                  onPress: () =>
+                                      (isUpdate) ? onUpdate() : onPost(),
+                                  text: 'Selesai',
+                                  color: mainColor)),
+                    ],
+                  ),
                 ),
               );
             } else {
@@ -734,6 +768,139 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
             }
           },
         ));
+  }
+
+  void onPost() async {
+    setState(() {
+      _validationField();
+    });
+    if (!_errorAlamatField &&
+        !_errorLuasField &&
+        !_errorUsiaTanamField &&
+        _idDesa != null &&
+        _idKecamatan != null &&
+        _idKabupaten != null &&
+        _idProvinsi != null &&
+        _selectedKategoriPertanian != null) {
+      try {
+        setState(() {
+          _isLoading = true;
+        });
+
+        await context.read<CreateLahanCubit>().createLahan(
+            _selectedKategoriPertanian.toString(),
+            int.tryParse(_luasController.text),
+            int.tryParse(_satuanController.text),
+            _usiaTanamController.text,
+            idPetani,
+            idInstansi,
+            _alamatController.text,
+            _idDesa,
+            _idKecamatan,
+            _idKabupaten,
+            _idProvinsi,
+            '-111.00',
+            '-134.00');
+      } catch (e) {
+        setState(() {
+          _isLoading = false;
+        });
+        print('Exception : ${e.toString()}');
+        showSnackbar('Terjadi Kesalahan', 'Semua Kolom harus diisi.');
+      }
+
+      CreateLahanState state = context.read<CreateLahanCubit>().state;
+      if (state is CreateLahanLoaded) {
+        setState(() {
+          _isLoading = false;
+        });
+        context.read<GetListLahanCubit>().getListLahan();
+
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => SuccessDialog(
+                  title: 'Succes',
+                  description: 'Anda berhasil menambahkan lahan',
+                  onPress: () => Get.offAndToNamed(AppRoutes.LAHAN),
+                ));
+        // Get.to(ListLahanPage());
+      } else if (state is CreateLahanFailed) {
+        var message = state.message.toString();
+        showSnackbar('Terjadi kesalahan!', message);
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } else {
+      showSnackbar('Terjadi Kesalahan', 'Semua kolom harus diisi..');
+    }
+  }
+
+  void onUpdate() async {
+    setState(() {
+      _validationField();
+    });
+    if (!_errorAlamatField &&
+        !_errorLuasField &&
+        !_errorUsiaTanamField &&
+        _selectedDesa != null &&
+        _selectedKecamatan != null &&
+        _selectedKabupaten != null &&
+        _selectedProvinsi != null &&
+        _selectedKategoriPertanian != null) {
+      try {
+        setState(() {
+          _isLoading = true;
+        });
+
+        await context.read<UpdateLahanCubit>().updateLahan(
+            _idLahan,
+            _selectedKategoriPertanian.toString(),
+            int.tryParse(_luasController.text),
+            int.tryParse(_satuanController.text),
+            _usiaTanamController.text,
+            idPetani,
+            idInstansi,
+            _alamatController.text,
+            _idDesa,
+            _idKecamatan,
+            _idKabupaten,
+            _idProvinsi,
+            '-111.00',
+            '-134.00');
+      } catch (e) {
+        setState(() {
+          _isLoading = false;
+        });
+        print('Exception : ${e.toString()}');
+        showSnackbar('Terjadi Kesalahan', 'Semua Kolom harus diisi.');
+      }
+
+      UpdateLahanState state = context.read<UpdateLahanCubit>().state;
+      if (state is UpdateLahanLoaded) {
+        setState(() {
+          _isLoading = false;
+        });
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => SuccessDialog(
+                  title: 'Sukses',
+                  description: 'Anda berhasil mengupdate lahan',
+                  onPress: () => Get.offAndToNamed(AppRoutes.CREATE_LAHAN),
+                ));
+        // Get.to(ListLahanPage());
+      } else if (state is UpdateLahanFailed) {
+        var message = state.message.toString();
+        showSnackbar('Terjadi kesalahan!', message);
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } else {
+      showSnackbar('Terjadi Kesalahan', 'Semua kolom harus diisi..');
+    }
   }
 
   void _validationField() {

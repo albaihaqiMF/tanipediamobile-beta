@@ -8,7 +8,8 @@ AppPages() => [
       GetPage(
           name: AppRoutes.TEST,
           page: () => TestPage(),
-          transitionDuration: Duration(milliseconds: 500)),
+          transition: Transition.rightToLeft,
+          transitionDuration: Duration(seconds: 1)),
       GetPage(name: AppRoutes.MAIN, page: () => MainPage()),
       GetPage(name: AppRoutes.INITIAL, page: () => SplashPage()),
       GetPage(name: AppRoutes.LOGIN, page: () => LoginPage()),
@@ -44,11 +45,7 @@ AppPages() => [
       // Lahan
       GetPage(name: AppRoutes.LAHAN, page: () => ListLahanPage()),
       GetPage(name: AppRoutes.DETAIL_LAHAN, page: () => DetailLahanPage()),
-      GetPage(
-          name: AppRoutes.CREATE_LAHAN,
-          page: () => CreateLahanPage(),
-          transition: Transition.rightToLeft,
-          transitionDuration: Duration(seconds: 1)),
+      GetPage(name: AppRoutes.CREATE_LAHAN, page: () => CreateLahanPage()),
 
       //// Add Routes
       // GetPage(name: '/end_point', page: () => YourPage(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 1000)),

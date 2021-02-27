@@ -1,8 +1,15 @@
 part of '../pages.dart';
 
 class DetailLahanPage extends StatelessWidget {
+  setUpdateData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool(KeySharedPreference.updateLahan, false);
+    print('Status UPDATE : ');
+  }
+
   @override
   Widget build(BuildContext context) {
+    setUpdateData();
     GetDetailLahanState state = context.watch<GetDetailLahanCubit>().state;
     return Scaffold(
         appBar: PreferredSize(
@@ -85,33 +92,13 @@ class DetailLahanPage extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomButton2(
-                                        onPress: () {},
+                                        onPress: () =>
+                                            onUpdate(context, state.lahan.id),
                                         text: 'Ubah',
                                         icon: Icons.edit_outlined),
                                     CustomButton2(
-                                        onPress: () => showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  ConfirmDialog(
-                                                      title: 'Konfirmasi',
-                                                      description:
-                                                          'Apakah anda yakin untuk menghapus lahan ini ?',
-                                                      confirmPress: () async {
-                                                        Get.back();
-                                                        showProgressDialog(
-                                                            context,
-                                                            'Mohon tunggu...');
-                                                        await context
-                                                            .read<
-                                                                DeleteLahanCubit>()
-                                                            .deleteLahan(
-                                                                state.lahan.id);
-                                                        Get.offNamed(
-                                                            AppRoutes.LAHAN);
-                                                      },
-                                                      cancelPress: () =>
-                                                          Get.back()),
-                                            ),
+                                        onPress: () =>
+                                            onDelete(context, state.lahan.id),
                                         text: 'Hapus',
                                         icon: Icons.delete_outline,
                                         color: Colors.red),
@@ -127,5 +114,31 @@ class DetailLahanPage extends StatelessWidget {
                 )
               : loadingIndicator,
         ));
+  }
+
+  onUpdate(BuildContext context, String idLahan) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool(KeySharedPreference.updateLahan, true);
+    bool isUpdate = sharedPreferences.getBool(KeySharedPreference.updateLahan);
+    if (isUpdate) {
+      print('Status UPDATE Detail : $isUpdate');
+      Get.toNamed(AppRoutes.CREATE_LAHAN);
+    }
+  }
+
+  onDelete(BuildContext context, String idLahan) {
+    showDialog(
+      context: context,
+      builder: (context) => ConfirmDialog(
+          title: 'Konfirmasi',
+          description: 'Apakah anda yakin untuk menghapus lahan ini ?',
+          confirmPress: () async {
+            Get.back();
+            showProgressDialog(context, 'Mohon tunggu...');
+            await context.read<DeleteLahanCubit>().deleteLahan(idLahan);
+            Get.offAndToNamed(AppRoutes.LAHAN);
+          },
+          cancelPress: () => Get.back()),
+    );
   }
 }

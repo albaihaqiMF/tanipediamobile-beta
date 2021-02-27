@@ -3,12 +3,13 @@ import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/model/models.dart';
 import 'package:tanipedia_mobile_app/services/services.dart';
 
-part 'create_lahan_state.dart';
+part 'update_lahan_state.dart';
 
-class CreateLahanCubit extends Cubit<CreateLahanState> {
-  CreateLahanCubit() : super(CreateLahanInitial());
+class UpdateLahanCubit extends Cubit<UpdateLahanState> {
+  UpdateLahanCubit() : super(UpdateLahanInitial());
 
-  Future<void> createLahan(
+  Future<void> updateLahan(
+      String idLahan,
       String kategori,
       int luas,
       int satuan,
@@ -22,7 +23,8 @@ class CreateLahanCubit extends Cubit<CreateLahanState> {
       String provinsi,
       String latitude,
       String longitude) async {
-    ApiReturnValue<Lahan> result = await LahanServices.createLahan(
+    ApiReturnValue<Lahan> result = await LahanServices.updateLahan(
+        idLahan,
         kategori,
         luas,
         satuan,
@@ -37,9 +39,9 @@ class CreateLahanCubit extends Cubit<CreateLahanState> {
         latitude,
         longitude);
     if (result.value != null) {
-      emit(CreateLahanLoaded(result.value));
+      emit(UpdateLahanLoaded(result.value));
     } else {
-      emit(CreateLahanFailed(result.message));
+      emit(UpdateLahanFailed(result.message));
     }
   }
 }

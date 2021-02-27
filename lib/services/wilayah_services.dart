@@ -14,12 +14,14 @@ class WilayahServices {
         Map<String, String> queryParam = {
           'provinsi': provinsi,
         };
+        print('$tag Provinsi : $queryParam');
         var uri = Uri.https(ApiUrl.baseURI, ApiUrl.provinsi, queryParam);
         apiResponse = await http.get(uri, headers: ApiUrl.headersAuth);
       } else {
         apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.provinsi,
             headers: ApiUrl.headersAuth);
       }
+
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final listProvinsi = (baseResponse.data)
@@ -52,6 +54,7 @@ class WilayahServices {
           'sort': 'ASC',
         };
       }
+      print('$tag Kabupaten : $queryParam');
       final uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.kabupaten}', queryParam);
       final apiResponse = await http.get(uri, headers: ApiUrl.headersAuth);
       final responseBody = ReturnResponse.response(apiResponse);
@@ -89,7 +92,7 @@ class WilayahServices {
           'sort': 'ASC',
         };
       }
-      print('$tag : $queryParam');
+      print('$tag Kecamatan : $queryParam');
       final uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.kecamatan}', queryParam);
       final apiResponse = await http.get(uri, headers: ApiUrl.headersAuth);
       final responseBody = ReturnResponse.response(apiResponse);
@@ -100,7 +103,7 @@ class WilayahServices {
           .cast<Wilayah>();
       return ApiReturnValue(value: listWilayah);
     } catch (e) {
-      print('$tag Kabupaten, Exception ${e.toString()}');
+      print('$tag Kecamatan, Exception ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
   }
@@ -129,6 +132,7 @@ class WilayahServices {
           'sort': 'ASC',
         };
       }
+      print('$tag Desa : $queryParam');
       var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.desa}', queryParam);
       final apiResponse = await http.get(uri, headers: ApiUrl.headersAuth);
       final responseBody = ReturnResponse.response(apiResponse);
@@ -139,7 +143,7 @@ class WilayahServices {
           .cast<Wilayah>();
       return ApiReturnValue(value: listWilayah);
     } catch (e) {
-      print('$tag Kabupaten, Exception ${e.toString()}');
+      print('$tag Desa, Exception ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
   }

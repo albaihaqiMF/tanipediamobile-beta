@@ -65,7 +65,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
       ),
       body: Container(
         color: Colors.white,
-        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+        padding: EdgeInsets.symmetric(horizontal: defaultMargin),
         child: ListView(
           children: [
             SizedBox(height: 20),

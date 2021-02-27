@@ -1,9 +1,14 @@
 part of '../pages.dart';
 
 class ListLahanPage extends StatelessWidget {
+  setUpdateFalse() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool(KeySharedPreference.updateLahan, false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.watch<GetListLahanCubit>().getListLahan();
+    context.read<GetListLahanCubit>().getListLahan();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
@@ -21,7 +26,11 @@ class ListLahanPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed(AppRoutes.CREATE_LAHAN),
+        onPressed: () {
+          setUpdateFalse();
+          Get.toNamed(AppRoutes.CREATE_LAHAN);
+          // context.watch<GetListLahanCubit>().close();
+        },
         child: Icon(Icons.add, color: Colors.white),
       ),
       body: BlocBuilder<GetListLahanCubit, GetListLahanState>(
@@ -39,6 +48,7 @@ class ListLahanPage extends StatelessWidget {
                         context
                             .read<GetDetailLahanCubit>()
                             .getDetailLahan(listLahan[index].id);
+                        // context.watch<GetListLahanCubit>().close();
                         Get.toNamed(AppRoutes.DETAIL_LAHAN);
                       },
                       child: Card(

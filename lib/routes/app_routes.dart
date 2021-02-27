@@ -27,6 +27,6 @@ class AppRoutes {
 
   // Lahan
   static const LAHAN = '/lahan';
-  static const DETAIL_LAHAN = '/pupuk-lahan';
+  static const DETAIL_LAHAN = '/detail-lahan';
   static const CREATE_LAHAN = '/create-lahan';
 }

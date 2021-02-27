@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => GetListLahanCubit()),
         BlocProvider(create: (_) => CreateLahanCubit()),
         BlocProvider(create: (_) => DeleteLahanCubit()),
+        BlocProvider(create: (_) => UpdateLahanCubit()),
         BlocProvider(create: (_) => CreatePanenCubit()),
         BlocProvider(create: (_) => GetPanenCubit()),
         BlocProvider(create: (_) => GetDetailPanenCubit()),

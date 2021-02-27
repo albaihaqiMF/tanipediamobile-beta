@@ -49,7 +49,7 @@ class LahanServices {
   //                          CREATE/POST Lahan
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Lahan>> createLahan(
-      // String kategori,
+      String kategori,
       int luas,
       int satuan,
       String usiaTanam,
@@ -63,7 +63,7 @@ class LahanServices {
       String latitude,
       String longitude) async {
     Map<String, dynamic> fieldFormURL = {
-      // 'kategori': kategori,
+      'kategori': kategori,
       'luas': luas,
       'satuan': satuan,
       'alamat': alamat,
@@ -79,6 +79,7 @@ class LahanServices {
     };
 
     var body = jsonEncode(fieldFormURL);
+    print('$tag, $body');
 
     try {
       final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.lahan,

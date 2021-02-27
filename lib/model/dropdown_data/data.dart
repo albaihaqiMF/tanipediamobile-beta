@@ -38,4 +38,9 @@ class LocalData {
     S2Choice<String>(value: '1000607', title: 'Pegawai Swasta'),
     S2Choice<String>(value: '1000608', title: 'Honorer'),
   ];
+
+  static List<S2Choice<String>> jenisPertanian = [
+    S2Choice<String>(value: '1010201', title: 'Jagung'),
+    S2Choice<String>(value: '1010202', title: 'Padi'),
+  ];
 }

@@ -44,18 +44,18 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
   @override
   void initState() {
     super.initState();
-    print('Data ID User : $_userId');
-    print('Data Nama : $_name');
-    print('Data No.Telp : $_noTelp');
-    print('Data Tgl Lahir : $_tglLahir');
-    print('Data Gender : $_gender');
-    print('Data Darah : $_golDarah');
-    print('Data Agama : $_agama');
-    print('Data Suku : $_suku');
-    print('Data Pendidikan : $_pendidikan');
-    print('Data Pekerjaan : $_pekerjaan');
-    print('Data NIK : $_nik');
-    print('Data No.KK : $_kk');
+    context.read<ProvinsiCubit>().toInitial();
+    context.read<KabupatenCubit>().toInitial();
+    context.read<KecamatanCubit>().toInitial();
+    context.read<DesaCubit>().toInitial();
+    _selectedProvinsi = null;
+    _selectedKabupaten = null;
+    _selectedKecamatan = null;
+    _selectedDesa = null;
+    listProvinsi.clear();
+    listKabupaten.clear();
+    listKecamatan.clear();
+    listDesa.clear();
   }
 
   @override
@@ -91,7 +91,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
           }
           return Container(
             color: Colors.white,
-            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
             child: ListView(
               children: [
                 TextField(
@@ -223,19 +223,20 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                       context.read<KabupatenCubit>().toInitial();
                       context.read<KecamatanCubit>().toInitial();
                       context.read<DesaCubit>().toInitial();
-                      //// Get id/value Provinsi
-                      try {
-                        await context
-                            .read<ProvinsiCubit>()
-                            .getProvinsi(provinsi: selected.value);
-                        final data = (context.read<ProvinsiCubit>().state
-                            as ProvinsiLoaded);
-                        List<Wilayah> listValueProvinsi = data.wilayah.toList();
-                        _idProvinsi = listValueProvinsi[0].id;
-                      } catch (e) {
-                        print('Pick Provinsi Exception : ${e.toString()}');
-                      }
                       if (_selectedProvinsi != null) {
+                        //// Get id/value Provinsi
+                        try {
+                          await context
+                              .read<ProvinsiCubit>()
+                              .getProvinsi(provinsi: selected.value);
+                          final data = (context.read<ProvinsiCubit>().state
+                              as ProvinsiLoaded);
+                          List<Wilayah> listValueProvinsi =
+                              data.wilayah.toList();
+                          _idProvinsi = listValueProvinsi[0].id;
+                        } catch (e) {
+                          print('Pick Provinsi Exception : ${e.toString()}');
+                        }
                         context
                             .read<KabupatenCubit>()
                             .getKabupaten(_selectedProvinsi.toString());
@@ -330,25 +331,23 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                           listDesa.clear();
                           context.read<KecamatanCubit>().toInitial();
                           context.read<DesaCubit>().toInitial();
-                          //// Get id/value Kabupaten
-                          try {
-                            await context.read<KabupatenCubit>().getKabupaten(
-                                _selectedProvinsi.toString(),
-                                kabupaten: _selectedKabupaten.toString());
-                            final data = (context.read<KabupatenCubit>().state
-                                as KabupatenLoaded);
-                            List<Wilayah> listValue = data.wilayah.toList();
-                            _idKabupaten = listValue[0].id;
-                          } catch (e) {
-                            print('Pick Kabupaten Exception : ${e.toString()}');
-                          }
                           if (_selectedKabupaten != null) {
+                            //// Get id/value Kabupaten
+                            try {
+                              await context.read<KabupatenCubit>().getKabupaten(
+                                  _selectedProvinsi.toString(),
+                                  kabupaten: _selectedKabupaten.toString());
+                              final data = (context.read<KabupatenCubit>().state
+                                  as KabupatenLoaded);
+                              List<Wilayah> listValue = data.wilayah.toList();
+                              _idKabupaten = listValue[0].id;
+                            } catch (e) {
+                              print(
+                                  'Pick Kabupaten Exception : ${e.toString()}');
+                            }
                             context.read<KecamatanCubit>().getKecamatan(
                                 _selectedProvinsi.toString(),
                                 _selectedKabupaten.toString());
-                            // context
-                            //     .read<KecamatanCubit>()
-                            //     .getKecamatan('18', '71');
                           }
                         },
                         tileBuilder: (context, state) {
@@ -439,23 +438,24 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         choiceItems: listKecamatan,
                         onChange: (selected) async {
                           _selectedKecamatan = int.tryParse(selected.value);
-                          //// Get id/value Kabupaten
                           _selectedDesa = null;
                           listDesa.clear();
                           context.read<DesaCubit>().toInitial();
-                          try {
-                            await context.read<KecamatanCubit>().getKecamatan(
-                                _selectedProvinsi.toString(),
-                                _selectedKabupaten.toString(),
-                                kecamatan: _selectedKecamatan.toString());
-                            final data = (context.read<KecamatanCubit>().state
-                                as KecamatanLoaded);
-                            List<Wilayah> listValue = data.wilayah.toList();
-                            _idKecamatan = listValue[0].id;
-                          } catch (e) {
-                            print('Pick Kecamatan Exception : ${e.toString()}');
-                          }
                           if (_selectedKecamatan != null) {
+                            //// Get id/value Kabupaten
+                            try {
+                              await context.read<KecamatanCubit>().getKecamatan(
+                                  _selectedProvinsi.toString(),
+                                  _selectedKabupaten.toString(),
+                                  kecamatan: _selectedKecamatan.toString());
+                              final data = (context.read<KecamatanCubit>().state
+                                  as KecamatanLoaded);
+                              List<Wilayah> listValue = data.wilayah.toList();
+                              _idKecamatan = listValue[0].id;
+                            } catch (e) {
+                              print(
+                                  'Pick Kecamatan Exception : ${e.toString()}');
+                            }
                             context.read<DesaCubit>().getDesa(
                                 _selectedProvinsi.toString(),
                                 _selectedKabupaten.toString(),
@@ -546,19 +546,22 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         choiceItems: listDesa,
                         onChange: (selected) async {
                           _selectedDesa = int.tryParse(selected.value);
-                          //// Get id/value Kabupaten
-                          try {
-                            await context.read<DesaCubit>().getDesa(
-                                _selectedProvinsi.toString(),
-                                _selectedKabupaten.toString(),
-                                _selectedKecamatan.toString(),
-                                desa: _selectedDesa.toString());
-                            final data =
-                                (context.read<DesaCubit>().state as DesaLoaded);
-                            List<Wilayah> listValue = data.wilayah.toList();
-                            _idDesa = listValue[0].id;
-                          } catch (e) {
-                            print('Pick Kecamatan Exception : ${e.toString()}');
+                          if (_selectedDesa != null) {
+                            //// Get id/value Kabupaten
+                            try {
+                              await context.read<DesaCubit>().getDesa(
+                                  _selectedProvinsi.toString(),
+                                  _selectedKabupaten.toString(),
+                                  _selectedKecamatan.toString(),
+                                  desa: _selectedDesa.toString());
+                              final data = (context.read<DesaCubit>().state
+                                  as DesaLoaded);
+                              List<Wilayah> listValue = data.wilayah.toList();
+                              _idDesa = listValue[0].id;
+                            } catch (e) {
+                              print(
+                                  'Pick Kecamatan Exception : ${e.toString()}');
+                            }
                           }
                         },
                         tileBuilder: (context, state) {
