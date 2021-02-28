@@ -6,10 +6,10 @@ class PanenServices {
   //--------------------------------------------------------------------
   //                          READ List Panen
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Panen>>> getlistPanen() async {
+  static Future<ApiReturnValue<List<Panen>>> getlistPanen(String token) async {
     try {
       final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.panen,
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -27,11 +27,12 @@ class PanenServices {
   //--------------------------------------------------------------------
   //                          GET Detail Panen
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Panen>> getDetailPanen(String idPanen) async {
+  static Future<ApiReturnValue<Panen>> getDetailPanen(
+      String token, String idPanen) async {
     try {
       final apiResponse = await http.get(
           ApiUrl.baseURL + ApiUrl.panen + '/$idPanen',
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -47,11 +48,12 @@ class PanenServices {
   //--------------------------------------------------------------------
   //                          DELETE Panen
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Panen>> deletePanen(String idPanen) async {
+  static Future<ApiReturnValue<Panen>> deletePanen(
+      String token, String idPanen) async {
     try {
       final apiResponse = await http.delete(
           ApiUrl.baseURL + ApiUrl.panen + '/$idPanen',
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -68,6 +70,7 @@ class PanenServices {
   //                          CReATE/POST Panen
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Panen>> createPanen(
+    String token,
     String idPetani,
     String kategori,
     int totalPanen,
@@ -97,7 +100,7 @@ class PanenServices {
     var body = jsonEncode(fieldFormURL);
     try {
       final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.panen,
-          headers: ApiUrl.headersAuth, body: body);
+          headers: apiHeaders(apiToken: token), body: body);
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -114,6 +117,7 @@ class PanenServices {
   //                          UPDATE Panen
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Panen>> updatePanen(
+    String token,
     String idPanen,
     String idPetani,
     String kategori,
@@ -145,7 +149,7 @@ class PanenServices {
     var body = jsonEncode(fieldFormURL);
     try {
       final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.panen,
-          headers: ApiUrl.headersAuth, body: body);
+          headers: apiHeaders(apiToken: token), body: body);
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);

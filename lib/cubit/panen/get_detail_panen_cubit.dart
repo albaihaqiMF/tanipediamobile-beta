@@ -8,8 +8,9 @@ part 'get_detail_panen_state.dart';
 class GetDetailPanenCubit extends Cubit<GetDetailPanenState> {
   GetDetailPanenCubit() : super(GetDetailPanenInitial());
 
-  Future<void> getDetailPanen(String idPanen) async {
-    ApiReturnValue<Panen> result = await PanenServices.getDetailPanen(idPanen);
+  Future<void> getDetailPanen(String apiToken, String idPanen) async {
+    ApiReturnValue<Panen> result =
+        await PanenServices.getDetailPanen(apiToken, idPanen);
     if (result.value != null) {
       emit(GetDetailPanenLoaded(result.value));
     } else {

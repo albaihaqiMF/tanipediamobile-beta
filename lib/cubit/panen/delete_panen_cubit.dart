@@ -8,8 +8,9 @@ part 'delete_panen_state.dart';
 class DeletePanenCubit extends Cubit<DeletePanenState> {
   DeletePanenCubit() : super(DeletePanenInitial());
 
-  Future<void> deletePanen(String idPanen) async {
-    ApiReturnValue<Panen> result = await PanenServices.deletePanen(idPanen);
+  Future<void> deletePanen(String apiToken, String idPanen) async {
+    ApiReturnValue<Panen> result =
+        await PanenServices.deletePanen(apiToken, idPanen);
     if (result.value != null) {
       emit(DeletePanenLoaded(result.value));
     } else {

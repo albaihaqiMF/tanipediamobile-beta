@@ -8,8 +8,9 @@ part 'get_detail_pupuk_state.dart';
 class DetailPupukCubit extends Cubit<DetailPupukState> {
   DetailPupukCubit() : super(DetailPupukInitial());
 
-  Future<void> getDetailPupuk(String idPupuk) async {
-    ApiReturnValue<Pupuk> result = await PupukServices.getDetailPupuk(idPupuk);
+  Future<void> getDetailPupuk(String apiToken, String idPupuk) async {
+    ApiReturnValue<Pupuk> result =
+        await PupukServices.getDetailPupuk(apiToken, idPupuk);
     if (result.value != null) {
       emit(DetailPupukLoaded(result.value));
     } else {

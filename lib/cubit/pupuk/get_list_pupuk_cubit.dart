@@ -8,8 +8,9 @@ part 'get_list_pupuk_state.dart';
 class GetListPupukCubit extends Cubit<GetListPupukState> {
   GetListPupukCubit() : super(GetListPupukInitial());
 
-  Future<void> getListPupuk() async {
-    ApiReturnValue<List<Pupuk>> result = await PupukServices.getlistPupuk();
+  Future<void> getListPupuk(String apiToken) async {
+    ApiReturnValue<List<Pupuk>> result =
+        await PupukServices.getlistPupuk(apiToken);
     if (result.value != null) {
       emit(GetListPupukLoaded(result.value));
     } else {

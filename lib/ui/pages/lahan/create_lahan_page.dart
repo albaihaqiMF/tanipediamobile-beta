@@ -6,6 +6,15 @@ class CreateLahanPage extends StatefulWidget {
 }
 
 class _CreateLahanPageState extends State<CreateLahanPage> {
+  String apiToken;
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<ProvinsiCubit>().getProvinsi(apiToken);
+    });
+  }
+
   bool isUpdate;
   String _idLahan;
   String idPetani;
@@ -34,8 +43,9 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
   List<S2Choice<String>> listDesa = [];
 
   isUpdateLahan() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    isUpdate = sharedPreferences.getBool(KeySharedPreference.updateLahan);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isUpdate = prefs.getBool(KeySharedPreference.updateLahan);
+    apiToken = prefs.getString(KeySharedPreference.apiToken);
     if (isUpdate) {
       final dataResponse =
           (context.read<GetDetailLahanCubit>().state as GetDetailLahanLoaded);
@@ -49,6 +59,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
   @override
   void initState() {
     super.initState();
+    getToken();
     isUpdateLahan();
     context.read<ProvinsiCubit>().toInitial();
     context.read<KabupatenCubit>().toInitial();
@@ -76,7 +87,6 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
     /// Sedangkan data yang di pos berupa kode/id
     /// Jadi otomatis kolom address tidak bisa terisi oleh data sebelumnya
 
-    context.read<ProvinsiCubit>().getProvinsi();
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60),
@@ -274,7 +284,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                               try {
                                 await context
                                     .read<ProvinsiCubit>()
-                                    .getProvinsi(provinsi: selected.value);
+                                    .getProvinsi(apiToken, provinsi: selected.value);
                                 final data = (context
                                     .read<ProvinsiCubit>()
                                     .state as ProvinsiLoaded);
@@ -283,7 +293,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                 _idProvinsi = listValueProvinsi[0].id;
                                 context
                                     .read<KabupatenCubit>()
-                                    .getKabupaten(_selectedProvinsi.toString());
+                                    .getKabupaten(apiToken,_selectedProvinsi.toString());
                               } catch (e) {
                                 print(
                                     'Pick Provinsi Exception : ${e.toString()}');
@@ -387,7 +397,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                   try {
                                     await context
                                         .read<KabupatenCubit>()
-                                        .getKabupaten(
+                                        .getKabupaten(apiToken,
                                             _selectedProvinsi.toString(),
                                             kabupaten:
                                                 _selectedKabupaten.toString());
@@ -401,7 +411,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                     print(
                                         'Pick Kabupaten Exception : ${e.toString()}');
                                   }
-                                  context.read<KecamatanCubit>().getKecamatan(
+                                  context.read<KecamatanCubit>().getKecamatan(apiToken,
                                       _selectedProvinsi.toString(),
                                       _selectedKabupaten.toString());
                                 }
@@ -507,7 +517,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                   try {
                                     await context
                                         .read<KecamatanCubit>()
-                                        .getKecamatan(
+                                        .getKecamatan(apiToken,
                                             _selectedProvinsi.toString(),
                                             _selectedKabupaten.toString(),
                                             kecamatan:
@@ -522,7 +532,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                     print(
                                         'Pick Kecamatan Exception : ${e.toString()}');
                                   }
-                                  context.read<DesaCubit>().getDesa(
+                                  context.read<DesaCubit>().getDesa(apiToken,
                                       _selectedProvinsi.toString(),
                                       _selectedKabupaten.toString(),
                                       _selectedKecamatan.toString());
@@ -618,7 +628,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                 if (_selectedDesa != null) {
                                   //// Get id/value Kabupaten
                                   try {
-                                    await context.read<DesaCubit>().getDesa(
+                                    await context.read<DesaCubit>().getDesa(apiToken,
                                         _selectedProvinsi.toString(),
                                         _selectedKabupaten.toString(),
                                         _selectedKecamatan.toString(),
@@ -698,7 +708,9 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                           padding: EdgeInsets.symmetric(horizontal: 30),
                           margin: EdgeInsets.only(bottom: defaultMargin),
                           child: CustomButton(
-                              onPress: () => (isUpdate) ? onUpdate() : onPost(),
+                              onPress: () => (isUpdate)
+                                  ? onUpdate(apiToken)
+                                  : onPost(apiToken),
                               text: 'Selesai',
                               color: mainColor)),
                     ],
@@ -714,12 +726,13 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
         ));
   }
 
-  void onPost() async {
+  void onPost(String apiToken) async {
     if (validationField()) {
       try {
         showProgressDialog(context, 'Mohon tunggu...');
 
         await context.read<CreateLahanCubit>().createLahan(
+            apiToken,
             _selectedKategoriPertanian.toString(),
             int.tryParse(_luasController.text),
             int.tryParse(_satuanController.text),
@@ -761,11 +774,12 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
     }
   }
 
-  void onUpdate() async {
+  void onUpdate(String apiToken) async {
     if (validationField()) {
       try {
         showProgressDialog(context, 'Mohon tunggu...');
         await context.read<UpdateLahanCubit>().updateLahan(
+            apiToken,
             _idLahan,
             _selectedKategoriPertanian.toString(),
             int.tryParse(_luasController.text),

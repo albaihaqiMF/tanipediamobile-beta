@@ -9,6 +9,7 @@ class UpdateLahanCubit extends Cubit<UpdateLahanState> {
   UpdateLahanCubit() : super(UpdateLahanInitial());
 
   Future<void> updateLahan(
+      String apiToken,
       String idLahan,
       String kategori,
       int luas,
@@ -24,6 +25,7 @@ class UpdateLahanCubit extends Cubit<UpdateLahanState> {
       String latitude,
       String longitude) async {
     ApiReturnValue<Lahan> result = await LahanServices.updateLahan(
+        apiToken,
         idLahan,
         kategori,
         luas,

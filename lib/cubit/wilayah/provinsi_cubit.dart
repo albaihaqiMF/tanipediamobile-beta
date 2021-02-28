@@ -8,12 +8,12 @@ part 'provinsi_state.dart';
 class ProvinsiCubit extends Cubit<ProvinsiState> {
   ProvinsiCubit() : super(ProvinsiInitial());
 
-  Future<void> getProvinsi({String provinsi}) async {
+  Future<void> getProvinsi(String apiToken,{String provinsi}) async {
     ApiReturnValue<List<Wilayah>> result;
     if (provinsi != null) {
-      result = await WilayahServices.getProvinsi(provinsi: provinsi);
+      result = await WilayahServices.getProvinsi(apiToken,provinsi: provinsi);
     } else {
-      result = await WilayahServices.getProvinsi();
+      result = await WilayahServices.getProvinsi(apiToken);
     }
 
     if (result.value != null) {

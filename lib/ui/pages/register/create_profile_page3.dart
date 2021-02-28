@@ -6,6 +6,15 @@ class CreateProfilePage3 extends StatefulWidget {
 }
 
 class _CreateProfilePage3State extends State<CreateProfilePage3> {
+  String apiToken;
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<ProvinsiCubit>().getProvinsi(apiToken);
+    });
+  }
+
   int _userId = Get.arguments[0];
   String _name = Get.arguments[1];
   String _noTelp = Get.arguments[2];
@@ -42,6 +51,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
   @override
   void initState() {
     super.initState();
+    getToken();
     context.read<ProvinsiCubit>().toInitial();
     context.read<KabupatenCubit>().toInitial();
     context.read<KecamatanCubit>().toInitial();
@@ -58,7 +68,6 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProvinsiCubit>().getProvinsi();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
@@ -226,7 +235,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         try {
                           await context
                               .read<ProvinsiCubit>()
-                              .getProvinsi(provinsi: selected.value);
+                              .getProvinsi(apiToken, provinsi: selected.value);
                           final data = (context.read<ProvinsiCubit>().state
                               as ProvinsiLoaded);
                           List<Wilayah> listValueProvinsi =
@@ -237,7 +246,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         }
                         context
                             .read<KabupatenCubit>()
-                            .getKabupaten(_selectedProvinsi.toString());
+                            .getKabupaten(apiToken,_selectedProvinsi.toString());
                       }
                     },
                     tileBuilder: (context, state) {
@@ -332,7 +341,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                           if (_selectedKabupaten != null) {
                             //// Get id/value Kabupaten
                             try {
-                              await context.read<KabupatenCubit>().getKabupaten(
+                              await context.read<KabupatenCubit>().getKabupaten(apiToken,
                                   _selectedProvinsi.toString(),
                                   kabupaten: _selectedKabupaten.toString());
                               final data = (context.read<KabupatenCubit>().state
@@ -343,7 +352,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                               print(
                                   'Pick Kabupaten Exception : ${e.toString()}');
                             }
-                            context.read<KecamatanCubit>().getKecamatan(
+                            context.read<KecamatanCubit>().getKecamatan(apiToken,
                                 _selectedProvinsi.toString(),
                                 _selectedKabupaten.toString());
                           }
@@ -442,7 +451,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                           if (_selectedKecamatan != null) {
                             //// Get id/value Kabupaten
                             try {
-                              await context.read<KecamatanCubit>().getKecamatan(
+                              await context.read<KecamatanCubit>().getKecamatan(apiToken,
                                   _selectedProvinsi.toString(),
                                   _selectedKabupaten.toString(),
                                   kecamatan: _selectedKecamatan.toString());
@@ -454,7 +463,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                               print(
                                   'Pick Kecamatan Exception : ${e.toString()}');
                             }
-                            context.read<DesaCubit>().getDesa(
+                            context.read<DesaCubit>().getDesa(apiToken,
                                 _selectedProvinsi.toString(),
                                 _selectedKabupaten.toString(),
                                 _selectedKecamatan.toString());
@@ -547,7 +556,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                           if (_selectedDesa != null) {
                             //// Get id/value Kabupaten
                             try {
-                              await context.read<DesaCubit>().getDesa(
+                              await context.read<DesaCubit>().getDesa(apiToken,
                                   _selectedProvinsi.toString(),
                                   _selectedKabupaten.toString(),
                                   _selectedKecamatan.toString(),
@@ -622,7 +631,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   margin: EdgeInsets.only(bottom: defaultMargin),
                   child: CustomButton(
-                      onPress: () => onPostData(),
+                      onPress: () => onPostData(apiToken),
                       text: 'Selesai',
                       color: mainColor),
                 ),
@@ -638,11 +647,12 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
     );
   }
 
-  void onPostData() async {
+  void onPostData(String apiToken) async {
     if (validationField()) {
       showProgressDialog(context, 'Mohon tunggu...');
       try {
         await context.read<CreateProfileCubit>().createProfile(
+          apiToken,
               _userId,
               _name,
               _nik,
@@ -676,7 +686,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
           await prefs.setInt(
               KeySharedPreference.idProfile, int.tryParse(_idProfile));
           //// Get Data Profile
-          await context.read<ProfileCubit>().getProfile(_idProfile);
+          // await context.read<ProfileCubit>().getProfile(apiToken, _idProfile);
           dismissProgressDialog(context);
           Get.offAllNamed(AppRoutes.LOGIN);
         }

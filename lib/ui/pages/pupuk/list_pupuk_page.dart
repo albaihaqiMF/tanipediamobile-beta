@@ -1,9 +1,28 @@
 part of '../pages.dart';
 
-class ListPupukPage extends StatelessWidget {
+class ListPupukPage extends StatefulWidget {
+  @override
+  _ListPupukPageState createState() => _ListPupukPageState();
+}
+
+class _ListPupukPageState extends State<ListPupukPage> {
+  String apiToken;
+  getListPupuk() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<GetListPupukCubit>().getListPupuk(apiToken);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getListPupuk();
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.watch<GetListPupukCubit>().getListPupuk();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
@@ -32,7 +51,7 @@ class ListPupukPage extends StatelessWidget {
                     onTap: () {
                       context
                           .read<DetailPupukCubit>()
-                          .getDetailPupuk(listPupuk[index].id);
+                          .getDetailPupuk(apiToken, listPupuk[index].id);
                       Get.toNamed(AppRoutes.DETAIL_PUPUK);
                     },
                     child: Container(

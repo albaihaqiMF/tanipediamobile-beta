@@ -1,14 +1,28 @@
 part of '../pages.dart';
 
-class ListLahanPage extends StatelessWidget {
-  setUpdateFalse() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool(KeySharedPreference.updateLahan, false);
+class ListLahanPage extends StatefulWidget {
+  @override
+  _ListLahanPageState createState() => _ListLahanPageState();
+}
+
+class _ListLahanPageState extends State<ListLahanPage> {
+  String apiToken;
+  getListLahan() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<GetListLahanCubit>().getListLahan(apiToken);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getListLahan();
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<GetListLahanCubit>().getListLahan();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
@@ -26,8 +40,9 @@ class ListLahanPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setUpdateFalse();
+        onPressed: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setBool(KeySharedPreference.updateLahan, false);
           Get.toNamed(AppRoutes.CREATE_LAHAN);
           // context.watch<GetListLahanCubit>().close();
         },
@@ -40,65 +55,70 @@ class ListLahanPage extends StatelessWidget {
             List<Lahan> listLahan = state.lahan.toList();
 
             if (listLahan.length != 0) {
-              return ListView.builder(
-                  itemCount: listLahan.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        context.read<GetDetailLahanCubit>().toInitial();
-                        context
-                            .read<GetDetailLahanCubit>()
-                            .getDetailLahan(listLahan[index].id);
-                        // context.watch<GetListLahanCubit>().close();
-                        Get.toNamed(AppRoutes.DETAIL_LAHAN);
-                      },
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: ListTile(
-                            title: Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(60 / 2),
-                                    child: Image(
-                                        image: AssetImage(
-                                          "assets/ic_sawah.png",
-                                        ),
-                                        fit: BoxFit.cover),
+              return RefreshIndicator(
+                onRefresh: () =>
+                    context.read<GetListLahanCubit>().getListLahan(apiToken),
+                child: ListView.builder(
+                    itemCount: listLahan.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          context.read<GetDetailLahanCubit>().toInitial();
+                          context
+                              .read<GetDetailLahanCubit>()
+                              .getDetailLahan(apiToken, listLahan[index].id);
+                          Get.toNamed(AppRoutes.DETAIL_LAHAN);
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: ListTile(
+                              title: Row(
+                                children: [
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(60 / 2),
+                                      child: Image(
+                                          image: AssetImage(
+                                            "assets/ic_sawah.png",
+                                          ),
+                                          fit: BoxFit.cover),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('${listLahan[index].kategori}',
-                                        style: blackFontBoldStyle4),
-                                    Text(
-                                        (listLahan[index].kecamatan != null)
-                                            ? '${listLahan[index].kecamatan}'
-                                            : 'Tidak ada data kecamatan',
-                                        style: greyFontStyleSmall),
-                                    Text(
-                                        (listLahan[index].kabupaten != null)
-                                            ? '${listLahan[index].kabupaten}'
-                                            : 'Tidak ada data kabupaten',
-                                        style: greyFontStyleSmall),
-                                  ],
-                                ),
-                                Spacer(),
-                                Icon(Icons.arrow_forward_ios_rounded)
-                              ],
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${listLahan[index].kategori}',
+                                          style: blackFontBoldStyle4),
+                                      Text(
+                                          (listLahan[index].kecamatan != null)
+                                              ? '${listLahan[index].kecamatan}'
+                                              : 'Tidak ada data kecamatan',
+                                          style: greyFontStyleSmall),
+                                      Text(
+                                          (listLahan[index].kabupaten != null)
+                                              ? '${listLahan[index].kabupaten}'
+                                              : 'Tidak ada data kabupaten',
+                                          style: greyFontStyleSmall),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Icon(Icons.arrow_forward_ios_rounded)
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  });
+                      );
+                    }),
+              );
             } else {
               return Center(
                 child: Text('Oops belum ada jadwal pembagian pupuk..'),

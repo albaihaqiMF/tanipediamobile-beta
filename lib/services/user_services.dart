@@ -17,7 +17,7 @@ class UserServices {
 
     try {
       final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.register,
-          headers: ApiUrl.headers, body: body);
+          headers: apiHeaders(), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       var responseLogin = User.fromJSON(baseResponse.data);
@@ -25,7 +25,7 @@ class UserServices {
       print(
           '$tag : ${baseResponse.status}, ${baseResponse.message}, ${baseResponse.data}');
       return ApiReturnValue(
-          value: responseLogin, message: baseResponse.message);
+          value: responseLogin, message: baseResponse.status);
     } catch (e) {
       print('$tag : ${e.toString()}');
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
@@ -35,14 +35,10 @@ class UserServices {
   //--------------------------------------------------------------------
   //                          VERIFY User
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<User>> verifyUser(String apiToken) async {
-    print('$tag, Token : $apiToken');
-    print('$tag, Headers : ${apiHeaders(apiToken)}');
+  static Future<ApiReturnValue<User>> verifyUser(String token) async {
     try {
       final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.login,
-          headers: apiHeaders(apiToken));
-      // final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.login,
-      //     headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       var responseLogin = User.fromJSON(baseResponse.data);
@@ -66,7 +62,7 @@ class UserServices {
     var body = jsonEncode(fieldFormURL);
     try {
       final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.login,
-          headers: ApiUrl.headers, body: body);
+          headers: apiHeaders(), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
 

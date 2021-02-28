@@ -1,6 +1,15 @@
 part of '../pages.dart';
 
 class DetailPanenPage extends StatelessWidget {
+  // String apiToken;
+
+  // setUpdateData() async {
+
+  //   prefs.setBool(KeySharedPreference.updateLahan, false);
+  //   print('Lahan UPDATE : ');
+
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,8 +104,13 @@ class DetailPanenPage extends StatelessWidget {
                                   text: 'Ubah',
                                   icon: Icons.edit_outlined),
                               CustomButton2(
-                                onPress: () =>
-                                    onDelete(context, state.panen.id),
+                                onPress: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  String apiToken = prefs
+                                      .getString(KeySharedPreference.apiToken);
+                                  onDelete(context, state.panen.id, apiToken);
+                                },
                                 text: 'Hapus',
                                 icon: Icons.delete_outline_rounded,
                                 color: Colors.red,
@@ -135,7 +149,7 @@ class DetailPanenPage extends StatelessWidget {
     }
   }
 
-  onDelete(BuildContext context, String idPanen) {
+  onDelete(BuildContext context, String idPanen, String apiToken) {
     showDialog(
       context: context,
       builder: (context) => ConfirmDialog(
@@ -144,7 +158,9 @@ class DetailPanenPage extends StatelessWidget {
           confirmPress: () async {
             Get.back();
             showProgressDialog(context, 'Mohon tunggu...');
-            await context.read<DeletePanenCubit>().deletePanen(idPanen);
+            await context
+                .read<DeletePanenCubit>()
+                .deletePanen(apiToken, idPanen);
             Get.offNamedUntil(
                 AppRoutes.PANEN, ModalRoute.withName(AppRoutes.MAIN));
           },

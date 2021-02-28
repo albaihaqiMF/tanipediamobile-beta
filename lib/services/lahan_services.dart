@@ -6,10 +6,13 @@ class LahanServices {
   //--------------------------------------------------------------------
   //                          GET List Lahan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Lahan>>> getlistLahan() async {
+  static Future<ApiReturnValue<List<Lahan>>> getlistLahan(
+    String token,
+  ) async {
     try {
       final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.lahan,
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
+      print('$tag token : $token');
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -28,11 +31,12 @@ class LahanServices {
   //--------------------------------------------------------------------
   //                          GET Detail Lahan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Lahan>> getDetailLahan(String idLahan) async {
+  static Future<ApiReturnValue<Lahan>> getDetailLahan(
+      String token, String idLahan) async {
     try {
       final apiResponse = await http.get(
           ApiUrl.baseURL + ApiUrl.lahan + '/$idLahan',
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -49,6 +53,7 @@ class LahanServices {
   //                          CREATE/POST Lahan
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Lahan>> createLahan(
+      String token,
       String kategori,
       int luas,
       int satuan,
@@ -83,7 +88,7 @@ class LahanServices {
 
     try {
       final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.lahan,
-          headers: ApiUrl.headersAuth, body: body);
+          headers: apiHeaders(apiToken: token), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final responseDataLahan = Lahan.fromJSON(baseResponse.data);
@@ -97,11 +102,12 @@ class LahanServices {
   //--------------------------------------------------------------------
   //                          DELETE Lahan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Lahan>> deleteLahan(String idLahan) async {
+  static Future<ApiReturnValue<Lahan>> deleteLahan(
+      String token, String idLahan) async {
     try {
       final apiResponse = await http.delete(
           ApiUrl.baseURL + ApiUrl.lahan + '/$idLahan',
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final responseDataLahan = Lahan.fromJSON(baseResponse.data);
@@ -116,6 +122,7 @@ class LahanServices {
   //                          UPDATE Lahan
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Lahan>> updateLahan(
+      String token,
       String idLahan,
       String kategori,
       int luas,
@@ -151,7 +158,7 @@ class LahanServices {
 
     try {
       final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.lahan,
-          headers: ApiUrl.headersAuth, body: body);
+          headers: apiHeaders(apiToken: token), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final responseDataLahan = Lahan.fromJSON(baseResponse.data);

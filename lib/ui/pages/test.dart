@@ -28,19 +28,19 @@ class _TestPageState extends State<TestPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // imageProfile(context, fotoProfil),
-          CustomButton(
-              onPress: () async {
-                SharedPreferences sf = await SharedPreferences.getInstance();
-                sf.setInt(KeySharedPreference.idProfile, 234);
-                final idProfile = sf.getInt(KeySharedPreference.idProfile);
-                await context
-                    .read<ProfileCubit>()
-                    .getProfile(idProfile.toString());
-
-                Get.to(ProfilePage());
-              },
-              text: 'to Profile Page',
-              color: mainColor),
+          // CustomButton(
+          //     onPress: () async {
+          //       SharedPreferences sf = await SharedPreferences.getInstance();
+          //       sf.setInt(KeySharedPreference.idProfile, 234);
+          //       final idProfile = sf.getInt(KeySharedPreference.idProfile);
+          //       await context
+          //           .read<ProfileCubit>()
+          //           .getProfile(idProfile.toString());
+          //
+          //       Get.to(ProfilePage());
+          //     },
+          //     text: 'to Profile Page',
+          //     color: mainColor),
           CustomButton(
               onPress: () {
                 Get.to(CreateProfilePage(),

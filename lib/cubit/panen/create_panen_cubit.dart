@@ -9,6 +9,7 @@ class CreatePanenCubit extends Cubit<CreatePanenState> {
   CreatePanenCubit() : super(CreatePanenInitial());
 
   Future<void> createPanen(
+    String apiToken,
     String idProfile,
     // String instansi,
     String kategori,
@@ -22,6 +23,7 @@ class CreatePanenCubit extends Cubit<CreatePanenState> {
     String keterangan,
   ) async {
     ApiReturnValue<Panen> result = await PanenServices.createPanen(
+        apiToken,
         idProfile,
         // instansi,
         kategori,

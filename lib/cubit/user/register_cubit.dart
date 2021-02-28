@@ -13,7 +13,10 @@ class RegisterCubit extends Cubit<RegisterState> {
         await UserServices.register(username, password);
 
     if (result.value != null) {
-      emit(RegisterLoaded(result.value));
+      if(result.message == 'ERROR'){
+        emit(RegisterFailed(result.message));
+      } else {
+      emit(RegisterLoaded(result.value));}
     } else {
       emit(RegisterFailed(result.message));
     }

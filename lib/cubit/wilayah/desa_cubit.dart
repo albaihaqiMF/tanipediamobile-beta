@@ -7,14 +7,14 @@ part 'desa_state.dart';
 
 class DesaCubit extends Cubit<DesaState> {
   DesaCubit() : super(DesaInitial());
-  Future<void> getDesa(String provinsi, String kabupaten, String kecamatan,
+  Future<void> getDesa(String apiToken, String provinsi, String kabupaten, String kecamatan,
       {String desa}) async {
     ApiReturnValue<List<Wilayah>> result;
     if (desa != null) {
-      result = await WilayahServices.getDesa(provinsi, kabupaten, kecamatan,
+      result = await WilayahServices.getDesa(apiToken, provinsi, kabupaten, kecamatan,
           desa: desa);
     } else {
-      result = await WilayahServices.getDesa(provinsi, kabupaten, kecamatan);
+      result = await WilayahServices.getDesa(apiToken, provinsi, kabupaten, kecamatan);
     }
     if (result.value != null) {
       emit(DesaLoaded(result.value));

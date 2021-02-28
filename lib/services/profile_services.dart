@@ -7,6 +7,7 @@ class ProfileServices {
   //                          CREATE Profile
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Profile>> create(
+      String token,
       int idUser,
       String nama,
       String telp,
@@ -56,7 +57,7 @@ class ProfileServices {
     print('Data Post Encoded : $body');
     try {
       final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.profile,
-          headers: ApiUrl.headersAuth, body: body);
+          headers: apiHeaders(apiToken: token), body: body);
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -74,11 +75,11 @@ class ProfileServices {
   //--------------------------------------------------------------------
   //                          GET Profile
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Profile>> read(String idUser) async {
+  static Future<ApiReturnValue<Profile>> read(String token, String idUser) async {
     try {
       final apiResponse = await http.get(
           ApiUrl.baseURL + ApiUrl.profile + '/' + idUser,
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
       print(
           '$tag GET : ${apiResponse.statusCode}, ${apiResponse.body}, ${apiResponse.headers}');
       final responseBody = ReturnResponse.response(apiResponse);
@@ -94,8 +95,8 @@ class ProfileServices {
   //--------------------------------------------------------------------
   //                          EDIT Photo Profile
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Profile>> editPhotoProfile(
-      int idProfile, String photoProfile) async {
+  static Future<ApiReturnValue<Profile>> editPhotoProfile(String token,
+      String idProfile, String photoProfile) async {
     Map<String, dynamic> fieldFormURL = {
       'id': idProfile,
       'foto_profil': photoProfile
@@ -105,7 +106,7 @@ class ProfileServices {
 
     try {
       final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.uploadPhoto,
-          headers: ApiUrl.headersAuth, body: body);
+          headers: apiHeaders(apiToken: token), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final dataProfil = Profile.fromJSON(baseResponse.data);

@@ -9,6 +9,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
   CreateProfileCubit() : super(CreateProfileInitial());
 
   Future<void> createProfile(
+      String apiToken,
       int idUser,
       String nama,
       String nik,
@@ -30,6 +31,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
       String kecamatan,
       String desa) async {
     ApiReturnValue<Profile> result = await ProfileServices.create(
+        apiToken,
         idUser,
         nama,
         telp,

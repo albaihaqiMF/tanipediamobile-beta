@@ -8,6 +8,7 @@ part 'update_panen_state.dart';
 class UpdatePanenCubit extends Cubit<UpdatePanenState> {
   UpdatePanenCubit() : super(UpdatePanenInitial());
   Future<void> updatePanen(
+    String apiToken,
     idPanen,
     idProfile,
     kategori,
@@ -22,6 +23,7 @@ class UpdatePanenCubit extends Cubit<UpdatePanenState> {
     // varietas,
   ) async {
     ApiReturnValue<Panen> result = await PanenServices.updatePanen(
+      apiToken,
       idPanen,
       idProfile,
       kategori,

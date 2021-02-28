@@ -6,10 +6,10 @@ class PupukServices {
   //--------------------------------------------------------------------
   //                          GET List Pupuk
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Pupuk>>> getlistPupuk() async {
+  static Future<ApiReturnValue<List<Pupuk>>> getlistPupuk(String token) async {
     try {
       final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.jadwalPupuk,
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -28,11 +28,12 @@ class PupukServices {
   //--------------------------------------------------------------------
   //                          GET Detail Pupuk
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Pupuk>> getDetailPupuk(String idPupuk) async {
+  static Future<ApiReturnValue<Pupuk>> getDetailPupuk(
+      String token, String idPupuk) async {
     try {
       final apiResponse = await http.get(
           ApiUrl.baseURL + ApiUrl.jadwalPupuk + '/' + idPupuk,
-          headers: ApiUrl.headersAuth);
+          headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);

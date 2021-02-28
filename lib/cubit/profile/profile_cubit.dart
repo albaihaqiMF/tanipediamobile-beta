@@ -8,8 +8,8 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
 
-  Future<void> getProfile(String idUser) async {
-    ApiReturnValue<Profile> result = await ProfileServices.read(idUser);
+  Future<void> getProfile(String apiToken, String idUser) async {
+    ApiReturnValue<Profile> result = await ProfileServices.read(apiToken, idUser);
     if (result.value != null) {
       emit(ProfileLoaded(result.value));
     } else {

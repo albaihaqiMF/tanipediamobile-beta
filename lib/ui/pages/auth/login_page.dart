@@ -144,10 +144,11 @@ class _LoginPageState extends State<LoginPage> {
         if (state is LoginLoaded) {
           var name = state.user.name;
           var apiToken = state.user.apiToken;
-          saveData(apiToken, name);
-          await context.read<ProfileCubit>().getProfile('246');
-          context.read<GetListPupukCubit>().getListPupuk();
-          context.read<GetPanenCubit>().getListPanen();
+          var idProfile = "246";
+          saveData(apiToken, name, idProfile);
+          await context.read<ProfileCubit>().getProfile(apiToken,'246');
+          context.read<GetListPupukCubit>().getListPupuk(apiToken);
+          context.read<GetPanenCubit>().getListPanen(apiToken);
           setState(() {
             _isLoading = false;
           });
@@ -168,9 +169,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void saveData(String apiToken, String name) async {
+  void saveData(String apiToken, String name, String idProfile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(KeySharedPreference.apiToken, apiToken);
     await prefs.setString(KeySharedPreference.name, name);
+    await prefs.setString(KeySharedPreference.idProfile, idProfile);
   }
 }

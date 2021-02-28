@@ -6,7 +6,7 @@ class WilayahServices {
   //--------------------------------------------------------------------
   //                          GET List Provinsi
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Wilayah>>> getProvinsi(
+  static Future<ApiReturnValue<List<Wilayah>>> getProvinsi(String token,
       {String provinsi}) async {
     try {
       var apiResponse;
@@ -16,10 +16,10 @@ class WilayahServices {
         };
         print('$tag Provinsi : $queryParam');
         var uri = Uri.https(ApiUrl.baseURI, ApiUrl.provinsi, queryParam);
-        apiResponse = await http.get(uri, headers: ApiUrl.headersAuth);
+        apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
       } else {
         apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.provinsi,
-            headers: ApiUrl.headersAuth);
+            headers: apiHeaders(apiToken: token));
       }
 
       final responseBody = ReturnResponse.response(apiResponse);
@@ -38,7 +38,7 @@ class WilayahServices {
   //--------------------------------------------------------------------
   //                          GET List Kabupaten
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Wilayah>>> getKabupaten(String provinsi,
+  static Future<ApiReturnValue<List<Wilayah>>> getKabupaten(String token, String provinsi,
       {String kabupaten}) async {
     Map<String, String> queryParam;
     try {
@@ -56,7 +56,7 @@ class WilayahServices {
       }
       print('$tag Kabupaten : $queryParam');
       final uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.kabupaten}', queryParam);
-      final apiResponse = await http.get(uri, headers: ApiUrl.headersAuth);
+      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final listProvinsi = (baseResponse.data)
@@ -73,7 +73,7 @@ class WilayahServices {
   //--------------------------------------------------------------------
   //                          GET List Kecamatan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Wilayah>>> getKecamatan(
+  static Future<ApiReturnValue<List<Wilayah>>> getKecamatan( String token,
       String provinsi, String kabupaten,
       {String kecamatan}) async {
     try {
@@ -94,7 +94,7 @@ class WilayahServices {
       }
       print('$tag Kecamatan : $queryParam');
       final uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.kecamatan}', queryParam);
-      final apiResponse = await http.get(uri, headers: ApiUrl.headersAuth);
+      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final listWilayah = (baseResponse.data)
@@ -111,7 +111,7 @@ class WilayahServices {
   //--------------------------------------------------------------------
   //                          GET List Desa
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Wilayah>>> getDesa(
+  static Future<ApiReturnValue<List<Wilayah>>> getDesa(String token,
       String provinsi, String kabupaten, String kecamatan,
       {String desa}) async {
     try {
@@ -134,7 +134,7 @@ class WilayahServices {
       }
       print('$tag Desa : $queryParam');
       var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.desa}', queryParam);
-      final apiResponse = await http.get(uri, headers: ApiUrl.headersAuth);
+      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final listWilayah = (baseResponse.data)

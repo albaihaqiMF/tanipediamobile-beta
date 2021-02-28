@@ -1,14 +1,33 @@
 part of '../pages.dart';
 
-class ListPanenPage extends StatelessWidget {
+class ListPanenPage extends StatefulWidget {
+  @override
+  _ListPanenPageState createState() => _ListPanenPageState();
+}
+
+class _ListPanenPageState extends State<ListPanenPage> {
   setUpdateFalse() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool(KeySharedPreference.updatePanen, false);
   }
 
+  String apiToken;
+  getListPanen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<GetPanenCubit>().getListPanen(apiToken);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getListPanen();
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.read<GetPanenCubit>().getListPanen();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
@@ -38,7 +57,8 @@ class ListPanenPage extends StatelessWidget {
           List<Panen> listPanen = state.panen.toList();
           if (listPanen.length != 0) {
             return RefreshIndicator(
-              onRefresh: () => context.read<GetPanenCubit>().getListPanen(),
+              onRefresh: () =>
+                  context.read<GetPanenCubit>().getListPanen(apiToken),
               child: ListView.builder(
                   itemCount: listPanen.length,
                   itemBuilder: (context, index) {
@@ -47,7 +67,7 @@ class ListPanenPage extends StatelessWidget {
                         context.read<GetDetailPanenCubit>().toInitial();
                         context
                             .read<GetDetailPanenCubit>()
-                            .getDetailPanen(listPanen[index].id);
+                            .getDetailPanen(apiToken, listPanen[index].id);
                         Get.toNamed(AppRoutes.DETAIL_PANEN);
                       },
                       child: Container(

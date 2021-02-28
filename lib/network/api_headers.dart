@@ -1,6 +1,6 @@
 import 'api_url.dart';
 
-Map<String, String> apiHeaders(String apiToken) {
+Map<String, String> apiHeaders({String apiToken}) {
   if (apiToken == null) {
     return {
       'Content-Type': ApiUrl.contentType,

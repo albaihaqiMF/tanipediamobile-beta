@@ -6,6 +6,7 @@ class CreatePanenPage extends StatefulWidget {
 }
 
 class _CreatePanenPageState extends State<CreatePanenPage> {
+  String apiToken;
   String _idProfile;
   String _idPanen;
   int _selectedKategoriPertanian;
@@ -20,8 +21,9 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
   bool isUpdate;
 
   isUpdatePanen() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    isUpdate = sharedPreferences.getBool(KeySharedPreference.updatePanen);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isUpdate = prefs.getBool(KeySharedPreference.updatePanen);
+    apiToken = prefs.getString(KeySharedPreference.apiToken);
     print('Panen UPDATE : $isUpdate');
     if (isUpdate) {
       final dataResponse =
@@ -305,7 +307,8 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 margin: EdgeInsets.only(bottom: defaultMargin),
                 child: CustomButton(
-                    onPress: () => (isUpdate) ? onUpdate() : onPost(),
+                    onPress: () =>
+                        (isUpdate) ? onUpdate(apiToken) : onPost(apiToken),
                     text: 'Selesai',
                     color: mainColor)),
           ],
@@ -314,11 +317,12 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
     );
   }
 
-  void onPost() async {
+  void onPost(String apiToken) async {
     if (validationField()) {
       showProgressDialog(context, 'Mohon tunggu...');
       try {
         await context.read<CreatePanenCubit>().createPanen(
+            apiToken,
             _idProfile,
             // _selectedKategoriPertanian.toString(),
             '1234',
@@ -357,11 +361,12 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
     }
   }
 
-  void onUpdate() async {
+  void onUpdate(String apiToken) async {
     if (validationField() && _idPanen != null) {
       showProgressDialog(context, 'Mohon tunggu...');
       try {
         await context.read<UpdatePanenCubit>().updatePanen(
+            apiToken,
             _idPanen,
             _idProfile,
             // _selectedKategoriPertanian.toString(),

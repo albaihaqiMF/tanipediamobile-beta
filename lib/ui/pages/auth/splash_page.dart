@@ -15,17 +15,21 @@ class _SplashPageState extends State<SplashPage> {
     await context.read<VerifyUserCubit>().verifyUser(apiToken);
     VerifyUserState state = context.read<VerifyUserCubit>().state;
     if (state is VerifyUserLoaded) {
+      print('PAGE Splash : api_token : ${state.user.apiToken}');
+
       // Set DataUser to Local Storage
-      // prefs.setInt(KeySharedPreference.idProfile, 245);
+      prefs.setString(KeySharedPreference.idProfile, '246');
       prefs.setString(KeySharedPreference.apiToken, state.user.apiToken);
+      apiToken = prefs.getString(KeySharedPreference.apiToken);
+      print('PAGE Splash: token = $apiToken');
 
       // Get DataUser from Local Storage
       // final idProfile = prefs.getInt(KeySharedPreference.idProfile);
 
       // Get Data From Server
-      await context.read<ProfileCubit>().getProfile('246');
-      context.read<GetListPupukCubit>().getListPupuk();
-      context.read<GetPanenCubit>().getListPanen();
+      await context.read<ProfileCubit>().getProfile(apiToken, '246');
+      context.read<GetListPupukCubit>().getListPupuk(apiToken);
+      context.read<GetPanenCubit>().getListPanen(apiToken);
       // Get.offAll(HomePage());
       Get.offAllNamed(AppRoutes.MAIN);
     } else if (state is VerifyUserFailed) {

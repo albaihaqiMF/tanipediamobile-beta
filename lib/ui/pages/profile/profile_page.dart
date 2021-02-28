@@ -244,13 +244,14 @@ class _ProfilePageState extends State<ProfilePage> {
     final _pickedFile = await _imagePicker.getImage(source: source);
     if (_pickedFile != null) {
       String imagePath = AppConverter.toBase64(_pickedFile);
-      SharedPreferences sf = await SharedPreferences.getInstance();
-      final idProfil = sf.getInt(KeySharedPreference.idProfile);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final apiToken = prefs.getString(KeySharedPreference.apiToken);
+      final idProfil = prefs.getString(KeySharedPreference.idProfile);
       showProgressDialog(context, 'Uploading file...');
 
       await context
           .read<UploadPhotoProfileCubit>()
-          .uploadPhotoProfile(idProfil, imagePath);
+          .uploadPhotoProfile(apiToken, idProfil, imagePath);
       Get.back();
 
       UploadPhotoProfileState state =
@@ -327,7 +328,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget bottomSheet(BuildContext context) {
     return Container(
       // color: mainColor,
-      height: 120,
+      height: 160,
       width: double.infinity,
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(

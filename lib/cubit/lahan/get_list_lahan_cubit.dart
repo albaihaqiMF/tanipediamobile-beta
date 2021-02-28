@@ -8,8 +8,9 @@ part 'get_list_lahan_state.dart';
 class GetListLahanCubit extends Cubit<GetListLahanState> {
   GetListLahanCubit() : super(GetListLahanInitial());
 
-  Future<void> getListLahan() async {
-    ApiReturnValue<List<Lahan>> result = await LahanServices.getlistLahan();
+  Future<void> getListLahan(String apiToken) async {
+    ApiReturnValue<List<Lahan>> result =
+        await LahanServices.getlistLahan(apiToken);
     if (result.value != null) {
       emit(GetListLahanLoaded(result.value));
     } else {

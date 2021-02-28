@@ -1,10 +1,18 @@
 part of '../pages.dart';
 
-class DetailLahanPage extends StatelessWidget {
+class DetailLahanPage extends StatefulWidget {
+  @override
+  _DetailLahanPageState createState() => _DetailLahanPageState();
+}
+
+class _DetailLahanPageState extends State<DetailLahanPage> {
+  String apiToken;
+
   setUpdateData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool(KeySharedPreference.updateLahan, false);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(KeySharedPreference.updateLahan, false);
     print('Lahan UPDATE : ');
+    apiToken = prefs.getString(KeySharedPreference.apiToken);
   }
 
   @override
@@ -97,8 +105,8 @@ class DetailLahanPage extends StatelessWidget {
                                         text: 'Ubah',
                                         icon: Icons.edit_outlined),
                                     CustomButton2(
-                                        onPress: () =>
-                                            onDelete(context, state.lahan.id),
+                                        onPress: () => onDelete(
+                                            context, state.lahan.id, apiToken),
                                         text: 'Hapus',
                                         icon: Icons.delete_outline,
                                         color: Colors.red),
@@ -126,7 +134,7 @@ class DetailLahanPage extends StatelessWidget {
     }
   }
 
-  onDelete(BuildContext context, String idLahan) {
+  onDelete(BuildContext context, String idLahan, String apiToken) {
     showDialog(
       context: context,
       builder: (context) => ConfirmDialog(
@@ -135,7 +143,9 @@ class DetailLahanPage extends StatelessWidget {
           confirmPress: () async {
             Get.back();
             showProgressDialog(context, 'Mohon tunggu...');
-            await context.read<DeleteLahanCubit>().deleteLahan(idLahan);
+            await context
+                .read<DeleteLahanCubit>()
+                .deleteLahan(apiToken, idLahan);
             Get.offNamedUntil(
                 AppRoutes.LAHAN, ModalRoute.withName(AppRoutes.MAIN));
           },
