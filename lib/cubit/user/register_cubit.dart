@@ -5,17 +5,17 @@ import 'package:tanipedia_mobile_app/services/services.dart';
 
 part 'register_state.dart';
 
-class UserCubit extends Cubit<UserState> {
-  UserCubit() : super(UserInitial());
+class RegisterCubit extends Cubit<RegisterState> {
+  RegisterCubit() : super(RegisterInitial());
 
   Future<void> register(String username, String password) async {
     ApiReturnValue<User> result =
         await UserServices.register(username, password);
 
     if (result.value != null) {
-      emit(UserLoaded(result.value));
+      emit(RegisterLoaded(result.value));
     } else {
-      emit(UserLoadingFailed(result.message));
+      emit(RegisterFailed(result.message));
     }
   }
 }

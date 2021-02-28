@@ -6,7 +6,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String uid;
+  // String uid;
+  // String name = Get.arguments[0];
+  // String apiToken = Get.arguments[1];
+  String apiToken, name;
+
+  getLogedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    apiToken = prefs.getString(KeySharedPreference.apiToken);
+    name = prefs.getString(KeySharedPreference.name);
+    print('Home Page : $apiToken');
+    print('Home Page : $name');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // uid = FirebaseAuth.instance.currentUser.uid;
+    getLogedIn();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +37,16 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('UID : $uid'),
+            // Text('UID : $uid'),
+            Text('Name : $name'),
+            Text('Token : $apiToken'),
             CustomButton(
-                onPress: () {
+                onPress: () async {
                   FirebaseAuth.instance.signOut();
-                  Get.to(AuthPage());
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.clear();
+                  Get.offAll(LoginPage());
                 },
                 text: 'Logout',
                 color: mainColor),
@@ -31,11 +54,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    uid = FirebaseAuth.instance.currentUser.uid;
   }
 }

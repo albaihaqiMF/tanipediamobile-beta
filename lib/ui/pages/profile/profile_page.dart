@@ -12,7 +12,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget build(BuildContext context) {
     ProfileState stateProfile = context.watch<ProfileCubit>().state;
-
     final data = (context.watch<ProfileCubit>().state as ProfileLoaded);
     String nama = data.profile.nama;
     String noTelp = data.profile.telepon;
@@ -202,9 +201,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                       title: 'Konfirmasi',
                                       description:
                                           'Apakah Anda yakin ingin keluar?',
-                                      confirmPress: () {
-                                        // Get.toNamed(AppRoutes.LOGIN);
-                                        Get.back();
+                                      confirmPress: () async {
+                                        FirebaseAuth.instance.signOut();
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        prefs.clear();
+                                        Get.offAll(LoginPage());
+                                        // Get.back();
                                       },
                                       cancelPress: () {
                                         Get.back();

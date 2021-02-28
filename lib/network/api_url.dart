@@ -1,7 +1,7 @@
 class ApiUrl {
   // Initial Setup
-  static const baseURL = "https://7e27629fa85b.ngrok.io/";
-  static const baseURI = "7e27629fa85b.ngrok.io";
+  static const baseURL = "https://d04929edeaf8.ngrok.io/";
+  static const baseURI = "d04929edeaf8.ngrok.io";
   static const contentType = 'application/json';
   static const appKey = 'okYC7opyhD4DTIauhPvMq2Wkvc6bz08t';
 
@@ -19,6 +19,7 @@ class ApiUrl {
   };
 
   // End Point URL
+  static const login = 'login';
   static const register = 'register';
   static const profile = 'profil';
   static const uploadPhoto = 'profil/image';

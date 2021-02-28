@@ -1,4 +1,6 @@
-part of 'network.dart';
+import 'package:http/http.dart' as http;
+import 'package:tanipedia_mobile_app/model/base/response.dart';
+import 'dart:convert';
 
 // Response
 class ReturnResponse {

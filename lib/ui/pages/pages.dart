@@ -35,16 +35,20 @@ import 'dart:async';
 // Initial
 part 'main_page.dart';
 
-// Auth
-part 'login_page.dart';
-part 'auth_page.dart';
+// General
 part 'home_page.dart';
-part 'register_page.dart';
-part 'create_profile_page1.dart';
-part 'create_profile_page2.dart';
-part 'create_profile_page3.dart';
-part 'splash_page.dart';
 part 'dashboard_page.dart';
+
+// Auth
+part 'auth/login_page.dart';
+part 'auth/auth_page.dart';
+part 'auth/splash_page.dart';
+
+// Register
+part 'register/register_page.dart';
+part 'register/create_profile_page1.dart';
+part 'register/create_profile_page2.dart';
+part 'register/create_profile_page3.dart';
 
 // Profile
 part 'profile/profile_page.dart';
@@ -53,13 +57,16 @@ part 'profile/address_page.dart';
 part 'profile/help_page.dart';
 part 'profile/interest_page.dart';
 part 'profile/profile_pertanian.dart';
+
 // Pupuk
 part 'pupuk/list_pupuk_page.dart';
 part 'pupuk/detail_pupuk_page.dart';
+
 // Lahan
 part 'lahan/list_lahan_page.dart';
 part 'lahan/detail_lahan_page.dart';
 part 'lahan/create_lahan_page.dart';
+
 // Panen
 part 'panen/create_panen_page.dart';
 part 'panen/list_panen_page.dart';

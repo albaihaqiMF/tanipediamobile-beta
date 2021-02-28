@@ -1,4 +1,4 @@
-part of 'pages.dart';
+part of '../pages.dart';
 
 class CreateProfilePage3 extends StatefulWidget {
   @override
@@ -643,26 +643,27 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
       showProgressDialog(context, 'Mohon tunggu...');
       try {
         await context.read<CreateProfileCubit>().createProfile(
-            _userId,
-            _name,
-            _nik,
-            _kk,
-            _tglLahir,
-            _kodePosController.text,
-            _alamatController.text,
-            _rtController.text,
-            _rwController.text,
-            _gender.toString(),
-            _golDarah.toString(),
-            _suku.toString(),
-            _agama.toString(),
-            _pendidikan.toString(),
-            _pekerjaan.toString(),
-            _noTelp,
-            _idProvinsi,
-            _idKabupaten,
-            _idKecamatan,
-            _idDesa);
+              _userId,
+              _name,
+              _nik,
+              _kk,
+              _tglLahir,
+              _kodePosController.text,
+              _alamatController.text,
+              _rtController.text,
+              _rwController.text,
+              _gender.toString(),
+              _golDarah.toString(),
+              _suku.toString(),
+              _agama.toString(),
+              _pendidikan.toString(),
+              _pekerjaan.toString(),
+              _noTelp,
+              _idProvinsi,
+              _idKabupaten,
+              _idKecamatan,
+              _idDesa,
+            );
 
         //// Get Profile
         CreateProfileState stateProfile =
@@ -677,7 +678,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
           //// Get Data Profile
           await context.read<ProfileCubit>().getProfile(_idProfile);
           dismissProgressDialog(context);
-          Get.offAllNamed(AppRoutes.PROFILE);
+          Get.offAllNamed(AppRoutes.LOGIN);
         }
       } catch (e) {
         dismissProgressDialog(context);

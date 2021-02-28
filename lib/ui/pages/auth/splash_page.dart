@@ -1,4 +1,4 @@
-part of 'pages.dart';
+part of '../pages.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -6,32 +6,38 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  startTime() async {
-    return new Timer(Duration(seconds: 2), () async {
-      // Initial SharedPreference
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+  verifyUser() async {
+    // Initial SharedPreference
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String apiToken = prefs.getString(KeySharedPreference.apiToken);
 
+    // Get User
+    await context.read<VerifyUserCubit>().verifyUser(apiToken);
+    VerifyUserState state = context.read<VerifyUserCubit>().state;
+    if (state is VerifyUserLoaded) {
       // Set DataUser to Local Storage
-      sharedPreferences.setInt(KeySharedPreference.idProfile, 245);
-      sharedPreferences.setString(
-          KeySharedPreference.name, 'Nanda Kista Permana');
+      // prefs.setInt(KeySharedPreference.idProfile, 245);
+      prefs.setString(KeySharedPreference.apiToken, state.user.apiToken);
 
       // Get DataUser from Local Storage
-      final idProfile = sharedPreferences.getInt(KeySharedPreference.idProfile);
+      // final idProfile = prefs.getInt(KeySharedPreference.idProfile);
 
       // Get Data From Server
-      await context.read<ProfileCubit>().getProfile('$idProfile');
+      await context.read<ProfileCubit>().getProfile('246');
       context.read<GetListPupukCubit>().getListPupuk();
       context.read<GetPanenCubit>().getListPanen();
+      // Get.offAll(HomePage());
       Get.offAllNamed(AppRoutes.MAIN);
-    });
+    } else if (state is VerifyUserFailed) {
+      print('Splash : username ${state.message}');
+      Get.offAllNamed(AppRoutes.LOGIN);
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    startTime();
+    verifyUser();
   }
 
   @override

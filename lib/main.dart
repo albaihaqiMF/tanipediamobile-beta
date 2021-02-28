@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as getX;
 import 'package:tanipedia_mobile_app/routes/app_pages.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
+import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'cubit/cubit.dart';
 import 'ui/pages/pages.dart';
 
@@ -29,10 +30,15 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         // Auth
-        BlocProvider(create: (_) => UserCubit()),
+        BlocProvider(create: (_) => LoginCubit()),
+        BlocProvider(create: (_) => VerifyUserCubit()),
+        // Register
+        BlocProvider(create: (_) => RegisterCubit()),
         BlocProvider(create: (_) => CreateProfileCubit()),
+        // Profile
         BlocProvider(create: (_) => ProfileCubit()),
         BlocProvider(create: (_) => UploadPhotoProfileCubit()),
+        // Pupuk
         BlocProvider(create: (_) => GetListPupukCubit()),
         BlocProvider(create: (_) => DetailPupukCubit()),
         // Lahan

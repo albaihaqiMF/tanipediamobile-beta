@@ -1,4 +1,4 @@
-part of 'pages.dart';
+part of '../pages.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -168,8 +168,8 @@ class _AuthPageState extends State<AuthPage> {
                                     print(
                                         'STATUS Success : ${value.user.getIdToken()}');
                                     String _usernameFromAPI = (context
-                                            .read<UserCubit>()
-                                            .state as UserLoaded)
+                                            .read<RegisterCubit>()
+                                            .state as RegisterLoaded)
                                         .user
                                         .name;
 
@@ -212,7 +212,7 @@ class _AuthPageState extends State<AuthPage> {
     FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: _phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) {
-          // --------- Auto Login -------- //
+          // --------- Auto Auth -------- //
           print('FirebaseAuth Complete: $credential');
           FirebaseAuth.instance
               .signInWithCredential(credential)
@@ -220,11 +220,14 @@ class _AuthPageState extends State<AuthPage> {
             _isLoading = false;
             if (value.user != null) {
               String usernameFromAPI =
-                  (context.read<UserCubit>().state as UserLoaded).user.name;
+                  (context.read<RegisterCubit>().state as RegisterLoaded)
+                      .user
+                      .name;
 
               FirebaseServices.registerFirestore(
                   _userId, value.user.uid, _phoneNumber, usernameFromAPI);
-              Get.off(CreateProfilePage(), arguments: [_userId, _phoneNumber]);
+              Get.offAllNamed(AppRoutes.CREATE_PROFILE_PAGE1,
+                  arguments: [_userId, _phoneNumber]);
             }
           });
         },
