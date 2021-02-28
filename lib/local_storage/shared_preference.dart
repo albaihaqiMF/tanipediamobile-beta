@@ -6,4 +6,6 @@ class KeySharedPreference {
 
   // Lahan
   static const updateLahan = 'update-lahan';
+  // Panen
+  static const updatePanen = 'update-panen';
 }

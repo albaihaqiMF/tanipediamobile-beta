@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanipedia_mobile_app/cubit/cubit.dart';
 import 'package:tanipedia_mobile_app/cubit/profile/profile_cubit.dart';
@@ -19,8 +18,6 @@ class TestPage extends StatefulWidget {
 class _TestPageState extends State<TestPage> {
   String imagePath;
 
-  PickedFile _photoFile;
-  final ImagePicker _imagePicker = ImagePicker();
   String fotoProfil =
       'https://assets.pikiran-rakyat.com/crop/3x282:688x907/x/photo/2020/10/10/2212111952.png';
 
@@ -34,9 +31,11 @@ class _TestPageState extends State<TestPage> {
           CustomButton(
               onPress: () async {
                 SharedPreferences sf = await SharedPreferences.getInstance();
-                sf.setInt(KeySharedPreference.idProfile, 180);
-                final iddProfile = sf.getInt(KeySharedPreference.idProfile);
-                await context.bloc<ProfileCubit>().getProfile('243');
+                sf.setInt(KeySharedPreference.idProfile, 234);
+                final idProfile = sf.getInt(KeySharedPreference.idProfile);
+                await context
+                    .read<ProfileCubit>()
+                    .getProfile(idProfile.toString());
 
                 Get.to(ProfilePage());
               },
@@ -118,6 +117,25 @@ class _TestPageState extends State<TestPage> {
                     arguments: ['123', 'token', 'Nanda'],
                   ),
               text: 'Dashboard',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                showProgressDialog(context, 'Test...');
+                Future<void> delay() async {
+                  await Future.delayed(Duration(milliseconds: 3000));
+
+                  dismissProgressDialog(context);
+                }
+
+                delay();
+              },
+              text: 'Show ProgressDialog',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                dismissProgressDialog(context);
+              },
+              text: 'Show ProgressDialog',
               color: mainColor),
         ],
       ),

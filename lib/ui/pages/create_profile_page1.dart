@@ -13,10 +13,8 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   TextEditingController _noTelpController = TextEditingController();
   TextEditingController _tglLahirController = TextEditingController();
 
-  bool _isLoading = false;
-  bool _errorNameField = false;
+  // bool _isLoading = false;
   bool _errorNoTelpField = false;
-  bool _errorTglLahirField = false;
   // RadioButton
   int _selectedGender;
   int _selectedBlood;
@@ -129,7 +127,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                         firstDate: DateTime(1900),
                         lastDate: DateTime.now())
                     .then((date) {
-                  var formattedDate = DateFormat('MM-dd-y').format(date);
+                  var formattedDate = DateFormat(dateFormat).format(date);
                   setState(() {
                     if (date == null) {
                       _tglLahirController.text = "Masukan Tanggal Lahir";
@@ -538,42 +536,39 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
               margin: EdgeInsets.only(bottom: defaultMargin),
-              child: (_isLoading)
-                  ? loadingIndicator
-                  : CustomButton(
-                      onPress: () async {
-                        if (validationField()) {
-                          print('Data ID User : $_userId');
-                          print('Data Nama : ${_nameController.text}');
-                          print('Data No.Telp : ${_noTelpController.text}');
-                          print('Data Tgl Lahir : ${_tglLahirController.text}');
-                          print('Data Gender : $_selectedGender');
-                          print('Data Darah : $_selectedBlood');
-                          print('Data Agama : $_selectedReligion');
-                          print('Data Suku : $_selectedEthnic');
-                          print('Data Pendidikan : $_selectedEducation');
-                          print('Data Pekerjaan : $_selectedProfession');
+              child: CustomButton(
+                  onPress: () async {
+                    if (validationField()) {
+                      print('Data ID User : $_userId');
+                      print('Data Nama : ${_nameController.text}');
+                      print('Data No.Telp : ${_noTelpController.text}');
+                      print('Data Tgl Lahir : ${_tglLahirController.text}');
+                      print('Data Gender : $_selectedGender');
+                      print('Data Darah : $_selectedBlood');
+                      print('Data Agama : $_selectedReligion');
+                      print('Data Suku : $_selectedEthnic');
+                      print('Data Pendidikan : $_selectedEducation');
+                      print('Data Pekerjaan : $_selectedProfession');
 
-                          Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE2,
-                              arguments: [
-                                _userId,
-                                _nameController.text,
-                                _noTelpController.text,
-                                _tglLahirController.text,
-                                _selectedGender,
-                                _selectedBlood,
-                                _selectedReligion,
-                                _selectedEthnic,
-                                _selectedEducation,
-                                _selectedProfession
-                              ]);
-                        } else {
-                          showSnackbar(
-                              'Terjadi Kesalahan', 'Semua kolom harus diisi');
-                        }
-                      },
-                      text: 'Selanjutnya',
-                      color: mainColor),
+                      Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE2, arguments: [
+                        _userId,
+                        _nameController.text,
+                        _noTelpController.text,
+                        _tglLahirController.text,
+                        _selectedGender,
+                        _selectedBlood,
+                        _selectedReligion,
+                        _selectedEthnic,
+                        _selectedEducation,
+                        _selectedProfession
+                      ]);
+                    } else {
+                      showSnackbar(
+                          'Terjadi Kesalahan', 'Semua kolom harus diisi');
+                    }
+                  },
+                  text: 'Selanjutnya',
+                  color: mainColor),
             )
           ],
         ),

@@ -66,7 +66,7 @@ class DetailPanenPage extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Divider(color: Colors.black),
-                          Text('Jenis Pertanian : ${state.panen.varietas}',
+                          Text('Jenis Pertanian : ${state.panen.kategori}',
                               style: blackFontStyle4),
                           Divider(color: Colors.black),
                           Text('Tanggal Tanam : ${state.panen.tglTanam}',
@@ -74,14 +74,14 @@ class DetailPanenPage extends StatelessWidget {
                           Text('Tanggal Panen : ${state.panen.tglPanen}',
                               style: blackFontStyle4),
                           Divider(color: Colors.black),
-                          Text('${state.panen.alamat}', style: blackFontStyle4),
-                          Text('Kelurahan ${state.panen.desa}',
-                              style: blackFontStyle4),
-                          Text(
-                              '${state.panen.kabupaten}-${state.panen.kecamatan}'),
-                          Text('Kode Pos ${state.panen.kecamatan}',
-                              style: blackFontStyle4),
-                          Divider(color: Colors.black),
+                          // Text('${state.panen.alamat}', style: blackFontStyle4),
+                          // Text('Kelurahan ${state.panen.desa}',
+                          //     style: blackFontStyle4),
+                          // Text(
+                          //     '${state.panen.kabupaten}-${state.panen.kecamatan}'),
+                          // Text('Kode Pos ${state.panen.kecamatan}',
+                          //     style: blackFontStyle4),
+                          // Divider(color: Colors.black),
                           Text('Penulis: ${state.panen.petani}',
                               style: blackFontStyle4),
                           SizedBox(
@@ -91,27 +91,12 @@ class DetailPanenPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               CustomButton2(
-                                  onPress: () {},
+                                  onPress: () => onUpdate(context),
                                   text: 'Ubah',
                                   icon: Icons.edit_outlined),
                               CustomButton2(
-                                onPress: () => showDialog(
-                                  context: context,
-                                  builder: (context) => ConfirmDialog(
-                                      title: 'Konfirmasi',
-                                      description:
-                                          'Apakah anda yakin untuk menghapus data panen ini?',
-                                      confirmPress: () async {
-                                        Get.back();
-                                        showProgressDialog(
-                                            context, 'Mohon tunggu...');
-                                        await context
-                                            .read<DeletePanenCubit>()
-                                            .deletePanen(state.panen.id);
-                                        Get.offNamed(AppRoutes.PANEN);
-                                      },
-                                      cancelPress: () => Get.back()),
-                                ),
+                                onPress: () =>
+                                    onDelete(context, state.panen.id),
                                 text: 'Hapus',
                                 icon: Icons.delete_outline_rounded,
                                 color: Colors.red,
@@ -137,6 +122,33 @@ class DetailPanenPage extends StatelessWidget {
           );
         }
       }),
+    );
+  }
+
+  onUpdate(BuildContext context) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool(KeySharedPreference.updatePanen, true);
+    bool isUpdate = sharedPreferences.getBool(KeySharedPreference.updatePanen);
+    if (isUpdate) {
+      print('Panen UPDATE Detail : $isUpdate');
+      Get.toNamed(AppRoutes.CREATE_PANEN);
+    }
+  }
+
+  onDelete(BuildContext context, String idPanen) {
+    showDialog(
+      context: context,
+      builder: (context) => ConfirmDialog(
+          title: 'Konfirmasi',
+          description: 'Apakah anda yakin untuk menghapus data panen ini?',
+          confirmPress: () async {
+            Get.back();
+            showProgressDialog(context, 'Mohon tunggu...');
+            await context.read<DeletePanenCubit>().deletePanen(idPanen);
+            Get.offNamedUntil(
+                AppRoutes.PANEN, ModalRoute.withName(AppRoutes.MAIN));
+          },
+          cancelPress: () => Get.back()),
     );
   }
 }

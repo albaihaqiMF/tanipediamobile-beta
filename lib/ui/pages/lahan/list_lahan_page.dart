@@ -33,6 +33,7 @@ class ListLahanPage extends StatelessWidget {
         },
         child: Icon(Icons.add, color: Colors.white),
       ),
+      backgroundColor: Colors.white,
       body: BlocBuilder<GetListLahanCubit, GetListLahanState>(
         builder: (_, state) {
           if (state is GetListLahanLoaded) {

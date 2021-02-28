@@ -231,23 +231,25 @@ class _DashboardPageState extends State<DashboardPage> {
       width: double.infinity,
       child: BlocBuilder<GetListPupukCubit, GetListPupukState>(
         builder: (_, state) => (state is GetListPupukLoaded)
-            ? ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Row(
-                    children: state.pupuk
-                        .map((e) => Padding(
-                              padding: EdgeInsets.only(
-                                  left: (e == state.pupuk.first)
-                                      ? defaultMargin
-                                      : 0,
-                                  right: defaultMargin),
-                              child: PupukCard(e),
-                            ))
-                        .toList(),
+            ? (state.pupuk.length == 0)
+                ? Center(child: Text('Tidak ada data Pupuk'))
+                : ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Row(
+                        children: state.pupuk
+                            .map((e) => Padding(
+                                  padding: EdgeInsets.only(
+                                      left: (e == state.pupuk.first)
+                                          ? defaultMargin
+                                          : 0,
+                                      right: defaultMargin),
+                                  child: PupukCard(e),
+                                ))
+                            .toList(),
+                      )
+                    ],
                   )
-                ],
-              )
             : Center(child: loadingIndicator),
       ),
     );
@@ -259,23 +261,25 @@ class _DashboardPageState extends State<DashboardPage> {
       width: double.infinity,
       child: BlocBuilder<GetPanenCubit, GetPanenState>(
         builder: (_, state) => (state is GetListPanenLoaded)
-            ? ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Row(
-                    children: state.panen
-                        .map((e) => Padding(
-                              padding: EdgeInsets.only(
-                                  left: (e == state.panen.first)
-                                      ? defaultMargin
-                                      : 0,
-                                  right: defaultMargin),
-                              child: PanenCard(e),
-                            ))
-                        .toList(),
+            ? (state.panen.length == 0)
+                ? Center(child: Text('Tidak ada data Panen'))
+                : ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Row(
+                        children: state.panen
+                            .map((e) => Padding(
+                                  padding: EdgeInsets.only(
+                                      left: (e == state.panen.first)
+                                          ? defaultMargin
+                                          : 0,
+                                      right: defaultMargin),
+                                  child: PanenCard(e),
+                                ))
+                            .toList(),
+                      )
+                    ],
                   )
-                ],
-              )
             : Center(child: loadingIndicator),
       ),
     );

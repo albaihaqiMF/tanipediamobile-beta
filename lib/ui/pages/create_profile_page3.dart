@@ -39,8 +39,6 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
   List<S2Choice<String>> listKecamatan = [];
   List<S2Choice<String>> listDesa = [];
 
-  bool _isLoading = false;
-
   @override
   void initState() {
     super.initState();
@@ -623,84 +621,10 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   margin: EdgeInsets.only(bottom: defaultMargin),
-                  child: (_isLoading)
-                      ? loadingIndicator
-                      : CustomButton(
-                          onPress: () async {
-                            if (validationField()) {
-                              // _isLoading = true;
-                              setState(() {
-                                _isLoading = true;
-                              });
-                              try {
-                                await context
-                                    .read<CreateProfileCubit>()
-                                    .createProfile(
-                                        _userId,
-                                        _name,
-                                        _nik,
-                                        _kk,
-                                        _tglLahir,
-                                        _kodePosController.text,
-                                        _alamatController.text,
-                                        _rtController.text,
-                                        _rwController.text,
-                                        _gender.toString(),
-                                        _golDarah.toString(),
-                                        _suku.toString(),
-                                        _agama.toString(),
-                                        _pendidikan.toString(),
-                                        _pekerjaan.toString(),
-                                        _noTelp,
-                                        _idProvinsi,
-                                        _idKabupaten,
-                                        _idKecamatan,
-                                        _idDesa);
-
-                                //// Get Profile
-                                CreateProfileState stateProfile =
-                                    context.bloc<CreateProfileCubit>().state;
-
-                                if (stateProfile is CreateProfileLoaded) {
-                                  var _idProfile = (context
-                                          .bloc<CreateProfileCubit>()
-                                          .state as CreateProfileLoaded)
-                                      .profile
-                                      .id;
-
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  await prefs.setInt(
-                                      KeySharedPreference.idProfile,
-                                      int.tryParse(_idProfile));
-                                  //// Get Data Profile
-                                  await context
-                                      .bloc<ProfileCubit>()
-                                      .getProfile(_idProfile);
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
-                                  Get.offAllNamed(AppRoutes.PROFILE);
-                                }
-                              } catch (e) {
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                                // context.read<ProvinsiCubit>().getProvinsi();
-                                print('Exception : ${e.toString()}');
-                                showSnackbar('Terjadi Kesalahan',
-                                    'Semua Kolom harus diisi.');
-                              }
-                            } else {
-                              setState(() {
-                                _isLoading = false;
-                              });
-                              showSnackbar('Terjadi Kesalahan',
-                                  'Semua kolom harus diisi');
-                            }
-                          },
-                          text: 'Selesai',
-                          color: mainColor),
+                  child: CustomButton(
+                      onPress: () => onPostData(),
+                      text: 'Selesai',
+                      color: mainColor),
                 ),
               ],
             ),
@@ -712,6 +636,58 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
         }
       }),
     );
+  }
+
+  void onPostData() async {
+    if (validationField()) {
+      showProgressDialog(context, 'Mohon tunggu...');
+      try {
+        await context.read<CreateProfileCubit>().createProfile(
+            _userId,
+            _name,
+            _nik,
+            _kk,
+            _tglLahir,
+            _kodePosController.text,
+            _alamatController.text,
+            _rtController.text,
+            _rwController.text,
+            _gender.toString(),
+            _golDarah.toString(),
+            _suku.toString(),
+            _agama.toString(),
+            _pendidikan.toString(),
+            _pekerjaan.toString(),
+            _noTelp,
+            _idProvinsi,
+            _idKabupaten,
+            _idKecamatan,
+            _idDesa);
+
+        //// Get Profile
+        CreateProfileState stateProfile =
+            context.read<CreateProfileCubit>().state;
+
+        if (stateProfile is CreateProfileLoaded) {
+          var _idProfile = stateProfile.profile.id;
+
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setInt(
+              KeySharedPreference.idProfile, int.tryParse(_idProfile));
+          //// Get Data Profile
+          await context.read<ProfileCubit>().getProfile(_idProfile);
+          dismissProgressDialog(context);
+          Get.offAllNamed(AppRoutes.PROFILE);
+        }
+      } catch (e) {
+        dismissProgressDialog(context);
+        print('Exception : ${e.toString()}');
+        showSnackbar('Terjadi Kesalahan', 'Semua Kolom harus diisi.');
+      }
+    } else {
+      dismissProgressDialog(context);
+      showSnackbar('Terjadi Kesalahan', 'Semua kolom harus diisi');
+    }
   }
 
   bool validationField() {

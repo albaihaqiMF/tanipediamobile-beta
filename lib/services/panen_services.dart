@@ -68,26 +68,30 @@ class PanenServices {
   //                          CReATE/POST Panen
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Panen>> createPanen(
-      String kategori,
-      String instansi,
-      String varietas,
-      int totalPanen,
-      int satuan,
-      String tglTanam,
-      String tglPanen,
-      String idLahan,
-      String keterangan) async {
+    String idPetani,
+    String kategori,
+    int totalPanen,
+    int satuan,
+    String usiaTanam,
+    String tglTanam,
+    String tglPanen,
+    String keterangan,
+    // String instansi,
+    // String varietas,
+    // String idLahan,
+  ) async {
     Map<String, dynamic> fieldFormURL = {
-      'id_petani': kategori,
-      'id_instansi': instansi,
+      'id_petani': idPetani,
       'kategori': kategori,
-      'varietas': varietas,
       'total_panen': totalPanen,
       'satuan': satuan,
+      'usia_tanam': usiaTanam,
       'tgl_tanam': tglTanam,
       'tgl_panen': tglPanen,
-      'id_lahan': idLahan,
       'keterangan': keterangan,
+      // 'id_lahan': idLahan,
+      // 'id_instansi': instansi,
+      // 'varietas': varietas,
     };
 
     var body = jsonEncode(fieldFormURL);
@@ -110,28 +114,32 @@ class PanenServices {
   //                          UPDATE Panen
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Panen>> updatePanen(
-      String idPanen,
-      String kategori,
-      String instansi,
-      String varietas,
-      int totalPanen,
-      int satuan,
-      String tglTanam,
-      String tglPanen,
-      String idLahan,
-      String keterangan) async {
+    String idPanen,
+    String idPetani,
+    String kategori,
+    int totalPanen,
+    int satuan,
+    String usiaTanam,
+    String tglTanam,
+    String tglPanen,
+    String keterangan,
+    // String instansi,
+    // String varietas,
+    // String idLahan,
+  ) async {
     Map<String, dynamic> fieldFormURL = {
       'id': idPanen,
-      'id_petani': kategori,
-      'id_instansi': instansi,
+      'id_petani': idPetani,
       'kategori': kategori,
-      'varietas': varietas,
       'total_panen': totalPanen,
       'satuan': satuan,
+      'usia_tanam': usiaTanam,
       'tgl_tanam': tglTanam,
       'tgl_panen': tglPanen,
-      'id_lahan': idLahan,
       'keterangan': keterangan,
+      // 'id_lahan': idLahan,
+      // 'id_instansi': instansi,
+      // 'varietas': varietas,
     };
 
     var body = jsonEncode(fieldFormURL);

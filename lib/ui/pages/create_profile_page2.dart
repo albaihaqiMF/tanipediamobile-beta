@@ -20,17 +20,13 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
   TextEditingController _nikController = TextEditingController();
   TextEditingController _kkController = TextEditingController();
 
-  bool _isLoading = false;
-  bool _errorNikField = false;
-  bool _errorKkField = false;
-
   @override
   void initState() {
     super.initState();
     print('Data ID User : $_userId');
-    print('Data Nama : ${_name}');
-    print('Data No.Telp : ${_noTelp}');
-    print('Data Tgl Lahir : ${_tglLahir}');
+    print('Data Nama : $_name');
+    print('Data No.Telp : $_noTelp');
+    print('Data Tgl Lahir : $_tglLahir');
     print('Data Gender : $_gender');
     print('Data Darah : $_golDarah');
     print('Data Agama : $_agama');

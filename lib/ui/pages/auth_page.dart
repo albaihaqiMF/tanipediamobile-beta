@@ -220,7 +220,7 @@ class _AuthPageState extends State<AuthPage> {
             _isLoading = false;
             if (value.user != null) {
               String usernameFromAPI =
-                  (context.bloc<UserCubit>().state as UserLoaded).user.name;
+                  (context.read<UserCubit>().state as UserLoaded).user.name;
 
               FirebaseServices.registerFirestore(
                   _userId, value.user.uid, _phoneNumber, usernameFromAPI);

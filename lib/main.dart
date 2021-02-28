@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as getX;
 import 'package:tanipedia_mobile_app/routes/app_pages.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
-import 'package:tanipedia_mobile_app/ui/pages/test.dart';
 import 'cubit/cubit.dart';
 import 'ui/pages/pages.dart';
 
@@ -29,21 +28,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // Auth
         BlocProvider(create: (_) => UserCubit()),
         BlocProvider(create: (_) => CreateProfileCubit()),
         BlocProvider(create: (_) => ProfileCubit()),
         BlocProvider(create: (_) => UploadPhotoProfileCubit()),
         BlocProvider(create: (_) => GetListPupukCubit()),
         BlocProvider(create: (_) => DetailPupukCubit()),
+        // Lahan
         BlocProvider(create: (_) => GetDetailLahanCubit()),
         BlocProvider(create: (_) => GetListLahanCubit()),
         BlocProvider(create: (_) => CreateLahanCubit()),
         BlocProvider(create: (_) => DeleteLahanCubit()),
         BlocProvider(create: (_) => UpdateLahanCubit()),
+        // Panen
         BlocProvider(create: (_) => CreatePanenCubit()),
         BlocProvider(create: (_) => GetPanenCubit()),
         BlocProvider(create: (_) => GetDetailPanenCubit()),
         BlocProvider(create: (_) => DeletePanenCubit()),
+        BlocProvider(create: (_) => UpdatePanenCubit()),
+        // Wilayah
         BlocProvider(create: (_) => ProvinsiCubit()),
         BlocProvider(create: (_) => KabupatenCubit()),
         BlocProvider(create: (_) => KecamatanCubit()),

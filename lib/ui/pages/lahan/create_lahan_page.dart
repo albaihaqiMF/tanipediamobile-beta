@@ -21,43 +21,29 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
   int _selectedKecamatan;
   int _selectedKabupaten;
   int _selectedProvinsi;
+  int _selectedKategoriPertanian;
   // Data Value (Post Data)
   String _idDesa;
   String _idKecamatan;
   String _idKabupaten;
   String _idProvinsi;
 
-  int _selectedKategoriPertanian;
-
   List<S2Choice<String>> listProvinsi = [];
   List<S2Choice<String>> listKabupaten = [];
   List<S2Choice<String>> listKecamatan = [];
   List<S2Choice<String>> listDesa = [];
 
-  bool _isLoading = false;
-  bool _errorLuasField = false;
-  bool _errorSatuanField = false;
-  bool _errorUsiaTanamField = false;
-  bool _errorAlamatField = false;
-
-  Future<bool> getUpdate() async {
+  isUpdateLahan() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     isUpdate = sharedPreferences.getBool(KeySharedPreference.updateLahan);
-    print('Status UPDATE : $isUpdate');
-    return isUpdate ?? false;
-  }
-
-  isUpdateLahan() {
-    getUpdate().then((value) {
-      if (value) {
-        final dataUpdate =
-            (context.read<GetDetailLahanCubit>().state as GetDetailLahanLoaded);
-        _idLahan = dataUpdate.lahan.id;
-        _luasController.text = dataUpdate.lahan.luas.toString();
-        _alamatController.text = dataUpdate.lahan.alamat;
-        _usiaTanamController.text = dataUpdate.lahan.usiaTanam.toString();
-      }
-    });
+    if (isUpdate) {
+      final dataResponse =
+          (context.read<GetDetailLahanCubit>().state as GetDetailLahanLoaded);
+      _idLahan = dataResponse.lahan.id;
+      _luasController.text = dataResponse.lahan.luas.toString();
+      _alamatController.text = dataResponse.lahan.alamat;
+      _usiaTanamController.text = dataResponse.lahan.usiaTanam.toString();
+    }
   }
 
   @override
@@ -103,10 +89,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
               padding: const EdgeInsets.only(left: 8.0),
               child: IconButton(
                   icon: Icon(Icons.arrow_back_ios_rounded, color: mainColor),
-                  onPressed: () {
-                    // setUpdate();
-                    Get.back();
-                  }),
+                  onPressed: () => Get.back()),
             ),
           ),
         ),
@@ -152,39 +135,10 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                errorText: _errorLuasField
-                                    ? 'Kolom tidak boleh kosong'
-                                    : null,
                               ),
                               controller: _luasController,
                               keyboardType: TextInputType.number,
                             ),
-                            // SizedBox(height: 20),
-                            // TextField(
-                            //   decoration: InputDecoration(
-                            //     labelText: 'Satuan',
-                            //     hintText: 'Masukkan Satuan Lahan',
-                            //     hintStyle: greyFontStyle,
-                            //     contentPadding:
-                            //         EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            //     focusedBorder: OutlineInputBorder(
-                            //         borderSide: BorderSide(color: Colors.blue, width: 2),
-                            //         borderRadius: BorderRadius.circular(10)),
-                            //     enabledBorder: (OutlineInputBorder(
-                            //         borderSide: BorderSide(
-                            //           color: mainColor,
-                            //           width: 2,
-                            //         ),
-                            //         borderRadius: BorderRadius.circular(10))),
-                            //     border: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(10),
-                            //     ),
-                            //     errorText:
-                            //         _errorSatuanField ? 'Kolom tidak boleh kosong' : null,
-                            //   ),
-                            //   controller: _satuanController,
-                            //   keyboardType: TextInputType.number,
-                            // ),
                             SizedBox(height: 20),
                             TextField(
                               decoration: InputDecoration(
@@ -207,9 +161,6 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 suffixText: '(minggu)',
-                                errorText: _errorUsiaTanamField
-                                    ? 'Kolom tidak boleh kosong'
-                                    : null,
                               ),
                               controller: _usiaTanamController,
                               keyboardType: TextInputType.number,
@@ -261,7 +212,6 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                 },
                               ),
                             ),
-
                             SizedBox(height: 20),
                             TextField(
                               decoration: InputDecoration(
@@ -283,9 +233,6 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                errorText: _errorAlamatField
-                                    ? 'Kolom tidak boleh kosong'
-                                    : null,
                               ),
                               controller: _alamatController,
                             ),
@@ -750,13 +697,10 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                       Container(
                           padding: EdgeInsets.symmetric(horizontal: 30),
                           margin: EdgeInsets.only(bottom: defaultMargin),
-                          child: (_isLoading)
-                              ? loadingIndicator
-                              : CustomButton(
-                                  onPress: () =>
-                                      (isUpdate) ? onUpdate() : onPost(),
-                                  text: 'Selesai',
-                                  color: mainColor)),
+                          child: CustomButton(
+                              onPress: () => (isUpdate) ? onUpdate() : onPost(),
+                              text: 'Selesai',
+                              color: mainColor)),
                     ],
                   ),
                 ),
@@ -771,21 +715,9 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
   }
 
   void onPost() async {
-    setState(() {
-      _validationField();
-    });
-    if (!_errorAlamatField &&
-        !_errorLuasField &&
-        !_errorUsiaTanamField &&
-        _idDesa != null &&
-        _idKecamatan != null &&
-        _idKabupaten != null &&
-        _idProvinsi != null &&
-        _selectedKategoriPertanian != null) {
+    if (validationField()) {
       try {
-        setState(() {
-          _isLoading = true;
-        });
+        showProgressDialog(context, 'Mohon tunggu...');
 
         await context.read<CreateLahanCubit>().createLahan(
             _selectedKategoriPertanian.toString(),
@@ -801,36 +733,28 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
             _idProvinsi,
             '-111.00',
             '-134.00');
+
+        CreateLahanState state = context.read<CreateLahanCubit>().state;
+        if (state is CreateLahanLoaded) {
+          dismissProgressDialog(context);
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => SuccessDialog(
+                    title: 'Sukses',
+                    description: 'Anda berhasil menambahkan lahan',
+                    onPress: () => Get.offNamedUntil(
+                        AppRoutes.LAHAN, ModalRoute.withName(AppRoutes.MAIN)),
+                  ));
+        } else if (state is CreateLahanFailed) {
+          var message = state.message.toString();
+          showSnackbar('Tambah Lahan Gagal!', message);
+          dismissProgressDialog(context);
+        }
       } catch (e) {
-        setState(() {
-          _isLoading = false;
-        });
+        dismissProgressDialog(context);
         print('Exception : ${e.toString()}');
         showSnackbar('Terjadi Kesalahan', 'Semua Kolom harus diisi.');
-      }
-
-      CreateLahanState state = context.read<CreateLahanCubit>().state;
-      if (state is CreateLahanLoaded) {
-        setState(() {
-          _isLoading = false;
-        });
-        context.read<GetListLahanCubit>().getListLahan();
-
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) => SuccessDialog(
-                  title: 'Succes',
-                  description: 'Anda berhasil menambahkan lahan',
-                  onPress: () => Get.offAndToNamed(AppRoutes.LAHAN),
-                ));
-        // Get.to(ListLahanPage());
-      } else if (state is CreateLahanFailed) {
-        var message = state.message.toString();
-        showSnackbar('Terjadi kesalahan!', message);
-        setState(() {
-          _isLoading = false;
-        });
       }
     } else {
       showSnackbar('Terjadi Kesalahan', 'Semua kolom harus diisi..');
@@ -838,22 +762,9 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
   }
 
   void onUpdate() async {
-    setState(() {
-      _validationField();
-    });
-    if (!_errorAlamatField &&
-        !_errorLuasField &&
-        !_errorUsiaTanamField &&
-        _selectedDesa != null &&
-        _selectedKecamatan != null &&
-        _selectedKabupaten != null &&
-        _selectedProvinsi != null &&
-        _selectedKategoriPertanian != null) {
+    if (validationField()) {
       try {
-        setState(() {
-          _isLoading = true;
-        });
-
+        showProgressDialog(context, 'Mohon tunggu...');
         await context.read<UpdateLahanCubit>().updateLahan(
             _idLahan,
             _selectedKategoriPertanian.toString(),
@@ -869,53 +780,48 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
             _idProvinsi,
             '-111.00',
             '-134.00');
+
+        UpdateLahanState state = context.read<UpdateLahanCubit>().state;
+        if (state is UpdateLahanLoaded) {
+          dismissProgressDialog(context);
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => SuccessDialog(
+                    title: 'Sukses',
+                    description: 'Anda berhasil mengupdate lahan',
+                    onPress: () => Get.offNamedUntil(
+                        AppRoutes.LAHAN, ModalRoute.withName(AppRoutes.MAIN)),
+                  ));
+          // Get.to(ListLahanPage());
+        } else if (state is UpdateLahanFailed) {
+          var message = state.message.toString();
+          showSnackbar('Update Lahan Gagal!', message);
+          dismissProgressDialog(context);
+        }
       } catch (e) {
-        setState(() {
-          _isLoading = false;
-        });
+        dismissProgressDialog(context);
         print('Exception : ${e.toString()}');
         showSnackbar('Terjadi Kesalahan', 'Semua Kolom harus diisi.');
-      }
-
-      UpdateLahanState state = context.read<UpdateLahanCubit>().state;
-      if (state is UpdateLahanLoaded) {
-        setState(() {
-          _isLoading = false;
-        });
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) => SuccessDialog(
-                  title: 'Sukses',
-                  description: 'Anda berhasil mengupdate lahan',
-                  onPress: () => Get.offAndToNamed(AppRoutes.CREATE_LAHAN),
-                ));
-        // Get.to(ListLahanPage());
-      } else if (state is UpdateLahanFailed) {
-        var message = state.message.toString();
-        showSnackbar('Terjadi kesalahan!', message);
-        setState(() {
-          _isLoading = false;
-        });
       }
     } else {
       showSnackbar('Terjadi Kesalahan', 'Semua kolom harus diisi..');
     }
   }
 
-  void _validationField() {
-    _luasController.text.isEmpty
-        ? _errorLuasField = true
-        : _errorLuasField = false;
-    _usiaTanamController.text.isEmpty
-        ? _errorUsiaTanamField = true
-        : _errorUsiaTanamField = false;
-    _satuanController.text.isEmpty
-        ? _errorSatuanField = true
-        : _errorSatuanField = false;
-    _alamatController.text.isEmpty
-        ? _errorAlamatField = true
-        : _errorAlamatField = false;
+  bool validationField() {
+    if (_luasController.text.isNotEmpty &&
+        _usiaTanamController.text.isNotEmpty &&
+        _alamatController.text.isNotEmpty &&
+        _selectedDesa != null &&
+        _selectedKecamatan != null &&
+        _selectedKabupaten != null &&
+        _selectedProvinsi != null &&
+        _selectedKategoriPertanian != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override

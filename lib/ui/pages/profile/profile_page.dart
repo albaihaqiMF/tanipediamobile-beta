@@ -253,10 +253,7 @@ class _ProfilePageState extends State<ProfilePage> {
           context.read<UploadPhotoProfileCubit>().state;
       try {
         if (state is UploadPhotoProfileLoaded) {
-          String _dataImage = (context.bloc<UploadPhotoProfileCubit>().state
-                  as UploadPhotoProfileLoaded)
-              .profile
-              .fotoProfil;
+          String _dataImage = state.profile.fotoProfil;
           String pathImage = _dataImage.substring(8);
           setState(() {
             _updateFotoProfil = ApiUrl.baseURL + pathImage;

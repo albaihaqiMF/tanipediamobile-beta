@@ -3,23 +3,22 @@ part of 'models.dart';
 class Panen {
   String id;
   String kategori;
-  int luas;
+  // int luas;
   int satuan;
-  String alamat;
   String usiaTanam;
   String idPetani;
   String petani;
   String instansi;
-  String desa;
-  String kecamatan;
-  String kabupaten;
-  String provinsi;
-  String latitude;
-  String longitude;
+  // String alamat;
+  // String desa;
+  // String kecamatan;
+  // String kabupaten;
+  // String provinsi;
+  // String latitude;
+  // String longitude;
   String keterangan;
-
-  String varietas;
-  int totalPanen;
+  // String varietas;
+  String totalPanen;
   String tglTanam;
   String tglPanen;
   String idLahan;
@@ -27,21 +26,21 @@ class Panen {
   Panen(
       {this.id,
       this.kategori,
-      this.luas,
+      // this.luas,
       this.satuan,
-      this.alamat,
       this.usiaTanam,
       this.idPetani,
       this.petani,
       this.instansi,
-      this.desa,
-      this.kecamatan,
-      this.kabupaten,
-      this.provinsi,
-      this.latitude,
-      this.longitude,
+      // this.alamat,
+      // this.desa,
+      // this.kecamatan,
+      // this.kabupaten,
+      // this.provinsi,
+      // this.latitude,
+      // this.longitude,
       this.keterangan,
-      this.varietas,
+      // this.varietas,
       this.totalPanen,
       this.tglTanam,
       this.tglPanen,
@@ -50,23 +49,23 @@ class Panen {
   factory Panen.fromJSON(Map<String, dynamic> json) {
     return Panen(
       id: json['id'].toString(),
-      kategori: json['kategori'].toString(),
-      luas: json['luas'],
+      kategori: json['kategori'],
+      // luas: json['luas'],
       satuan: json['satuan'],
-      alamat: json['alamat'],
       usiaTanam: json['usia_tanam'],
       idPetani: json['id_petani'].toString(),
-      petani: json['petani'].toString(),
+      petani: json['petani'],
       instansi: json['id_instansi'].toString(),
-      desa: json['id_desa'].toString(),
-      kecamatan: json['id_kecamatan'].toString(),
-      kabupaten: json['id_kabupaten'].toString(),
-      provinsi: json['id_provinsi'].toString(),
-      latitude: json['latitude'],
-      longitude: json['longtitude'],
+      // alamat: json['alamat'],
+      // desa: json['id_desa'].toString(),
+      // kecamatan: json['id_kecamatan'].toString(),
+      // kabupaten: json['id_kabupaten'].toString(),
+      // provinsi: json['id_provinsi'].toString(),
+      // latitude: json['latitude'],
+      // longitude: json['longtitude'],
       keterangan: json['keterangan'],
-      varietas: json['varietas'],
-      totalPanen: json['total_panen'],
+      // varietas: json['varietas'],
+      totalPanen: json['total_panen'].toString(),
       tglTanam: json['tgl_tanam'],
       tglPanen: json['tgl_panen'],
       idLahan: json['idLahan'],

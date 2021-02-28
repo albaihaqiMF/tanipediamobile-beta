@@ -19,11 +19,12 @@ class AppRoutes {
 
   // Panen
   static const PANEN = '/panen';
-  static const DETAIL_PANEN = '/pupuk-panen';
+  static const DETAIL_PANEN = '/detail-panen';
+  static const CREATE_PANEN = '/create-panen';
 
   // Pupuk
   static const PUPUK = '/pupuk';
-  static const DETAIL_PUPUK = '/pupuk-detail';
+  static const DETAIL_PUPUK = '/detail-pupuk';
 
   // Lahan
   static const LAHAN = '/lahan';

@@ -4,7 +4,7 @@ class DetailLahanPage extends StatelessWidget {
   setUpdateData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool(KeySharedPreference.updateLahan, false);
-    print('Status UPDATE : ');
+    print('Lahan UPDATE : ');
   }
 
   @override
@@ -121,7 +121,7 @@ class DetailLahanPage extends StatelessWidget {
     sharedPreferences.setBool(KeySharedPreference.updateLahan, true);
     bool isUpdate = sharedPreferences.getBool(KeySharedPreference.updateLahan);
     if (isUpdate) {
-      print('Status UPDATE Detail : $isUpdate');
+      print('Lahan UPDATE Detail : $isUpdate');
       Get.toNamed(AppRoutes.CREATE_LAHAN);
     }
   }
@@ -136,7 +136,8 @@ class DetailLahanPage extends StatelessWidget {
             Get.back();
             showProgressDialog(context, 'Mohon tunggu...');
             await context.read<DeleteLahanCubit>().deleteLahan(idLahan);
-            Get.offAndToNamed(AppRoutes.LAHAN);
+            Get.offNamedUntil(
+                AppRoutes.LAHAN, ModalRoute.withName(AppRoutes.MAIN));
           },
           cancelPress: () => Get.back()),
     );
