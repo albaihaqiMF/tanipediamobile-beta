@@ -4,6 +4,7 @@ import 'dart:convert';
 
 // Response
 class ReturnResponse {
+  static const String tag = 'NETWORK_EXCEPTION';
   static response(http.Response response) {
     final responseBody = response.body.toString();
     switch (response.statusCode) {
@@ -19,27 +20,27 @@ class ReturnResponse {
 
       case 400:
         final responseJSON = Response.fromJSON(json.decode(responseBody));
-        print('NETWORK_EXCEPTION : ${response.body.toString()}');
+        print('$tag : ${response.body.toString()}');
         throw BadRequestException(responseJSON.message);
 
       case 401:
-        print('NETWORK_EXCEPTION : ${response.body.toString()}');
+        print('$tag : ${response.body.toString()}');
         throw UnauthorisedException('Anda harus login terlebih dahulu.');
 
       case 403:
         //final responseJSON = Response.fromJSON(json.decode(responseBody));
-        print('NETWORK_EXCEPTION ${response.body.toString()}');
-        print('NETWORK_EXCEPTION ${response.statusCode.toString()}');
+        print('$tag ${response.body.toString()}');
+        print('$tag ${response.statusCode.toString()}');
         throw InvalidInputException('Anda tidak memiliki akses.');
 
       case 404:
         //final responseJSON = Response.fromJSON(json.decode(responseBody));
-        print('NETWORK_EXCEPTION ${response.body.toString()}');
-        print('NETWORK_EXCEPTION ${response.statusCode.toString()}');
+        print('$tag ${response.body.toString()}');
+        print('$tag ${response.statusCode.toString()}');
         throw AddressNotFoundException('Alamat URL tidak ditemukan.');
 
       case 500:
-        print('NETWORK_EXCEPTION : ${response.body.toString()}');
+        print('$tag : ${response.body.toString()}');
         throw InternalServerErrorException('Terjadi Kesalahan');
 
       default:

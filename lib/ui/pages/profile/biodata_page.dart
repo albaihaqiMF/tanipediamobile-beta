@@ -180,7 +180,11 @@ class BiodataPage extends StatelessWidget {
                             height: 10,
                           ),
                           CustomButton2(
-                              onPress: () {},
+                              onPress: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => CommingSoonDialog());
+                              },
                               text: 'Ubah',
                               icon: Icons.edit_outlined),
                         ],

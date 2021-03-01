@@ -151,7 +151,7 @@ class DetailPupukPage extends StatelessWidget {
                   ],
                 ),
               ))
-          : loadingIndicator,
+          : Center(child:loadingIndicatorAnim),
     );
   }
 }

@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   cloud_firestore: ^0.16.0
   cupertino_icons: ^1.0.0
+  lottie: ^0.7.0+1
   dio: ^3.0.10
   equatable: ^1.2.6
   firebase_auth: ^0.20.0+1
@@ -59,12 +60,12 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/bottom_nav/ic_home.png
-    - assets/bottom_nav/ic_home_normal.png
-    - assets/bottom_nav/ic_order.png
-    - assets/bottom_nav/ic_order_normal.png
-    - assets/bottom_nav/ic_profile.png
-    - assets/bottom_nav/ic_profile_normal.png
+#    - assets/bottom_nav/ic_home.png
+#    - assets/bottom_nav/ic_home_normal.png
+#    - assets/bottom_nav/ic_order.png
+#    - assets/bottom_nav/ic_order_normal.png
+#    - assets/bottom_nav/ic_profile.png
+#    - assets/bottom_nav/ic_profile_normal.png
     # - assets/ic_sawah.png
     # - assets/text_app.png
     # - assets/text_app_white.png

@@ -183,7 +183,7 @@ class _ListPupukPageState extends State<ListPupukPage> {
             ));
           } else {
             return Center(
-              child: loadingIndicator,
+              child: loadingIndicatorAnim,
             );
           }
         },

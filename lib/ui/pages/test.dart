@@ -86,7 +86,7 @@ class _TestPageState extends State<TestPage> {
                     builder: (context) => SuccessDialog(
                           title: 'Succes',
                           description: 'Anda berhasil menambahkan lahan',
-                          onPress: () => Get.offAll(CreateLahanPage()),
+                          onPress: () => Get.back(),
                         ));
               },
               text: 'Dialog Tes',
@@ -136,6 +136,14 @@ class _TestPageState extends State<TestPage> {
                 dismissProgressDialog(context);
               },
               text: 'Show ProgressDialog',
+              color: mainColor),
+          CustomButton(
+              onPress: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => CommingSoonDialog());
+              },
+              text: 'Soon Dialog',
               color: mainColor),
         ],
       ),

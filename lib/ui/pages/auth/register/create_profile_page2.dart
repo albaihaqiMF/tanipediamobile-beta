@@ -1,4 +1,4 @@
-part of '../pages.dart';
+part of '../../pages.dart';
 
 class CreateProfilePage2 extends StatefulWidget {
   @override

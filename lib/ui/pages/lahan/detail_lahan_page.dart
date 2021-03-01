@@ -120,7 +120,7 @@ class _DetailLahanPageState extends State<DetailLahanPage> {
                     ),
                   ),
                 )
-              : loadingIndicator,
+              : Center(child:loadingIndicatorAnim),
         ));
   }
 

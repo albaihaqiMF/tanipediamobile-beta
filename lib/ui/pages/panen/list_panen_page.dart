@@ -132,7 +132,7 @@ class _ListPanenPageState extends State<ListPanenPage> {
           ));
         } else {
           return Center(
-            child: loadingIndicator,
+            child: loadingIndicatorAnim,
           );
         }
       }),

@@ -1,4 +1,4 @@
-part of '../pages.dart';
+part of '../../pages.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -8,12 +8,21 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _errorNameField = false;
   bool _errorPhoneField = false;
+  bool _errorPasswordField = false;
+  bool _isHiddenPassword = true;
+  void _toggleVisibility(){
+    setState(() {
+      _isHiddenPassword = !_isHiddenPassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return Scaffold(
       body: KeyboardDismisser(
         child: SingleChildScrollView(
@@ -58,6 +67,35 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: blackFontStyle3,
                         keyboardType: TextInputType.name,
                         controller: _nameController,
+                      ),
+                      SizedBox(height: 20),
+                      TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(16),
+                          hintText: 'Masukkan Password',
+                          hintStyle: greyFontStyle,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Colors.blue, width: 2),
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: (OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: mainColor,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(10))),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          errorText: _errorPasswordField
+                              ? 'Password tidak boleh kosong'
+                              : null,
+                          prefixIcon: Icon(Icons.lock),
+                          suffixIcon:IconButton(icon:Icon(Icons.visibility_off), onPressed:_toggleVisibility),
+                        ),
+                        obscureText: _isHiddenPassword,
+                        style: blackFontStyle3,
+                        controller: _passwordController,
                       ),
                       SizedBox(height: 20),
                       TextField(
@@ -110,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         children: [
                           Text('Sudah punya akun? '),
                           InkWell(
-                            onTap: () => Get.to(LoginPage()),
+                            onTap: () => Get.toNamed(AppRoutes.LOGIN),
                             child: Text(
                               'Masuk',
                               style: mainFontStyle3,
@@ -138,22 +176,25 @@ class _RegisterPageState extends State<RegisterPage> {
       _nameController.text.isEmpty
           ? _errorNameField = true
           : _errorNameField = false;
+      _passwordController.text.isEmpty
+          ? _errorPasswordField = true
+          : _errorPasswordField = false;
       _phoneController.text.isNotEmpty &&
               AppValidator.phoneNumberValidator('+62${_phoneController.text}')
           ? _errorPhoneField = false
           : _errorPhoneField = true;
     });
 
-    if (!_errorNameField && !_errorPhoneField) {
+    if (!_errorNameField && !_errorPasswordField && !_errorPhoneField) {
       _isLoading = true;
       await context
           .read<RegisterCubit>()
-          .register(_nameController.text, _phoneController.text);
+          .register(_nameController.text.trim(), _passwordController.text.trim());
       RegisterState state = context.read<RegisterCubit>().state;
       try {
         if (state is RegisterLoaded) {
           var userId = state.user.id.toString();
-          // saveSharedPreference(userId, '+62${_phoneController.text}');
+          saveSharedPreference(_nameController.text.trim(), _passwordController.text.trim());
           setState(() {
             _isLoading = false;
           });
@@ -173,11 +214,11 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  // void saveSharedPreference(String idUser, String phoneNumber) async {
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // await prefs.setString(KeySharedPreference.idUser, idUser);
-  // await prefs.setString(KeySharedPreference.phoneNumber, phoneNumber);
-  // }
+  void saveSharedPreference(String name, String password) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString(KeySharedPreference.name, name);
+  await prefs.setString(KeySharedPreference.password, password);
+  }
 
   @override
   void dispose() {

@@ -130,7 +130,7 @@ class _ListLahanPageState extends State<ListLahanPage> {
             ));
           } else {
             return Center(
-              child: loadingIndicator,
+              child: loadingIndicatorAnim,
             );
           }
         },

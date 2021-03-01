@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:tanipedia_mobile_app/model/models.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';

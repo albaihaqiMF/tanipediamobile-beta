@@ -65,7 +65,7 @@ class SuccessDialog extends StatelessWidget {
           child: CircleAvatar(
             backgroundColor: accentColor,
             radius: 50,
-            backgroundImage: AssetImage('assets/img_padi.jpg'),
+            child: Lottie.asset('assets/anim_success.json'),
           ),
         )
       ],
@@ -125,8 +125,8 @@ class FailedDialog extends StatelessWidget {
                 SizedBox(height: 24),
                 Align(
                   alignment: Alignment.bottomRight,
-                  child: FlatButton(
-                      onPressed: () => onPress(), child: Text('Konfirmasi')),
+                  child: CustomButton(
+                      onPress: onPress, text: 'OK', color: mainColor),
                 )
               ],
             ),
@@ -137,9 +137,9 @@ class FailedDialog extends StatelessWidget {
           left: 16,
           right: 16,
           child: CircleAvatar(
-            backgroundColor: accentColor,
             radius: 50,
-            backgroundImage: AssetImage('assets/img_padi.jpg'),
+            backgroundColor: Colors.red[100],
+            child: Lottie.asset('assets/anim_failed.json'),
           ),
         )
       ],
@@ -198,10 +198,9 @@ class WarningDialog extends StatelessWidget {
                 ),
                 SizedBox(height: 24),
                 Align(
-                  alignment: Alignment.bottomRight,
-                  child: FlatButton(
-                      onPressed: () => onPress(), child: Text('Konfirmasi')),
-                )
+                    alignment: Alignment.bottomRight,
+                    child: CustomButton(
+                        onPress: onPress, text: 'OK', color: mainColor))
               ],
             ),
           ),
@@ -211,9 +210,9 @@ class WarningDialog extends StatelessWidget {
           left: 16,
           right: 16,
           child: CircleAvatar(
-            backgroundColor: accentColor,
+            backgroundColor: Colors.orangeAccent,
             radius: 50,
-            backgroundImage: AssetImage('assets/img_padi.jpg'),
+            child: Lottie.asset('assets/anim_warning.json'),
           ),
         )
       ],
@@ -294,6 +293,66 @@ class ConfirmDialog extends StatelessWidget {
                     )
                   ],
                 )
+              ],
+            ),
+          ),
+        ]),
+      ],
+    );
+  }
+}
+
+class CommingSoonDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: dialogContent(context),
+    );
+  }
+
+  dialogContent(BuildContext context) {
+    return Stack(
+      children: [
+        Wrap(children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+            // margin: EdgeInsets.only(top: 16),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(17),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0.0, 10.0),
+                      blurRadius: 10.0)
+                ]),
+            child: Column(
+              children: [
+                Container(
+                  height: 300,
+                  width: 250,
+                  child: Lottie.asset('assets/anim_soon.json'),
+                ),
+                Text(
+                  'COMING SOON',
+                  style: blackFontBoldStyle0,
+                ),
+                Text(
+                  'Fitur ini lagi dikembangin..',
+                  style: blackFontStyle2,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 24),
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: CustomButton(
+                        onPress: () => Get.back(),
+                        text: 'OK',
+                        color: mainColor))
               ],
             ),
           ),

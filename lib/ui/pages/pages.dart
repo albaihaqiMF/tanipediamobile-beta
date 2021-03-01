@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_select/smart_select.dart';
@@ -45,10 +47,10 @@ part 'auth/auth_page.dart';
 part 'auth/splash_page.dart';
 
 // Register
-part 'register/register_page.dart';
-part 'register/create_profile_page1.dart';
-part 'register/create_profile_page2.dart';
-part 'register/create_profile_page3.dart';
+part 'auth/register/register_page.dart';
+part 'auth/register/create_profile_page1.dart';
+part 'auth/register/create_profile_page2.dart';
+part 'auth/register/create_profile_page3.dart';
 
 // Profile
 part 'profile/profile_page.dart';

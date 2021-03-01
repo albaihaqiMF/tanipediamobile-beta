@@ -1,15 +1,6 @@
 part of '../pages.dart';
 
 class DetailPanenPage extends StatelessWidget {
-  // String apiToken;
-
-  // setUpdateData() async {
-
-  //   prefs.setBool(KeySharedPreference.updateLahan, false);
-  //   print('Lahan UPDATE : ');
-
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,7 +123,7 @@ class DetailPanenPage extends StatelessWidget {
           ));
         } else {
           return Center(
-            child: loadingIndicator,
+            child: loadingIndicatorAnim,
           );
         }
       }),

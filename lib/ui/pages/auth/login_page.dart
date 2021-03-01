@@ -7,13 +7,21 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _errorNameField = false;
-  bool _errorPhoneField = false;
+  bool _errorPasswordField = false;
+
+  bool _isHiddenPassword = true;
+  void _toggleVisibility(){
+    setState(() {
+      _isHiddenPassword = !_isHiddenPassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -56,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 errorText: _errorNameField ? 'Nama tidak boleh kosong' : null,
+                prefixIcon: Icon(Icons.person),
               ),
               style: blackFontStyle3,
               keyboardType: TextInputType.name,
@@ -63,35 +72,32 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 20),
             TextField(
-              style: blackFontStyle3,
               decoration: InputDecoration(
-                  hintText: 'Masukkan Telepon',
-                  contentPadding: EdgeInsets.all(16),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2),
-                      borderRadius: BorderRadius.circular(10)),
-                  enabledBorder: (OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: mainColor,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(10))),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorText:
-                      _errorPhoneField ? 'No.Telepon tidak boleh kosong' : null,
-                  counterText: '',
-                  hintStyle: greyFontStyle,
-                  prefixIcon: Container(
-                      padding: EdgeInsets.fromLTRB(15, 11, 0, 11),
-                      child: Text(
-                        '+62',
-                        style: blackFontStyle2,
-                      ))),
-              maxLength: 15,
-              keyboardType: TextInputType.number,
-              controller: _phoneController,
+                contentPadding: EdgeInsets.all(16),
+                hintText: 'Masukkan Password',
+                hintStyle: greyFontStyle,
+                focusedBorder: OutlineInputBorder(
+                    borderSide:
+                    BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(10)),
+                enabledBorder: (OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: mainColor,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(10))),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                errorText: _errorPasswordField
+                    ? 'Password tidak boleh kosong'
+                    : null,
+                prefixIcon: Icon(Icons.lock),
+                suffixIcon:IconButton(icon:Icon(Icons.visibility_off), onPressed:_toggleVisibility),
+              ),
+              obscureText: _isHiddenPassword,
+              style: blackFontStyle3,
+              controller: _passwordController,
             ),
             SizedBox(height: 20),
             Container(
@@ -128,27 +134,23 @@ class _LoginPageState extends State<LoginPage> {
       _nameController.text.isEmpty
           ? _errorNameField = true
           : _errorNameField = false;
-      _phoneController.text.isNotEmpty &&
-              AppValidator.phoneNumberValidator('+62${_phoneController.text}')
-          ? _errorPhoneField = false
-          : _errorPhoneField = true;
+      _passwordController.text.isNotEmpty
+          ? _errorPasswordField = false
+          : _errorPasswordField = true;
     });
 
-    if (!_errorNameField && !_errorPhoneField) {
+    if (!_errorNameField && !_errorPasswordField) {
       _isLoading = true;
       await context
           .read<LoginCubit>()
-          .login(_nameController.text, _phoneController.text);
+          .login(_nameController.text, _passwordController.text);
       LoginState state = context.read<LoginCubit>().state;
       try {
         if (state is LoginLoaded) {
-          var name = state.user.name;
           var apiToken = state.user.apiToken;
           var idProfile = "246";
-          saveData(apiToken, name, idProfile);
-          await context.read<ProfileCubit>().getProfile(apiToken,'246');
-          context.read<GetListPupukCubit>().getListPupuk(apiToken);
-          context.read<GetPanenCubit>().getListPanen(apiToken);
+          saveData(apiToken, idProfile);
+          getData(apiToken, idProfile);
           setState(() {
             _isLoading = false;
           });
@@ -169,10 +171,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void saveData(String apiToken, String name, String idProfile) async {
+  void saveData(String apiToken, String idProfile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(KeySharedPreference.apiToken, apiToken);
-    await prefs.setString(KeySharedPreference.name, name);
     await prefs.setString(KeySharedPreference.idProfile, idProfile);
+  }
+
+  void getData(String apiToken, String idProfile) async {
+    await context.read<ProfileCubit>().getProfile(apiToken,'246');
+    context.read<GetListPupukCubit>().getListPupuk(apiToken);
+    context.read<GetPanenCubit>().getListPanen(apiToken);
   }
 }

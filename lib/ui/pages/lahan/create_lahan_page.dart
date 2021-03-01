@@ -717,9 +717,13 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                   ),
                 ),
               );
-            } else {
+            }
+            else if(state is ProvinsiFailed){
+              return Center(child:Text('Terjadi Kesalahan'));
+            }
+            else {
               return Center(
-                child: loadingIndicator,
+                child: loadingIndicatorAnim,
               );
             }
           },

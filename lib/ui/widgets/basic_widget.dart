@@ -33,6 +33,15 @@ void showSnackbar(String title, String message) {
 }
 
 Widget loadingIndicator = SpinKitFadingCircle(size: 45, color: mainColor);
+Widget loadingIndicatorAnim = Container(
+height: 350,
+width: 350,
+child: Column(children:[
+  Lottie.asset('assets/anim_loading.json'),
+  SizedBox(height:10),
+  Text('Loading...', style: blackFontBoldStyle1,)
+]),
+);
 
 customCard(BuildContext context,
     {Function onPress, IconData icons, double height, double width}) {

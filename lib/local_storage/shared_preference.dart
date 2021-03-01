@@ -4,6 +4,7 @@ class KeySharedPreference {
   static const apiToken = 'api-token';
   static const phoneNumber = 'telp';
   static const name = 'name';
+  static const password = 'password';
 
   // Lahan
   static const updateLahan = 'update-lahan';

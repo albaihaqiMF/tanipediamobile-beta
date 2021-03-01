@@ -1,4 +1,4 @@
-part of '../pages.dart';
+part of '../../pages.dart';
 
 class CreateProfilePage3 extends StatefulWidget {
   @override
@@ -640,7 +640,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
           );
         } else {
           return Center(
-            child: loadingIndicator,
+            child: loadingIndicatorAnim,
           );
         }
       }),
@@ -680,13 +680,23 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
             context.read<CreateProfileCubit>().state;
 
         if (stateProfile is CreateProfileLoaded) {
-          var _idProfile = stateProfile.profile.id;
-
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setInt(
-              KeySharedPreference.idProfile, int.tryParse(_idProfile));
+          /*
+          Kalau respon Create Profile ada apiToken
+          bisa langsung direct ke mainPage
+          Pake Code dibawah:
+           */
+          // var _idProfile = stateProfile.profile.id;
+          // SharedPreferences prefs = await SharedPreferences.getInstance();
+          // await prefs.setInt(
+          //     KeySharedPreference.idProfile, int.tryParse(_idProfile));
           //// Get Data Profile
           // await context.read<ProfileCubit>().getProfile(apiToken, _idProfile);
+          // Get.offAllNamed(AppRoutes.MAIN);
+
+          /*
+          Kalau respon Create Profile ga ada apiToken
+          && Kalau login ada Response idProfile
+           */
           dismissProgressDialog(context);
           Get.offAllNamed(AppRoutes.LOGIN);
         }

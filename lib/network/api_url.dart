@@ -1,7 +1,7 @@
 class ApiUrl {
   // Initial Setup
-  static const baseURL = "https://d04929edeaf8.ngrok.io/";
-  static const baseURI = "d04929edeaf8.ngrok.io";
+  static const baseURL = "https://ee8a2c0c337d.ngrok.io/";
+  static const baseURI = "ee8a2c0c337d.ngrok.io";
   static const contentType = 'application/json';
   static const appKey = 'okYC7opyhD4DTIauhPvMq2Wkvc6bz08t';
 

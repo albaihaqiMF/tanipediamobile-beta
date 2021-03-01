@@ -86,6 +86,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => CommingSoonDialog());
                               // Get.toNamed(AppRoutes.MY_INTEREST);
                             },
                             child: Card(
@@ -140,7 +143,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
-                              Get.toNamed(AppRoutes.PROFILE_PERTANIAN);
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => CommingSoonDialog());
+                              // Get.toNamed(AppRoutes.PROFILE_PERTANIAN);
                             },
                             child: Card(
                               elevation: 3,
