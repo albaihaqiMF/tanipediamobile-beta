@@ -4,7 +4,7 @@ class Lahan {
   String id;
   String kategori;
   int luas;
-  int satuan;
+  String satuan;
   String alamat;
   String usiaTanam;
   String idPetani;

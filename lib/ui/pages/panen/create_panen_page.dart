@@ -13,12 +13,12 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
   // Field
   TextEditingController _totalPanenController = TextEditingController();
   // TextEditingController _satuanController = TextEditingController();
-  TextEditingController _usiaTanamController = TextEditingController();
+  // TextEditingController _usiaTanamController = TextEditingController();
   TextEditingController _keteranganController = TextEditingController();
   TextEditingController _tglTanamController = TextEditingController();
   TextEditingController _tglPanenController = TextEditingController();
 
-  bool isUpdate;
+  bool isUpdate = false;
 
   isUpdatePanen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,10 +36,12 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
       // if(dataResponse.panen.satuan!=null){
       //   _satuanController.text = dataResponse.panen.satuan.toString();
       // }
-      if(dataResponse.panen.usiaTanam!=null){
-        _usiaTanamController.text = dataResponse.panen.usiaTanam.toString();}
+      // if(dataResponse.panen.usiaTanam!=null){
+      //   _usiaTanamController.text = dataResponse.panen.usiaTanam.toString();}
       if(dataResponse.panen.totalPanen!=null){
       _totalPanenController.text = dataResponse.panen.totalPanen.toString();}
+      setState(() {
+      });
     }
   }
 
@@ -57,7 +59,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          title: Text('Tambah Panen', style: mainFontBoldStyle1),
+          title: Text((isUpdate)?'Ubah Panen':'Tambah Panen', style: mainFontBoldStyle1),
           brightness: Brightness.light,
           backgroundColor: Colors.white,
           elevation: 0,
@@ -280,32 +282,32 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
               ),
               controller: _tglPanenController,
             ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Usia Tanam',
-                labelStyle: greyFontStyle,
-                hintText: 'Masukkan Usia Tanam...',
-                suffixText: '(minggu)',
-                hintStyle: greyFontStyle,
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 2),
-                    borderRadius: BorderRadius.circular(10)),
-                enabledBorder: (OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: mainColor,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10))),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              keyboardType: TextInputType.number,
-              controller: _usiaTanamController,
-            ),
+            // SizedBox(height: 20),
+            // TextField(
+            //   decoration: InputDecoration(
+            //     labelText: 'Usia Tanam',
+            //     labelStyle: greyFontStyle,
+            //     hintText: 'Masukkan Usia Tanam...',
+            //     suffixText: '(minggu)',
+            //     hintStyle: greyFontStyle,
+            //     contentPadding:
+            //         EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            //     focusedBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(color: Colors.blue, width: 2),
+            //         borderRadius: BorderRadius.circular(10)),
+            //     enabledBorder: (OutlineInputBorder(
+            //         borderSide: BorderSide(
+            //           color: mainColor,
+            //           width: 2,
+            //         ),
+            //         borderRadius: BorderRadius.circular(10))),
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(10),
+            //     ),
+            //   ),
+            //   keyboardType: TextInputType.number,
+            //   controller: _usiaTanamController,
+            // ),
             SizedBox(height: 20),
             Container(
                 padding: EdgeInsets.symmetric(horizontal: 30),
@@ -327,12 +329,12 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
       try {
         await context.read<CreatePanenCubit>().createPanen(
             apiToken,
-            _idProfile,
+            int.tryParse(_idProfile),
             _selectedKategoriPertanian.toString(),
             // '1234',
             int.tryParse(_totalPanenController.text),
             // int.tryParse(_satuanController.text),
-            _usiaTanamController.text,
+            // int.tryParse(_usiaTanamController.text),
             _tglTanamController.text,
             _tglPanenController.text,
             _keteranganController.text);
@@ -371,19 +373,21 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
       try {
         await context.read<UpdatePanenCubit>().updatePanen(
             apiToken,
-            _idPanen,
-            _idProfile,
+            int.tryParse(_idPanen),
+            int.tryParse(_idProfile),
             _selectedKategoriPertanian.toString(),
             // '1234',
             int.tryParse(_totalPanenController.text),
             // int.tryParse(_satuanController.text),
-            _usiaTanamController.text,
+            // int.tryParse(_usiaTanamController.text),
             _tglTanamController.text,
             _tglPanenController.text,
             _keteranganController.text);
 
         UpdatePanenState state = context.read<UpdatePanenCubit>().state;
         if (state is UpdatePanenLoaded) {
+          context.read<GetDetailPanenCubit>().toInitial();
+          context.read<GetDetailPanenCubit>().getDetailPanen(apiToken, state.panen.id);
           dismissProgressDialog(context);
           showDialog(
               barrierDismissible: false,
@@ -412,7 +416,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
   bool validationField() {
     if (_totalPanenController.text != null &&
         // _satuanController.text != null &&
-        _usiaTanamController.text != null &&
+        // _usiaTanamController.text != null &&
         _keteranganController.text != null &&
         _tglTanamController.text != null &&
         _tglPanenController.text != null &&
@@ -429,7 +433,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
   void dispose() {
     _totalPanenController.dispose();
     // _satuanController.dispose();
-    _usiaTanamController.dispose();
+    // _usiaTanamController.dispose();
     _keteranganController.dispose();
     _tglTanamController.dispose();
     _tglPanenController.dispose();

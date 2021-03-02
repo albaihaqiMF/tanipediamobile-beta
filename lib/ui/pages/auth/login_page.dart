@@ -177,9 +177,9 @@ class _LoginPageState extends State<LoginPage> {
           setState(() {
             _isLoading = false;
           });
-          Get.offAllNamed(AppRoutes.MAIN);
-          // Get.toNamed(AppRoutes.OTP,
-          //     arguments: [idUser,username, noTelp]);
+          // Get.offAllNamed(AppRoutes.MAIN);
+          Get.toNamed(AppRoutes.OTP,
+              arguments: [idUser,username, noTelp]);
         } else if (state is LoginFailed) {
           var message = state.message.toString();
           showSnackbar('Terjadi kesalahan!', message);

@@ -22,105 +22,126 @@ class DetailPanenPage extends StatelessWidget {
       body: BlocBuilder<GetDetailPanenCubit, GetDetailPanenState>(
           builder: (_, state) {
         if (state is GetDetailPanenLoaded) {
-          return Container(
-            margin: EdgeInsets.all(defaultMargin),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.all(14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  SizedBox(height: 10),
-                                  Container(
-                                    width: 70,
-                                    height: 70,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image(
-                                          image: NetworkImage(
-                                              'http://bulelengkab.go.id/assets/instansikab/71/artikel/waspada-serangan-hama-padi-di-musim-hujan-mengintai-16.jpg'),
-                                          fit: BoxFit.cover),
+          return SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.all(defaultMargin),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.all(14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    SizedBox(height: 10),
+                                    Container(
+                                      width: 70,
+                                      height: 70,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image(
+                                            image: NetworkImage(
+                                                'http://bulelengkab.go.id/assets/instansikab/71/artikel/waspada-serangan-hama-padi-di-musim-hujan-mengintai-16.jpg'),
+                                            fit: BoxFit.cover),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                      (state.panen.kategori != null)
-                                          ? '${state.panen.kategori}'
-                                          : 'Tidak ada kategori',
-                                      style: blackFontStyle3),
-                                  Text((state.panen.totalPanen!=null)?
-                                      '${state.panen.totalPanen} Kg':'- Kg',
-                                      style: blackFontBoldStyle2),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Divider(color: Colors.black),
-                          Text((state.panen.kategori != null)?'Jenis Pertanian : ${state.panen.kategori}':'Jenis Pertanian : -',
-                              style: blackFontStyle4),
-                          Divider(color: Colors.black),
-                          Text((state.panen.tglTanam !=null)?'Tanggal Tanam : ${state.panen.tglTanam}' : 'Tanggal Tanam : -',
-                              style: blackFontStyle4),
-                          Text((state.panen.tglPanen !=null) ?
-                              'Tanggal Panen : ${state.panen.tglPanen}' : 'Tanggal Panen : -',
-                              style: blackFontStyle4),
-                          Divider(color: Colors.black),
-                          // Text('${state.panen.alamat}', style: blackFontStyle4),
-                          // Text('Kelurahan ${state.panen.desa}',
-                          //     style: blackFontStyle4),
-                          // Text(
-                          //     '${state.panen.kabupaten}-${state.panen.kecamatan}'),
-                          // Text('Kode Pos ${state.panen.kecamatan}',
-                          //     style: blackFontStyle4),
-                          // Divider(color: Colors.black),
-                          Text((state.panen.petani!=null)?
-                              'Penulis : ${state.panen.petani}': 'Penulis : -',
-                              style: blackFontStyle4),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton2(
-                                  onPress: () => onUpdate(context),
-                                  text: 'Ubah',
-                                  icon: Icons.edit_outlined),
-                              CustomButton2(
-                                onPress: () async {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  String apiToken = prefs
-                                      .getString(KeySharedPreference.apiToken);
-                                  onDelete(context, state.panen.id, apiToken);
-                                },
-                                text: 'Hapus',
-                                icon: Icons.delete_outline_rounded,
-                                color: Colors.red,
-                              ),
-                            ],
-                          ),
-                        ],
-                      )),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
+                                    SizedBox(height: 10),
+                                    Text(
+                                        (state.panen.kategori != null)
+                                            ? '${state.panen.kategori}'
+                                            : 'Tidak ada kategori',
+                                        style: blackFontStyle3),
+                                    Text(
+                                        (state.panen.totalPanen != null)
+                                            ? '${state.panen.totalPanen} Kg'
+                                            : '- Kg',
+                                        style: blackFontBoldStyle2),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10), Divider(color: Colors.black),
+
+                            Text(
+                                (state.panen.kategori != null)
+                                    ? 'Jenis Pertanian : ${state.panen.kategori}'
+                                    : 'Jenis Pertanian : -',
+                                style: blackFontStyle4),
+                            // Divider(color: Colors.black),
+                            // Text(
+                            //     (state.panen.usiaTanam != null)
+                            //         ? 'Usia Tanam : ${state.panen.usiaTanam}'
+                            //         : 'Usia Tanam : -',
+                            //     style: blackFontStyle4),
+                            Divider(color: Colors.black),
+                            Text(
+                                (state.panen.tglTanam != null)
+                                    ? 'Tanggal Tanam : ${state.panen.tglTanam}'
+                                    : 'Tanggal Tanam : -',
+                                style: blackFontStyle4),
+                            Text(
+                                (state.panen.tglPanen != null)
+                                    ? 'Tanggal Panen : ${state.panen.tglPanen}'
+                                    : 'Tanggal Panen : -',
+                                style: blackFontStyle4),
+                            Divider(color: Colors.black),
+                            // Text('${state.panen.alamat}', style: blackFontStyle4),
+                            // Text('Kelurahan ${state.panen.desa}',
+                            //     style: blackFontStyle4),
+                            // Text(
+                            //     '${state.panen.kabupaten}-${state.panen.kecamatan}'),
+                            // Text('Kode Pos ${state.panen.kecamatan}',
+                            //     style: blackFontStyle4),
+                            // Divider(color: Colors.black),
+                            Text(
+                                (state.panen.petani != null)
+                                    ? 'Penulis : ${state.panen.petani}'
+                                    : 'Penulis : -',
+                                style: blackFontStyle4),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CustomButton2(
+                                    onPress: () => onUpdate(context),
+                                    text: 'Ubah',
+                                    icon: Icons.edit_outlined),
+                                CustomButton2(
+                                  onPress: () async {
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    String apiToken = prefs.getString(
+                                        KeySharedPreference.apiToken);
+                                    onDelete(context, state.panen.id, apiToken);
+                                  },
+                                  text: 'Hapus',
+                                  icon: Icons.delete_outline_rounded,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           );
         } else if (state is GetDetailPanenFailed) {

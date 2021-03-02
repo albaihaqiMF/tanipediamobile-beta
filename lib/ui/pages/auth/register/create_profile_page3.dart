@@ -752,7 +752,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
         _idProvinsi != null &&
         _idKabupaten != null &&
         _idKecamatan != null &&
-        _idDesa != null) {
+        _selectedDesa != null) {
       return true;
     } else {
       return false;

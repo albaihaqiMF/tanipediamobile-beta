@@ -5,8 +5,6 @@ class Panen {
   String kategori;
   // int luas;
   String satuan;
-  int usiaTanam;
-  String idPetani;
   String petani;
   String instansi;
   // String alamat;
@@ -18,10 +16,14 @@ class Panen {
   // String longitude;
   String keterangan;
   // String varietas;
-  int totalPanen;
   String tglTanam;
   String tglPanen;
-  String idLahan;
+
+
+  int totalPanen;
+  int usiaTanam;
+  int idPetani;
+  int idLahan;
 
   Panen(
       {this.id,
@@ -53,7 +55,7 @@ class Panen {
       // luas: json['luas'],
       satuan: json['satuan'],
       usiaTanam: json['usia_tanam'],
-      idPetani: json['id_petani'].toString(),
+      idPetani: json['id_petani'],
       petani: json['petani'],
       instansi: json['id_instansi'].toString(),
       // alamat: json['alamat'],
@@ -63,12 +65,12 @@ class Panen {
       // provinsi: json['id_provinsi'].toString(),
       // latitude: json['latitude'],
       // longitude: json['longtitude'],
-      keterangan: json['keterangan'],
       // varietas: json['varietas'],
+      keterangan: json['keterangan'],
       totalPanen: json['total_panen'],
       tglTanam: json['tgl_tanam'],
       tglPanen: json['tgl_panen'],
-      idLahan: json['idLahan'].toString(),
+      idLahan: json['idLahan'],
     );
   }
 }

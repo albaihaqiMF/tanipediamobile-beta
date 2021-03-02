@@ -42,7 +42,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       IconButton(
                           icon: Icon(Icons.notifications,
                               color: mainColor, size: 30),
-                          onPressed: () {}),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => CommingSoonDialog());
+                          }),
                       SizedBox(
                         width: 15,
                       ),
@@ -313,8 +317,10 @@ class _ProfilePageState extends State<ProfilePage> {
             right: 0,
             child: InkWell(
               onTap: () {
-                scaffoldState.currentState
-                    .showBottomSheet((context) => bottomSheet(context));
+                // Get.bottomSheet(Container());
+                getBottomSheet(context);
+                // scaffoldState.currentState
+                //     .showBottomSheet((context) => bottomSheet(context));
               },
               child: Container(
                 padding: EdgeInsets.all(10),
@@ -376,6 +382,54 @@ class _ProfilePageState extends State<ProfilePage> {
           )
         ],
       ),
+    );
+  }
+
+  Future<dynamic> getBottomSheet(BuildContext context){
+    return Get.bottomSheet(
+      Container(
+        child:Column(
+          children: [
+            Stack(children: [
+              Align(
+                  alignment: Alignment.center,
+                  child: Text('Pilih foto profil', style: blackFontStyle2)),
+              Align(
+                  alignment: Alignment.topRight,
+                  child:
+                  InkWell(onTap: () => Get.back(), child: Icon(Icons.close)))
+            ]),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                FlatButton.icon(
+                  onPressed: () {
+                    takePhoto(ImageSource.camera, context);
+                  },
+                  icon: Icon(Icons.camera),
+                  label: Text('Camera'),
+                ),
+                FlatButton.icon(
+                  onPressed: () {
+                    takePhoto(ImageSource.gallery, context);
+                  },
+                  icon: Icon(Icons.image),
+                  label: Text('Gallery'),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      isDismissible: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),
+      side:BorderSide(
+        color:Colors.white,
+        style:BorderStyle.solid,
+        width:2.0,
+      ),)
     );
   }
 }

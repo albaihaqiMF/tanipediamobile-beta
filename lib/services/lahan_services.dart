@@ -10,7 +10,7 @@ class LahanServices {
     String token,
   ) async {
     try {
-      final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.lahan,
+      final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.lahan + '?order_by=id&sort=DESC',
           headers: apiHeaders(apiToken: token));
       print('$tag token : $token');
 
@@ -79,7 +79,7 @@ class LahanServices {
       String token,
       String kategori,
       int luas,
-      int satuan,
+      // String satuan,
       String usiaTanam,
       String idPetani,
       String instansi,
@@ -93,7 +93,7 @@ class LahanServices {
     Map<String, dynamic> fieldFormURL = {
       'kategori': kategori,
       'luas': luas,
-      'satuan': satuan,
+      // 'satuan': satuan,
       'alamat': alamat,
       'usia_tanam': usiaTanam,
       'id_petani': idPetani,
@@ -149,7 +149,7 @@ class LahanServices {
       String idLahan,
       String kategori,
       int luas,
-      int satuan,
+      // String satuan,
       String usiaTanam,
       String idPetani,
       String instansi,
@@ -164,7 +164,7 @@ class LahanServices {
       'id': idLahan,
       'kategori': kategori,
       'luas': luas,
-      'satuan': satuan,
+      // 'satuan': satuan,
       'alamat': alamat,
       'usia_tanam': usiaTanam,
       'id_petani': idPetani,

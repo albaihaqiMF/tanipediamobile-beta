@@ -43,34 +43,34 @@ class CustomBottomNavBar extends StatelessWidget {
               },
             ),
           ),
-          Container(
-            width: 50,
-            height: 50,
-            child: IconButton(
-              icon: Icon(
-                Icons.chrome_reader_mode_outlined,
-                size: ((selectedIndex == 1) ? 35 : 25),
-                color: ((selectedIndex == 1) ? mainColor : Colors.grey),
-              ),
-              onPressed: () {
-                if (onTap != null) {
-                  onTap(1);
-                }
-              },
-            ),
-          ),
+          // Container(
+          //   width: 50,
+          //   height: 50,
+          //   child: IconButton(
+          //     icon: Icon(
+          //       Icons.chrome_reader_mode_outlined,
+          //       size: ((selectedIndex == 1) ? 35 : 25),
+          //       color: ((selectedIndex == 1) ? mainColor : Colors.grey),
+          //     ),
+          //     onPressed: () {
+          //       if (onTap != null) {
+          //         onTap(1);
+          //       }
+          //     },
+          //   ),
+          // ),
           Container(
             width: 50,
             height: 50,
             child: IconButton(
               icon: Icon(
                 Icons.person_outline,
-                size: ((selectedIndex == 2) ? 40 : 30),
-                color: ((selectedIndex == 2) ? mainColor : Colors.grey),
+                size: ((selectedIndex == 1) ? 40 : 30),
+                color: ((selectedIndex == 1) ? mainColor : Colors.grey),
               ),
               onPressed: () {
                 if (onTap != null) {
-                  onTap(2);
+                  onTap(1);
                 }
               },
             ),

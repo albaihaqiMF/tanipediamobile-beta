@@ -35,9 +35,14 @@ class PanenCard extends StatelessWidget {
                       '${panen.kategori}' : 'Tidak ada Kategori', style: blackFontBoldStyle4),
                   Row(
                     children: [
-                      Text((panen.totalPanen!=null)?
-                          '${panen.totalPanen} Kg': '- Kg',
-                          style: mainFontBoldStyle3),
+                      Row(
+                        children: [
+                          Text('Hasil Panen : ', style: blackFontStyle3,),
+                          Text((panen.totalPanen!=null)?
+                              '${panen.totalPanen} Kg': '- Kg',
+                              style: mainFontBoldStyle3),
+                        ],
+                      ),
                     ],
                   ),
                   // Text('${panen.kabupaten} - ${panen.kecamatan}',

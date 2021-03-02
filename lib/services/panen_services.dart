@@ -8,7 +8,7 @@ class PanenServices {
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<List<Panen>>> getlistPanen(String token) async {
     try {
-      final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.panen,
+      final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.panen + '?order_by=id&sort=DESC',
           headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
@@ -91,24 +91,24 @@ class PanenServices {
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Panen>> createPanen(
     String token,
-    String idPetani,
+    int idPetani,
     String kategori,
     int totalPanen,
-    // int satuan,
-    String usiaTanam,
+    // String satuan,
+    // int usiaTanam,
     String tglTanam,
     String tglPanen,
     String keterangan,
-    // String instansi,
+    // int instansi,
     // String varietas,
-    // String idLahan,
+    // int idLahan,
   ) async {
     Map<String, dynamic> fieldFormURL = {
       'id_petani': idPetani,
       'kategori': kategori,
       'total_panen': totalPanen,
       // 'satuan': satuan,
-      'usia_tanam': usiaTanam,
+      // 'usia_tanam': usiaTanam,
       'tgl_tanam': tglTanam,
       'tgl_panen': tglPanen,
       'keterangan': keterangan,
@@ -138,18 +138,18 @@ class PanenServices {
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Panen>> updatePanen(
     String token,
-    String idPanen,
-    String idPetani,
+    int idPanen,
+    int idPetani,
     String kategori,
     int totalPanen,
-    // int satuan,
-    String usiaTanam,
+    // String satuan,
+    // int usiaTanam,
     String tglTanam,
     String tglPanen,
     String keterangan,
     // String instansi,
     // String varietas,
-    // String idLahan,
+    // int idLahan,
   ) async {
     Map<String, dynamic> fieldFormURL = {
       'id': idPanen,
@@ -157,7 +157,7 @@ class PanenServices {
       'kategori': kategori,
       'total_panen': totalPanen,
       // 'satuan': satuan,
-      'usia_tanam': usiaTanam,
+      // 'usia_tanam': usiaTanam,
       'tgl_tanam': tglTanam,
       'tgl_panen': tglPanen,
       'keterangan': keterangan,
@@ -167,6 +167,7 @@ class PanenServices {
     };
 
     var body = jsonEncode(fieldFormURL);
+    print('$tag, $fieldFormURL');
     try {
       final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.panen,
           headers: apiHeaders(apiToken: token), body: body);

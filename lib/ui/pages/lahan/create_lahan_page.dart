@@ -15,7 +15,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
     });
   }
 
-  bool isUpdate;
+  bool isUpdate=false;
   String _idLahan;
   String idPetani;
   String idInstansi = '2';
@@ -53,6 +53,8 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
       _luasController.text = dataResponse.lahan.luas.toString();
       _alamatController.text = dataResponse.lahan.alamat;
       _usiaTanamController.text = dataResponse.lahan.usiaTanam.toString();
+      setState(() {
+      });
     }
   }
 
@@ -91,7 +93,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60),
           child: AppBar(
-            title: Text('Tambah Lahan Pertanian', style: mainFontBoldStyle1),
+            title: Text((isUpdate)?'Ubah Data Lahan':'Tambah Lahan Pertanian', style: mainFontBoldStyle1),
             brightness: Brightness.light,
             backgroundColor: Colors.white,
             elevation: 0,
@@ -626,7 +628,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                               onChange: (selected) async {
                                 _selectedDesa = int.tryParse(selected.value);
                                 if (_selectedDesa != null) {
-                                  //// Get id/value Kabupaten
+                                  //// Get id/value Desa
                                   try {
                                     await context.read<DesaCubit>().getDesa(
                                         _selectedProvinsi.toString(),
@@ -739,7 +741,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
             apiToken,
             _selectedKategoriPertanian.toString(),
             int.tryParse(_luasController.text),
-            int.tryParse(_satuanController.text),
+            // _satuanController.text,
             _usiaTanamController.text,
             idPetani,
             idInstansi,
@@ -787,7 +789,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
             _idLahan,
             _selectedKategoriPertanian.toString(),
             int.tryParse(_luasController.text),
-            int.tryParse(_satuanController.text),
+            // _satuanController.text,
             _usiaTanamController.text,
             idPetani,
             idInstansi,
@@ -802,6 +804,8 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
         UpdateLahanState state = context.read<UpdateLahanCubit>().state;
         if (state is UpdateLahanLoaded) {
           dismissProgressDialog(context);
+          context.read<GetDetailLahanCubit>().toInitial();
+          context.read<GetDetailLahanCubit>().getDetailLahan(apiToken, state.lahan.id);
           showDialog(
               barrierDismissible: false,
               context: context,
@@ -809,7 +813,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                     title: 'Sukses',
                     description: 'Anda berhasil mengupdate lahan',
                     onPress: () => Get.offNamedUntil(
-                        AppRoutes.LAHAN, ModalRoute.withName(AppRoutes.MAIN)),
+                        AppRoutes.DETAIL_LAHAN, ModalRoute.withName(AppRoutes.LAHAN)),
                   ));
           // Get.to(ListLahanPage());
         } else if (state is UpdateLahanFailed) {
@@ -832,9 +836,9 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
         _usiaTanamController.text.isNotEmpty &&
         _alamatController.text.isNotEmpty &&
         _selectedDesa != null &&
-        _selectedKecamatan != null &&
-        _selectedKabupaten != null &&
-        _selectedProvinsi != null &&
+        _idKecamatan != null &&
+        _idKabupaten != null &&
+        _idProvinsi != null &&
         _selectedKategoriPertanian != null) {
       return true;
     } else {

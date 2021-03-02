@@ -9,6 +9,8 @@ class _DashboardPageState extends State<DashboardPage> {
   String apiToken;
   Map<String, String>
   queryParam = {
+    'order_by':'id',
+    'sort':'DESC',
     'page': '1',
     'limit_page': '3',
   };
