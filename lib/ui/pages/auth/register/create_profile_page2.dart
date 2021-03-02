@@ -53,89 +53,93 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
           ),
         ),
       ),
-      body: Container(
-        color: Colors.white,
-        padding: EdgeInsets.all(defaultMargin),
-        child: ListView(
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Nomor KTP (NIK)',
-                labelStyle: greyFontStyle,
-                hintText: 'Masukkan Nomor KTP (NIK)',
-                hintStyle: greyFontStyle,
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 2),
-                    borderRadius: BorderRadius.circular(10)),
-                enabledBorder: (OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: mainColor,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10))),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+      body: KeyboardDismisser(
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.all(defaultMargin),
+          child: ListView(
+            children: [
+              TextField(
+                onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                decoration: InputDecoration(
+                  labelText: 'Nomor KTP (NIK)',
+                  labelStyle: greyFontStyle,
+                  hintText: 'Masukkan Nomor KTP (NIK)',
+                  hintStyle: greyFontStyle,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      borderRadius: BorderRadius.circular(10)),
+                  enabledBorder: (OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: mainColor,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(10))),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
+                controller: _nikController,
+                keyboardType: TextInputType.number,
               ),
-              controller: _nikController,
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Nomor KK',
-                labelStyle: greyFontStyle,
-                hintText: 'Masukkan Nomor KK',
-                hintStyle: greyFontStyle,
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 2),
-                    borderRadius: BorderRadius.circular(10)),
-                enabledBorder: (OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: mainColor,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10))),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+              SizedBox(height: 20),
+              TextField(
+                onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                decoration: InputDecoration(
+                  labelText: 'Nomor KK',
+                  labelStyle: greyFontStyle,
+                  hintText: 'Masukkan Nomor KK',
+                  hintStyle: greyFontStyle,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      borderRadius: BorderRadius.circular(10)),
+                  enabledBorder: (OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: mainColor,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(10))),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
+                controller: _kkController,
+                keyboardType: TextInputType.number,
               ),
-              controller: _kkController,
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20),
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                margin: EdgeInsets.only(bottom: defaultMargin),
-                child: CustomButton(
-                    onPress: () async {
-                      if (validationField()) {
-                        Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE3, arguments: [
-                          _userId,
-                          _name,
-                          _noTelp,
-                          _tglLahir,
-                          _gender,
-                          _golDarah,
-                          _agama,
-                          _suku,
-                          _pendidikan,
-                          _pekerjaan,
-                          _nikController.text,
-                          _kkController.text,
-                        ]);
-                      } else {
-                        showSnackbar(
-                            'Terjadi Kesalahan', 'Semua kolom harus diisi');
-                      }
-                    },
-                    text: 'Selanjutnya',
-                    color: mainColor))
-          ],
+              SizedBox(height: 20),
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  margin: EdgeInsets.only(bottom: defaultMargin),
+                  child: CustomButton(
+                      onPress: () async {
+                        if (validationField()) {
+                          Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE3, arguments: [
+                            _userId,
+                            _name,
+                            _noTelp,
+                            _tglLahir,
+                            _gender,
+                            _golDarah,
+                            _agama,
+                            _suku,
+                            _pendidikan,
+                            _pekerjaan,
+                            _nikController.text,
+                            _kkController.text,
+                          ]);
+                        } else {
+                          showSnackbar(
+                              'Terjadi Kesalahan', 'Semua kolom harus diisi');
+                        }
+                      },
+                      text: 'Selanjutnya',
+                      color: mainColor))
+            ],
+          ),
         ),
       ),
     );

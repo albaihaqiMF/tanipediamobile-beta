@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => LoginCubit()),
         BlocProvider(create: (_) => VerifyUserCubit()),
         // Register
+        BlocProvider(create: (_) => UpdateUserCubit()),
         BlocProvider(create: (_) => RegisterCubit()),
         BlocProvider(create: (_) => CreateProfileCubit()),
         // Profile

@@ -26,14 +26,14 @@ class Pupuk {
 
   factory Pupuk.fromJSON(Map<String, dynamic> json) {
     return Pupuk(
-      id: json['id'].toString(),
+      id: json['id'].toString()??null,
       jenis: json['jenis_pupuk'],
       kapasitas: json['kapasitas'],
       satuan: json['satuan'],
-      idPoktan: json['id_poktan'].toString(),
-      poktan: json['poktan'].toString(),
-      petani: json['id_petani'].toString(),
-      instansi: json['id_instansi'].toString(),
+      idPoktan: json['id_poktan'].toString()??null,
+      poktan: json['poktan'],
+      petani: json['id_petani'].toString()??null,
+      instansi: json['id_instansi'],
       tglDistribusi: json['tgl_distribusi'],
       keterangan: json['keterangan'],
     );

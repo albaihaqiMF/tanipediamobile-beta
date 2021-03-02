@@ -12,7 +12,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
   int _selectedKategoriPertanian;
   // Field
   TextEditingController _totalPanenController = TextEditingController();
-  TextEditingController _satuanController = TextEditingController();
+  // TextEditingController _satuanController = TextEditingController();
   TextEditingController _usiaTanamController = TextEditingController();
   TextEditingController _keteranganController = TextEditingController();
   TextEditingController _tglTanamController = TextEditingController();
@@ -30,12 +30,16 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
           (context.read<GetDetailPanenCubit>().state as GetDetailPanenLoaded);
       _idPanen = dataResponse.panen.id;
       print('Prefs : $_idPanen');
-      _satuanController.text = dataResponse.panen.satuan.toString();
       _keteranganController.text = dataResponse.panen.keterangan;
-      _usiaTanamController.text = dataResponse.panen.usiaTanam.toString();
       _tglTanamController.text = dataResponse.panen.tglTanam.toString();
       _tglPanenController.text = dataResponse.panen.tglPanen.toString();
-      _totalPanenController.text = dataResponse.panen.totalPanen.toString();
+      // if(dataResponse.panen.satuan!=null){
+      //   _satuanController.text = dataResponse.panen.satuan.toString();
+      // }
+      if(dataResponse.panen.usiaTanam!=null){
+        _usiaTanamController.text = dataResponse.panen.usiaTanam.toString();}
+      if(dataResponse.panen.totalPanen!=null){
+      _totalPanenController.text = dataResponse.panen.totalPanen.toString();}
     }
   }
 
@@ -121,7 +125,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
                 labelStyle: greyFontStyle,
                 hintText: 'Masukkan Total Panen...',
                 hintStyle: greyFontStyle,
-                suffixText: '(Kwintal)',
+                suffixText: '(Kg)',
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 focusedBorder: OutlineInputBorder(
@@ -138,32 +142,32 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Satuan',
-                labelStyle: greyFontStyle,
-                hintText: 'Masukkan Satuan...',
-                // suffixText: '(Kwintal)',
-                hintStyle: greyFontStyle,
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 2),
-                    borderRadius: BorderRadius.circular(10)),
-                enabledBorder: (OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: mainColor,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10))),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              keyboardType: TextInputType.number,
-              controller: _satuanController,
-            ),
+            // SizedBox(height: 20),
+            // TextField(
+            //   decoration: InputDecoration(
+            //     labelText: 'Satuan',
+            //     labelStyle: greyFontStyle,
+            //     hintText: 'Masukkan Satuan...',
+            //     // suffixText: '(Kg)',
+            //     hintStyle: greyFontStyle,
+            //     contentPadding:
+            //         EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            //     focusedBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(color: Colors.blue, width: 2),
+            //         borderRadius: BorderRadius.circular(10)),
+            //     enabledBorder: (OutlineInputBorder(
+            //         borderSide: BorderSide(
+            //           color: mainColor,
+            //           width: 2,
+            //         ),
+            //         borderRadius: BorderRadius.circular(10))),
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(10),
+            //     ),
+            //   ),
+            //   keyboardType: TextInputType.number,
+            //   controller: _satuanController,
+            // ),
             SizedBox(height: 20),
             TextField(
               decoration: InputDecoration(
@@ -324,10 +328,10 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
         await context.read<CreatePanenCubit>().createPanen(
             apiToken,
             _idProfile,
-            // _selectedKategoriPertanian.toString(),
-            '1234',
+            _selectedKategoriPertanian.toString(),
+            // '1234',
             int.tryParse(_totalPanenController.text),
-            int.tryParse(_satuanController.text),
+            // int.tryParse(_satuanController.text),
             _usiaTanamController.text,
             _tglTanamController.text,
             _tglPanenController.text,
@@ -369,10 +373,10 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
             apiToken,
             _idPanen,
             _idProfile,
-            // _selectedKategoriPertanian.toString(),
-            '1234',
+            _selectedKategoriPertanian.toString(),
+            // '1234',
             int.tryParse(_totalPanenController.text),
-            int.tryParse(_satuanController.text),
+            // int.tryParse(_satuanController.text),
             _usiaTanamController.text,
             _tglTanamController.text,
             _tglPanenController.text,
@@ -407,7 +411,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
 
   bool validationField() {
     if (_totalPanenController.text != null &&
-        _satuanController.text != null &&
+        // _satuanController.text != null &&
         _usiaTanamController.text != null &&
         _keteranganController.text != null &&
         _tglTanamController.text != null &&
@@ -424,7 +428,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
   @override
   void dispose() {
     _totalPanenController.dispose();
-    _satuanController.dispose();
+    // _satuanController.dispose();
     _usiaTanamController.dispose();
     _keteranganController.dispose();
     _tglTanamController.dispose();

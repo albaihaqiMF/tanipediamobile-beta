@@ -11,7 +11,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       apiToken = prefs.getString(KeySharedPreference.apiToken);
-      context.read<ProvinsiCubit>().getProvinsi(apiToken);
+      context.read<ProvinsiCubit>().getProvinsi();
     });
   }
 
@@ -284,7 +284,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                               try {
                                 await context
                                     .read<ProvinsiCubit>()
-                                    .getProvinsi(apiToken, provinsi: selected.value);
+                                    .getProvinsi(provinsi: selected.value);
                                 final data = (context
                                     .read<ProvinsiCubit>()
                                     .state as ProvinsiLoaded);
@@ -293,7 +293,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                 _idProvinsi = listValueProvinsi[0].id;
                                 context
                                     .read<KabupatenCubit>()
-                                    .getKabupaten(apiToken,_selectedProvinsi.toString());
+                                    .getKabupaten(_selectedProvinsi.toString());
                               } catch (e) {
                                 print(
                                     'Pick Provinsi Exception : ${e.toString()}');
@@ -397,7 +397,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                   try {
                                     await context
                                         .read<KabupatenCubit>()
-                                        .getKabupaten(apiToken,
+                                        .getKabupaten(
                                             _selectedProvinsi.toString(),
                                             kabupaten:
                                                 _selectedKabupaten.toString());
@@ -411,7 +411,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                     print(
                                         'Pick Kabupaten Exception : ${e.toString()}');
                                   }
-                                  context.read<KecamatanCubit>().getKecamatan(apiToken,
+                                  context.read<KecamatanCubit>().getKecamatan(
                                       _selectedProvinsi.toString(),
                                       _selectedKabupaten.toString());
                                 }
@@ -517,7 +517,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                   try {
                                     await context
                                         .read<KecamatanCubit>()
-                                        .getKecamatan(apiToken,
+                                        .getKecamatan(
                                             _selectedProvinsi.toString(),
                                             _selectedKabupaten.toString(),
                                             kecamatan:
@@ -532,7 +532,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                     print(
                                         'Pick Kecamatan Exception : ${e.toString()}');
                                   }
-                                  context.read<DesaCubit>().getDesa(apiToken,
+                                  context.read<DesaCubit>().getDesa(
                                       _selectedProvinsi.toString(),
                                       _selectedKabupaten.toString(),
                                       _selectedKecamatan.toString());
@@ -628,7 +628,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                                 if (_selectedDesa != null) {
                                   //// Get id/value Kabupaten
                                   try {
-                                    await context.read<DesaCubit>().getDesa(apiToken,
+                                    await context.read<DesaCubit>().getDesa(
                                         _selectedProvinsi.toString(),
                                         _selectedKabupaten.toString(),
                                         _selectedKecamatan.toString(),

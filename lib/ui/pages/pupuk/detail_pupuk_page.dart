@@ -31,7 +31,8 @@ class DetailPupukPage extends StatelessWidget {
                       margin: EdgeInsets.symmetric(horizontal: defaultMargin),
                       child: WrapBorder(
                         Center(
-                          child: Text(state.pupuk.poktan,
+                          child: Text((state.pupuk.poktan!=null)?
+                              state.pupuk.poktan:'Tidak ada data poktan',
                               style: mainFontBoldStyle3),
                         ),
                         color: Colors.green,
@@ -61,8 +62,8 @@ class DetailPupukPage extends StatelessWidget {
                           ],
                         ),
                         Column(children: [
-                          Text(
-                            '${state.pupuk.tglDistribusi}',
+                          Text((state.pupuk.tglDistribusi!=null)?
+                            '${state.pupuk.tglDistribusi}':'-',
                             style: blackFontStyle4,
                           )
                         ]),
@@ -89,7 +90,8 @@ class DetailPupukPage extends StatelessWidget {
                           ],
                         ),
                         Column(children: [
-                          Text('${state.pupuk.kapasitas}',
+                          Text((state.pupuk.kapasitas!=null)?
+                              '${state.pupuk.kapasitas}':'-',
                               style: blackFontStyle4),
                         ]),
                       ],
@@ -117,7 +119,8 @@ class DetailPupukPage extends StatelessWidget {
                           ],
                         ),
                         Column(children: [
-                          Text('${state.pupuk.keterangan}',
+                          Text((state.pupuk.keterangan!=null)?
+                              '${state.pupuk.keterangan}':'-',
                               style: blackFontStyle4),
                         ]),
                       ],
@@ -143,7 +146,8 @@ class DetailPupukPage extends StatelessWidget {
                           ],
                         ),
                         Column(children: [
-                          Text('${state.pupuk.instansi}',
+                          Text((state.pupuk.instansi!=null)?
+                              '${state.pupuk.instansi}':'-',
                               style: blackFontStyle4),
                         ]),
                       ],

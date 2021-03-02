@@ -333,17 +333,17 @@ class CommingSoonDialog extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  height: 300,
-                  width: 250,
+                  height: 250,
+                  width: 200,
                   child: Lottie.asset('assets/anim_soon.json'),
                 ),
                 Text(
                   'COMING SOON',
-                  style: blackFontBoldStyle0,
+                  style: blackFontBoldStyle1,
                 ),
                 Text(
                   'Fitur ini lagi dikembangin..',
-                  style: blackFontStyle2,
+                  style: blackFontStyle3,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 24),

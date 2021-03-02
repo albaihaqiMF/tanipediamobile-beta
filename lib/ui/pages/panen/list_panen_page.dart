@@ -16,6 +16,7 @@ class _ListPanenPageState extends State<ListPanenPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<GetPanenCubit>().toInitial();
       context.read<GetPanenCubit>().getListPanen(apiToken);
     });
   }
@@ -101,10 +102,11 @@ class _ListPanenPageState extends State<ListPanenPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('${listPanen[index].kategori}',
+                                        Text((listPanen[index].kategori!=null)?
+                                            '${listPanen[index].kategori}':'Tidak ada kategori',
                                             style: blackFontStyle4),
-                                        Text(
-                                            '${listPanen[index].totalPanen} Kwintal',
+                                        Text((listPanen[index].totalPanen!=null)?
+                                            '${listPanen[index].totalPanen} Kg':'- Kg',
                                             style: blackFontBoldStyle4),
                                         // Text(
                                         //     '${listPanen[index].kecamatan} - ${listPanen[index].kabupaten}',

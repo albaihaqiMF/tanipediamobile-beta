@@ -11,6 +11,7 @@ class _ListLahanPageState extends State<ListLahanPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<GetListLahanCubit>().toInitial();
       context.read<GetListLahanCubit>().getListLahan(apiToken);
     });
   }
@@ -53,7 +54,6 @@ class _ListLahanPageState extends State<ListLahanPage> {
         builder: (_, state) {
           if (state is GetListLahanLoaded) {
             List<Lahan> listLahan = state.lahan.toList();
-
             if (listLahan.length != 0) {
               return RefreshIndicator(
                 onRefresh: () =>
@@ -95,7 +95,8 @@ class _ListLahanPageState extends State<ListLahanPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('${listLahan[index].kategori}',
+                                      Text((listLahan[index].kategori!=null)?
+                                          '${listLahan[index].kategori}':'Tidak ada kategori',
                                           style: blackFontBoldStyle4),
                                       Text(
                                           (listLahan[index].kecamatan != null)

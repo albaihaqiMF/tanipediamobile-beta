@@ -6,6 +6,28 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  String apiToken;
+  Map<String, String>
+  queryParam = {
+    'page': '1',
+    'limit_page': '3',
+  };
+
+  getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<GetListPupukCubit>().getListPupukFiltered(apiToken,queryParam);
+      context.read<GetPanenCubit>().getListPanenFiltered(apiToken, queryParam);
+      context.read<GetListLahanCubit>().getListLahanFiltered(apiToken,queryParam);
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getData();
+  }
   @override
   Widget build(BuildContext context) {
     final data = (context.watch<ProfileCubit>().state as ProfileLoaded);
@@ -122,6 +144,29 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
               buildPanen(),
+              SizedBox(height: 10),
+              Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: defaultMargin, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Daftar Lahan',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: mainColor)),
+                    InkWell(
+                      child:
+                      Text('Lainnya', style: TextStyle(color: mainColor)),
+                      onTap: () {
+                        Get.toNamed(AppRoutes.LAHAN);
+                      },
+                    )
+                  ],
+                ),
+              ),
+              buildLahan(),
             ],
           ),
         ),
@@ -280,6 +325,37 @@ class _DashboardPageState extends State<DashboardPage> {
                       )
                     ],
                   )
+            : Center(child: loadingIndicator),
+      ),
+    );
+  }
+
+
+  buildLahan() {
+    return Container(
+      height: 120,
+      width: double.infinity,
+      child: BlocBuilder<GetListLahanCubit, GetListLahanState>(
+        builder: (_, state) => (state is GetListLahanLoaded)
+            ? (state.lahan.length == 0)
+            ? Center(child: Text('Tidak ada data Panen'))
+            : ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            Row(
+              children: state.lahan
+                  .map((e) => Padding(
+                padding: EdgeInsets.only(
+                    left: (e == state.lahan.first)
+                        ? defaultMargin
+                        : 0,
+                    right: defaultMargin),
+                child: LahanCard(e),
+              ))
+                  .toList(),
+            )
+          ],
+        )
             : Center(child: loadingIndicator),
       ),
     );

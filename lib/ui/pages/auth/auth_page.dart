@@ -8,8 +8,9 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   // TextEditingController _otpController = TextEditingController();
   String _verificationCode;
-  String _userId = Get.arguments[1];
-  String _phoneNumber = Get.arguments[0];
+  String _userId = Get.arguments[0];
+  String _username = Get.arguments[1];
+  String _phoneNumber = Get.arguments[2];
   bool _isLoading = false;
   bool _errorField = false;
 
@@ -22,12 +23,14 @@ class _AuthPageState extends State<AuthPage> {
   void initState() {
     super.initState();
     errorController = StreamController<ErrorAnimationType>();
+    print('AUTH PAGE : phone: $_phoneNumber');
     _verifyPhone();
+
   }
 
   @override
   void dispose() {
-    _otpController.dispose();
+    // _otpController.dispose();
     errorController.close();
     super.dispose();
   }
@@ -35,8 +38,8 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
-        color: Colors.white,
         child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.symmetric(
@@ -127,76 +130,7 @@ class _AuthPageState extends State<AuthPage> {
                   child: (_isLoading)
                       ? loadingIndicator
                       : CustomButton(
-                          onPress: () async {
-                            if (_otpController.text.isEmpty) {
-                              formKey.currentState.validate();
-                              errorController.add(ErrorAnimationType.shake);
-                              showSnackbar(
-                                  'Gagal!', 'Kode OTP tidak boleh kosong.');
-                              setState(() {
-                                _errorField = true;
-                              });
-                            } else {
-                              _errorField = false;
-                            }
-
-                            setState(() {
-                              // _otpController.text.isEmpty
-                              //     ? _errorField = true
-                              //     : _errorField = false;
-                              if (_otpController.text.isEmpty) {
-                                formKey.currentState.validate();
-                                _errorField = true;
-                                errorController.add(ErrorAnimationType.shake);
-                                showSnackbar(
-                                    'Gagal!', 'Kode OTP tidak boleh kosong.');
-                              } else {
-                                _errorField = false;
-                              }
-                            });
-                            if (_errorField == false) {
-                              _isLoading = true;
-                              try {
-                                await FirebaseAuth.instance
-                                    .signInWithCredential(
-                                        PhoneAuthProvider.credential(
-                                            verificationId: _verificationCode,
-                                            smsCode: _otpController.text))
-                                    .then((value) async {
-                                  if (value.user != null) {
-                                    print('STATUS Success : ${value.user}');
-                                    print(
-                                        'STATUS Success : ${value.user.getIdToken()}');
-                                    String _usernameFromAPI = (context
-                                            .read<RegisterCubit>()
-                                            .state as RegisterLoaded)
-                                        .user
-                                        .name;
-
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-
-                                    FirebaseServices.registerFirestore(
-                                        _userId,
-                                        value.user.uid,
-                                        _phoneNumber,
-                                        _usernameFromAPI);
-                                    Get.offNamed(AppRoutes.CREATE_PROFILE_PAGE1,
-                                        arguments: [_userId, _phoneNumber]);
-                                  }
-                                });
-                              } catch (e) {
-                                formKey.currentState.validate();
-                                errorController.add(ErrorAnimationType.shake);
-                                print('STATUS invalid : $e');
-                                showSnackbar('Gagal!', 'Kode OTP salah');
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                              }
-                            }
-                          },
+                          onPress: ()=> _sendOTP(),
                           text: 'Verifikasi',
                           color: mainColor),
                 ),
@@ -206,6 +140,67 @@ class _AuthPageState extends State<AuthPage> {
         ),
       ),
     );
+  }
+
+  _sendOTP() async {
+    if (_otpController.text.isEmpty) {
+      formKey.currentState.validate();
+      errorController.add(ErrorAnimationType.shake);
+      showSnackbar('Gagal!', 'Kode OTP tidak boleh kosong.');
+      setState(() {
+        _errorField = true;
+      });
+    } else {
+      _errorField = false;
+    }
+
+    setState(() {
+      if (_otpController.text.isEmpty) {
+        formKey.currentState.validate();
+        _errorField = true;
+        errorController.add(ErrorAnimationType.shake);
+        showSnackbar('Gagal!', 'Kode OTP tidak boleh kosong.');
+      } else {
+        _errorField = false;
+      }
+    });
+    if (_errorField == false) {
+      _isLoading = true;
+      try {
+        await FirebaseAuth.instance
+            .signInWithCredential(PhoneAuthProvider.credential(
+                verificationId: _verificationCode,
+                smsCode: _otpController.text))
+            .then((value) async {
+          if (value.user != null) {
+            print('STATUS Success : ${value.user}');
+            print('STATUS Success : ${value.user.getIdToken()}');
+            setState(() {
+              _isLoading = false;
+            });
+
+            FirebaseServices.registerFirestore(
+                _userId, value.user.uid, _phoneNumber, _username);
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            String idProfile = prefs.getString(KeySharedPreference.idProfile);
+            if(idProfile != null) {
+              Get.offAllNamed(AppRoutes.MAIN);
+            } else {
+              Get.offNamed(AppRoutes.CREATE_PROFILE_PAGE1,
+                  arguments: [_userId, _phoneNumber]);
+            }
+          }
+        });
+      } catch (e) {
+        formKey.currentState.validate();
+        errorController.add(ErrorAnimationType.shake);
+        print('STATUS invalid : $e');
+        showSnackbar('Gagal!', 'Kode OTP salah');
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   _verifyPhone() {
@@ -219,13 +214,13 @@ class _AuthPageState extends State<AuthPage> {
               .then((value) async {
             _isLoading = false;
             if (value.user != null) {
-              String usernameFromAPI =
-                  (context.read<RegisterCubit>().state as RegisterLoaded)
-                      .user
-                      .name;
+              // String usernameFromAPI =
+              //     (context.read<RegisterCubit>().state as RegisterLoaded)
+              //         .user
+              //         .name;
 
               FirebaseServices.registerFirestore(
-                  _userId, value.user.uid, _phoneNumber, usernameFromAPI);
+                  _userId, value.user.uid, _phoneNumber, _username);
               Get.offAllNamed(AppRoutes.CREATE_PROFILE_PAGE1,
                   arguments: [_userId, _phoneNumber]);
             }

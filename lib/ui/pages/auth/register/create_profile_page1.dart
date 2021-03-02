@@ -68,6 +68,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
           children: [
             SizedBox(height: 20),
             TextField(
+              onEditingComplete: () => FocusScope.of(context).nextFocus(),
               decoration: InputDecoration(
                 labelText: 'Nama',
                 labelStyle: greyFontStyle,
@@ -93,6 +94,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
             ),
             SizedBox(height: 20),
             TextField(
+              onEditingComplete: () => FocusScope.of(context).nextFocus(),
               decoration: InputDecoration(
                 labelText: 'Nomor Telepon',
                 labelStyle: greyFontStyle,

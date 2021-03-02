@@ -16,3 +16,4 @@ part 'custom_card.dart';
 part 'custom_bottom_navbar.dart';
 part 'pupuk_card.dart';
 part 'panen_card.dart';
+part 'lahan_card.dart';

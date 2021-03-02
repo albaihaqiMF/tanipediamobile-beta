@@ -29,6 +29,29 @@ class LahanServices {
   }
 
   //--------------------------------------------------------------------
+  //                          GET List Lahan Filter
+  //--------------------------------------------------------------------
+  static Future<ApiReturnValue<List<Lahan>>> getlistLahanFilter(
+      String token, Map<String, String> queryFilter) async {
+    try {
+      var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.lahan}', queryFilter);
+      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
+      print('$tag token : $token');
+      final responseBody = ReturnResponse.response(apiResponse);
+      final baseResponse = Response.fromJSON(responseBody);
+      final listLahan = (baseResponse.data)
+          .map((data) => Lahan.fromJSON(data))
+          .toList()
+          .cast<Lahan>();
+
+      return ApiReturnValue(value: listLahan);
+    } catch (e) {
+      print('$tag Exception : ${e.toString()}');
+      return ApiReturnValue(message: e.toString());
+    }
+  }
+
+  //--------------------------------------------------------------------
   //                          GET Detail Lahan
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Lahan>> getDetailLahan(

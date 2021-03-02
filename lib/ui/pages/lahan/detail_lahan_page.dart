@@ -55,7 +55,7 @@ class _DetailLahanPageState extends State<DetailLahanPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                    (state.lahan.luas != null)
+                                    (state.lahan.kategori != null)
                                         ? 'Varietas : ${state.lahan.kategori}'
                                         : 'Varietas : -',
                                     style: blackFontStyle4),

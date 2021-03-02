@@ -18,6 +18,7 @@ class BiodataPage extends StatelessWidget {
     String golDarah = data.profile.golDarah;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: (stateProfile is ProfileInitial)
           ? loadingIndicator
           : Container(

@@ -76,6 +76,10 @@ class ProfileServices {
   //                          GET Profile
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Profile>> read(String token, String idUser) async {
+    print(
+        '$tag GET : $idUser, token = $token');
+    print(
+        '$tag GET : Headers ${apiHeaders(apiToken: token)}');
     try {
       final apiResponse = await http.get(
           ApiUrl.baseURL + ApiUrl.profile + '/' + idUser,

@@ -17,4 +17,8 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginFailed(result.message));
     }
   }
+
+  void toInitial(){
+    emit(LoginInitial());
+  }
 }

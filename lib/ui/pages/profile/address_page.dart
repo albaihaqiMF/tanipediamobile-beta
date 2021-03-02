@@ -16,6 +16,7 @@ class AddressPage extends StatelessWidget {
     String kodepos = data.profile.kodepos;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(

@@ -77,4 +77,29 @@ class UserServices {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
     }
   }
+
+  //--------------------------------------------------------------------
+  //                          UPDATE User
+  //--------------------------------------------------------------------
+  static Future<ApiReturnValue<User>> update(String token,
+      String idUser, String idProfile, String noTelp) async {
+    Map<String, String> fieldFormURL = {
+      'id': idUser,
+      'id_profil': idProfile,
+      'telp':noTelp
+    };
+    var body = jsonEncode(fieldFormURL);
+    try {
+      final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.user,
+          headers: apiHeaders(apiToken: token), body: body);
+      final responseBody = ReturnResponse.response(apiResponse);
+      final baseResponse = Response.fromJSON(responseBody);
+        var responseLogin = User.fromJSON(baseResponse.data);
+        return ApiReturnValue(value: responseLogin);
+
+    } catch (e) {
+      print('$tag : ${e.toString()}');
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }
+  }
 }

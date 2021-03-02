@@ -26,6 +26,27 @@ class PupukServices {
   }
 
   //--------------------------------------------------------------------
+  //                          GET List Pupuk Filter
+  //--------------------------------------------------------------------
+  static Future<ApiReturnValue<List<Pupuk>>> getlistPupukFilter(String token, Map<String, String> queryFilter) async {
+    try {
+      var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.jadwalPupuk}', queryFilter);
+      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
+      final responseBody = ReturnResponse.response(apiResponse);
+      final baseResponse = Response.fromJSON(responseBody);
+      final listPupuk = (baseResponse.data)
+          .map((data) => Pupuk.fromJSON(data))
+          .toList()
+          .cast<Pupuk>();
+
+      return ApiReturnValue(value: listPupuk);
+    } catch (e) {
+      print('$tag Exception : ${e.toString()}');
+      return ApiReturnValue(message: e.toString());
+    }
+  }
+
+  //--------------------------------------------------------------------
   //                          GET Detail Pupuk
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Pupuk>> getDetailPupuk(

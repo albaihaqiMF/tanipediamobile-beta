@@ -1,7 +1,7 @@
 part of 'services.dart';
 
 class PanenServices {
-  static const String tag = 'LAHAN_SERVICE';
+  static const String tag = 'PANEN_SERVICE';
 
   //--------------------------------------------------------------------
   //                          READ List Panen
@@ -11,6 +11,26 @@ class PanenServices {
       final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.panen,
           headers: apiHeaders(apiToken: token));
 
+      final responseBody = ReturnResponse.response(apiResponse);
+      final baseResponse = Response.fromJSON(responseBody);
+      final listPanen = (baseResponse.data)
+          .map((data) => Panen.fromJSON(data))
+          .toList()
+          .cast<Panen>();
+      return ApiReturnValue(value: listPanen);
+    } catch (e) {
+      print('$tag Exception : ${e.toString()}');
+      return ApiReturnValue(message: e.toString());
+    }
+  }
+
+  //--------------------------------------------------------------------
+  //                          READ Panen Filter
+  //--------------------------------------------------------------------
+  static Future<ApiReturnValue<List<Panen>>> getlistPanenFilter(String token, Map<String, String> queryFilter) async {
+    try {
+      var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.panen}', queryFilter);
+      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final listPanen = (baseResponse.data)
@@ -74,7 +94,7 @@ class PanenServices {
     String idPetani,
     String kategori,
     int totalPanen,
-    int satuan,
+    // int satuan,
     String usiaTanam,
     String tglTanam,
     String tglPanen,
@@ -87,7 +107,7 @@ class PanenServices {
       'id_petani': idPetani,
       'kategori': kategori,
       'total_panen': totalPanen,
-      'satuan': satuan,
+      // 'satuan': satuan,
       'usia_tanam': usiaTanam,
       'tgl_tanam': tglTanam,
       'tgl_panen': tglPanen,
@@ -122,7 +142,7 @@ class PanenServices {
     String idPetani,
     String kategori,
     int totalPanen,
-    int satuan,
+    // int satuan,
     String usiaTanam,
     String tglTanam,
     String tglPanen,
@@ -136,7 +156,7 @@ class PanenServices {
       'id_petani': idPetani,
       'kategori': kategori,
       'total_panen': totalPanen,
-      'satuan': satuan,
+      // 'satuan': satuan,
       'usia_tanam': usiaTanam,
       'tgl_tanam': tglTanam,
       'tgl_panen': tglPanen,

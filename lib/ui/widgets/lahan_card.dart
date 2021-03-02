@@ -1,8 +1,8 @@
 part of 'widgets.dart';
 
-class PanenCard extends StatelessWidget {
-  final Panen panen;
-  PanenCard(this.panen);
+class LahanCard extends StatelessWidget {
+  final Lahan lahan;
+  LahanCard(this.lahan);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class PanenCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image(
                     image: NetworkImage(
-                        'https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2020/04/15/1911549200.jpg'),
+                        'https://cdn.sinarharapan.co/foto/2018/10/25/91-lahan_persawahan-800x450.jpg'),
                     fit: BoxFit.cover),
               ),
             ),
@@ -29,19 +29,14 @@ class PanenCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Text('${panen.varietas} ${panen.kategori}',
-                  //     style: blackFontBoldStyle4),
-                  Text((panen.kategori!=null)?
-                      '${panen.kategori}' : 'Tidak ada Kategori', style: blackFontBoldStyle4),
+                  Text((lahan.kategori!=null)?'${lahan.kategori}':'Tidak ada kategori', style: blackFontBoldStyle4),
                   Row(
                     children: [
-                      Text((panen.totalPanen!=null)?
-                          '${panen.totalPanen} Kg': '- Kg',
+                      Text('Luas lahan : ', style:blackFontStyle3),
+                      Text((lahan.luas!=null)?'${lahan.luas} m3':' - m3',
                           style: mainFontBoldStyle3),
                     ],
                   ),
-                  // Text('${panen.kabupaten} - ${panen.kecamatan}',
-                  //     style: greyFontStyleSmall),
                 ]),
           ],
         ),

@@ -11,6 +11,7 @@ class _ListPupukPageState extends State<ListPupukPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       apiToken = prefs.getString(KeySharedPreference.apiToken);
+      context.read<GetListPupukCubit>().toInitial();
       context.read<GetListPupukCubit>().getListPupuk(apiToken);
     });
   }
@@ -69,7 +70,8 @@ class _ListPupukPageState extends State<ListPupukPage> {
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 30),
-                                child: Text(listPupuk[index].poktan,
+                                child: Text((listPupuk[index].poktan!=null)?
+                                    listPupuk[index].poktan:'Tidak ada data poktan',
                                     style: mainFontBoldStyle2),
                               ),
                               Divider(color: Colors.black),
@@ -141,23 +143,23 @@ class _ListPupukPageState extends State<ListPupukPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        '${listPupuk[index].tglDistribusi}',
+                                      Text((listPupuk[index].tglDistribusi!=null)?
+                                        '${listPupuk[index].tglDistribusi}':'-',
                                         style: blackFontStyle4,
                                       ),
                                       SizedBox(height: 10),
-                                      Text(
-                                        '${listPupuk[index].kapasitas}',
+                                      Text((listPupuk[index].kapasitas!=null)?
+                                        '${listPupuk[index].kapasitas}':'-',
                                         style: blackFontStyle4,
                                       ),
                                       SizedBox(height: 10),
-                                      Text(
-                                        '${listPupuk[index].keterangan}',
+                                      Text((listPupuk[index].keterangan!=null)?
+                                        '${listPupuk[index].keterangan}':'-',
                                         style: blackFontStyle4,
                                       ),
                                       SizedBox(height: 10),
-                                      Text(
-                                        '${listPupuk[index].instansi}',
+                                      Text((listPupuk[index].instansi!=null)?
+                                        '${listPupuk[index].instansi}':'-',
                                         style: blackFontStyle4,
                                       ),
                                     ],

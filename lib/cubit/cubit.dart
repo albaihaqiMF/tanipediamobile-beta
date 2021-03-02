@@ -1,6 +1,7 @@
 export 'user/register_cubit.dart';
 export 'user/verify_user_cubit.dart';
 export 'user/login_cubit.dart';
+export 'user/update_user_cubit.dart';
 
 export 'profile/create_profile_cubit.dart';
 export 'profile/profile_cubit.dart';

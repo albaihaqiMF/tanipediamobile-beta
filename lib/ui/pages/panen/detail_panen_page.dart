@@ -56,9 +56,13 @@ class DetailPanenPage extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  Text('${state.panen.kategori}',
+                                  Text(
+                                      (state.panen.kategori != null)
+                                          ? '${state.panen.kategori}'
+                                          : 'Tidak ada kategori',
                                       style: blackFontStyle3),
-                                  Text('${state.panen.totalPanen} Kwintal',
+                                  Text((state.panen.totalPanen!=null)?
+                                      '${state.panen.totalPanen} Kg':'- Kg',
                                       style: blackFontBoldStyle2),
                                 ],
                               ),
@@ -66,12 +70,13 @@ class DetailPanenPage extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Divider(color: Colors.black),
-                          Text('Jenis Pertanian : ${state.panen.kategori}',
+                          Text((state.panen.kategori != null)?'Jenis Pertanian : ${state.panen.kategori}':'Jenis Pertanian : -',
                               style: blackFontStyle4),
                           Divider(color: Colors.black),
-                          Text('Tanggal Tanam : ${state.panen.tglTanam}',
+                          Text((state.panen.tglTanam !=null)?'Tanggal Tanam : ${state.panen.tglTanam}' : 'Tanggal Tanam : -',
                               style: blackFontStyle4),
-                          Text('Tanggal Panen : ${state.panen.tglPanen}',
+                          Text((state.panen.tglPanen !=null) ?
+                              'Tanggal Panen : ${state.panen.tglPanen}' : 'Tanggal Panen : -',
                               style: blackFontStyle4),
                           Divider(color: Colors.black),
                           // Text('${state.panen.alamat}', style: blackFontStyle4),
@@ -82,7 +87,8 @@ class DetailPanenPage extends StatelessWidget {
                           // Text('Kode Pos ${state.panen.kecamatan}',
                           //     style: blackFontStyle4),
                           // Divider(color: Colors.black),
-                          Text('Penulis: ${state.panen.petani}',
+                          Text((state.panen.petani!=null)?
+                              'Penulis : ${state.panen.petani}': 'Penulis : -',
                               style: blackFontStyle4),
                           SizedBox(
                             height: 20,

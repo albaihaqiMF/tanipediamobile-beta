@@ -28,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.fromLTRB(
-                50, MediaQuery.of(context).size.height / 6, 50, 20),
+                50, MediaQuery.of(context).size.height / 8, 50, 20),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -43,10 +43,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   Column(
                     children: [
                       TextField(
+                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(16),
                           hintText: 'Masukkan Nama',
                           hintStyle: greyFontStyle,
+                          prefixIcon: Icon(Icons.person),
                           focusedBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(color: Colors.blue, width: 2),
@@ -70,6 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       SizedBox(height: 20),
                       TextField(
+                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(16),
                           hintText: 'Masukkan Password',
@@ -194,12 +197,13 @@ class _RegisterPageState extends State<RegisterPage> {
       try {
         if (state is RegisterLoaded) {
           var userId = state.user.id.toString();
+          var username = state.user.name.toString();
           saveSharedPreference(_nameController.text.trim(), _passwordController.text.trim());
           setState(() {
             _isLoading = false;
           });
           Get.offAllNamed(AppRoutes.OTP,
-              arguments: ['+62${_phoneController.text}', userId]);
+              arguments: [userId, username, '+62${_phoneController.text}']);
         } else if (state is RegisterFailed) {
           var message = state.message.toString();
           showSnackbar('Terjadi kesalahan!', message);

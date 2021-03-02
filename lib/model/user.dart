@@ -8,6 +8,7 @@ class User extends Equatable {
   final String telp;
   final String email;
   final String apiToken;
+  final int idProfile;
   User(
       {this.id,
       this.name,
@@ -15,7 +16,8 @@ class User extends Equatable {
       this.nik,
       this.telp,
       this.email,
-      this.apiToken});
+      this.apiToken,
+      this.idProfile});
 
   @override
   List<Object> get props => [id, name, password];
@@ -28,6 +30,8 @@ class User extends Equatable {
         nik: json['nik'],
         telp: json['telp'],
         email: json['email'],
-        apiToken: json['api_token']);
+        apiToken: json['api_token'],
+      idProfile: json['id_profil'],
+    );
   }
 }
