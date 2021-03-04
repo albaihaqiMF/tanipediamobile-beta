@@ -256,6 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
+                  SizedBox(height:60),
                 ],
               )
             : Center(child: Text('Data Profil Gagal dimuat')),

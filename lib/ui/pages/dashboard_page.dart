@@ -95,7 +95,11 @@ class _DashboardPageState extends State<DashboardPage> {
                     InkWell(
                       child:
                           Text('Lainnya', style: TextStyle(color: mainColor)),
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => CommingSoonDialog());
+                      },
                     )
                   ],
                 ),

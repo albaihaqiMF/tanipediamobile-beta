@@ -36,7 +36,7 @@ class _BiodataPageState extends State<BiodataPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: (stateProfile is ProfileInitial)
-          ? loadingIndicator
+          ? loadingIndicatorAnim
           : Container(
               margin: EdgeInsets.all(defaultMargin),
               child: Column(
