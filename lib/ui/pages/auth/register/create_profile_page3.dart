@@ -6,33 +6,37 @@ class CreateProfilePage3 extends StatefulWidget {
 }
 
 class _CreateProfilePage3State extends State<CreateProfilePage3> {
-  // String apiToken;
-  // getToken() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     apiToken = prefs.getString(KeySharedPreference.apiToken);
-  //     print('CREATE PROFILE PAGE : token = $apiToken');
-  //     context.read<ProvinsiCubit>().getProvinsi(apiToken);
-  //   });
-  // }
+  bool _isUpdate = Get.arguments[0];
+  // int _userId;
+  // String _name;
+  // String _noTelp;
+  // String _tglLahir;
+  // int _gender;
+  // int _golDarah;
+  // int _agama;
+  // int _suku;
+  // int _pendidikan;
+  // int _pekerjaan;
+  // String _nik;
+  // String _kk;
 
-  int _userId = Get.arguments[0];
-  String _name = Get.arguments[1];
-  String _noTelp = Get.arguments[2];
-  String _tglLahir = Get.arguments[3];
-  int _gender = Get.arguments[4];
-  int _golDarah = Get.arguments[5];
-  int _agama = Get.arguments[6];
-  int _suku = Get.arguments[7];
-  int _pendidikan = Get.arguments[8];
-  int _pekerjaan = Get.arguments[9];
-  String _nik = Get.arguments[10];
-  String _kk = Get.arguments[11];
+  int _userId = Get.arguments[1];
+  String _name = Get.arguments[2];
+  String _noTelp = Get.arguments[3];
+  String _tglLahir = Get.arguments[4];
+  int _gender = Get.arguments[5];
+  int _golDarah = Get.arguments[6];
+  int _agama = Get.arguments[7];
+  int _suku = Get.arguments[8];
+  int _pendidikan = Get.arguments[9];
+  int _pekerjaan = Get.arguments[10];
+  String _nik = Get.arguments[11];
+  String _kk = Get.arguments[12];
 
   TextEditingController _alamatController = TextEditingController();
-  TextEditingController _rwController = TextEditingController();
-  TextEditingController _rtController = TextEditingController();
   TextEditingController _kodePosController = TextEditingController();
+  TextEditingController _rtController = TextEditingController();
+  TextEditingController _rwController = TextEditingController();
   // Dialog
   int _selectedDesa;
   int _selectedKecamatan;
@@ -49,9 +53,51 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
   List<S2Choice<String>> listKecamatan = [];
   List<S2Choice<String>> listDesa = [];
 
+  // Update
+  int _idProfileUpdate;
+  String _apiToken;
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _apiToken = prefs.getString(KeySharedPreference.apiToken);
+      _idProfileUpdate = prefs.getInt(KeySharedPreference.idProfile);
+    });
+  }
+
+  _isGetProfile() async {
+    final data = (context.read<ProfileCubit>().state as ProfileLoaded);
+    _userId = data.profile.idUser;
+    _alamatController.text = data.profile.alamat;
+    if(data.profile.kodepos != 'null') {
+      _kodePosController.text = data.profile.kodepos;
+    }
+    _rtController.text = data.profile.rt;
+    _rwController.text = data.profile.rw;
+    setState(() {
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    getToken();
+    if(_isUpdate) {
+      _isGetProfile();
+    }
+    // else {
+    //   _userId = Get.arguments[1];
+    //   _name = Get.arguments[2];
+    //   _noTelp = Get.arguments[3];
+    //   _tglLahir = Get.arguments[4];
+    //   _gender = Get.arguments[5];
+    //   _golDarah = Get.arguments[6];
+    //   _agama = Get.arguments[7];
+    //   _suku = Get.arguments[8];
+    //   _pendidikan = Get.arguments[9];
+    //   _pekerjaan = Get.arguments[10];
+    //   _nik = Get.arguments[11];
+    //   _kk = Get.arguments[12];
+    // }
     context.read<ProvinsiCubit>().getProvinsi();
     context.read<ProvinsiCubit>().toInitial();
     context.read<KabupatenCubit>().toInitial();
@@ -74,7 +120,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          title: Text('Alamat', style: mainFontBoldStyle1),
+          title: Text((_isUpdate)? 'Ubah Alamat' :'Alamat', style: mainFontBoldStyle1),
           brightness: Brightness.light,
           backgroundColor: Colors.white,
           elevation: 0,
@@ -101,7 +147,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
           return KeyboardDismisser(
             child: Container(
               color: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 10),
               child: ListView(
                 children: [
                   TextField(
@@ -635,7 +681,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                     padding: EdgeInsets.symmetric(horizontal: 30),
                     margin: EdgeInsets.only(bottom: defaultMargin),
                     child: CustomButton(
-                        onPress: () => onPostData(),
+                        onPress: () => (_isUpdate)? onUpdateData() : onPostData(),
                         text: 'Selesai',
                         color: mainColor),
                   ),
@@ -660,10 +706,13 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var username = prefs.getString(KeySharedPreference.name);
         var password = prefs.getString(KeySharedPreference.password);
+
+        context.read<LoginCubit>().toInitial();
         await context.read<LoginCubit>().login(username, password);
         LoginState stateLogin = context.read<LoginCubit>().state;
         if (stateLogin is LoginLoaded) {
           var apiToken = stateLogin.user.apiToken;
+          print('CREATE PROFILE 3 : apiToken = $apiToken');
           await context.read<CreateProfileCubit>().createProfile(
             apiToken,
             _userId,
@@ -689,17 +738,10 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
           );
 
           //// Get Profile
-          CreateProfileState stateProfile =
-              context.read<CreateProfileCubit>().state;
+          CreateProfileState stateProfile =context.read<CreateProfileCubit>().state;
           if (stateProfile is CreateProfileLoaded) {
-            var _idProfile = stateProfile.profile.id;
-
-            saveData(apiToken, _idProfile);
-            await getData(apiToken, _idProfile, stateLogin.user.id, stateLogin.user.telp);
-            // await context.read<ProfileCubit>().getProfile(apiToken,_idProfile);
-            // context.read<GetListPupukCubit>().getListPupuk(apiToken);
-            // context.read<GetPanenCubit>().getListPanen(apiToken);
-
+            saveData(apiToken, stateProfile.profile.id);
+            await getData(apiToken, stateProfile.profile.id, stateLogin.user.id, stateLogin.user.telp);
             dismissProgressDialog(context);
             Get.offAllNamed(AppRoutes.MAIN);
           } else if (stateProfile is CreateProfileLoadingFailed) {
@@ -721,15 +763,57 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
     }
   }
 
-  void saveData(String apiToken, String idProfile) async {
+  void saveData(String apiToken, int idProfile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(KeySharedPreference.apiToken, apiToken);
-    await prefs.setString(KeySharedPreference.idProfile, idProfile);
+    await prefs.setInt(KeySharedPreference.idProfile, idProfile);
   }
 
-  Future<void> getData(String apiToken, String idProfile,String idUser, String noTelp) async {
+  Future<void> getData(String apiToken, int idProfile, int idUser, String noTelp) async {
     await context.read<ProfileCubit>().getProfile(apiToken,idProfile);
-    context.read<UpdateUserCubit>().updateUser(apiToken, idUser, idProfile, noTelp);
+    context.read<UpdateUserCubit>().updateUser(apiToken, idUser, noTelp, idProfile: idProfile);
+  }
+
+
+  void onUpdateData() async{
+    if (validationField()) {
+      showProgressDialog(context, 'Mohon tunggu...');
+      await context.read<UpdateProfileCubit>().updateProfile(
+        apiToken: _apiToken,
+        idUser: _userId,
+        idProfile: _idProfileUpdate,
+        alamat: _alamatController.text,
+        kodePos: _kodePosController.text,
+        rt: _rtController.text,
+        rw: _rwController.text,
+        desa: _idDesa,
+        kecamatan: _idKecamatan,
+        kabupaten: _idKabupaten,
+        provinsi: _idProvinsi,
+      );
+
+      UpdateProfileState stateUpdateProfile = context.read<UpdateProfileCubit>().state;
+      if (stateUpdateProfile is UpdateProfileLoaded) {
+        await context.read<ProfileCubit>().getProfile(_apiToken, stateUpdateProfile.profile.id);
+        dismissProgressDialog(context);
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => SuccessDialog(
+              title: 'Sukses',
+              description: 'Anda berhasil mengupdate alamat',
+              onPress: () => Get.offNamedUntil(
+                  AppRoutes.ADDRESS, ModalRoute.withName(AppRoutes.MAIN)),
+            ));
+      } else if (stateUpdateProfile is UpdateProfileFailed) {
+        var message = stateUpdateProfile.message.toString();
+        showSnackbar('Update alamat gagal!', message);
+        dismissProgressDialog(context);
+      }
+    } else {
+      dismissProgressDialog(context);
+      showSnackbar('Terjadi Kesalahan', 'Semua kolom harus diisi');
+    }
   }
 
   bool validationField() {

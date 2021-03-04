@@ -1,7 +1,7 @@
 part of 'models.dart';
 
 class Profile {
-  final String id;
+  final int id;
   // Page 1
   final int idUser;
   final String nama;
@@ -71,7 +71,7 @@ class Profile {
 
   factory Profile.fromJSON(Map<String, dynamic> json) {
     return Profile(
-      id: json['id'].toString(),
+      id: json['id'],
       idUser: json['id_user'],
       nama: json['nama'],
       nik: json['nik'].toString(),

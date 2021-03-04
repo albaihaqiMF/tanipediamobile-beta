@@ -14,11 +14,25 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _errorPhoneField = false;
   bool _errorPasswordField = false;
   bool _isHiddenPassword = true;
-  void _toggleVisibility(){
+  void _toggleVisibility() {
     setState(() {
       _isHiddenPassword = !_isHiddenPassword;
     });
   }
+
+  // String _apiToken;
+  // getToken() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _apiToken = prefs.getString(KeySharedPreference.apiToken);
+  //   });
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getToken();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +57,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   Column(
                     children: [
                       TextField(
-                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(16),
                           hintText: 'Masukkan Nama',
@@ -72,14 +87,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       SizedBox(height: 20),
                       TextField(
-                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(16),
                           hintText: 'Masukkan Password',
                           hintStyle: greyFontStyle,
                           focusedBorder: OutlineInputBorder(
                               borderSide:
-                              BorderSide(color: Colors.blue, width: 2),
+                                  BorderSide(color: Colors.blue, width: 2),
                               borderRadius: BorderRadius.circular(10)),
                           enabledBorder: (OutlineInputBorder(
                               borderSide: BorderSide(
@@ -94,7 +110,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               ? 'Password tidak boleh kosong'
                               : null,
                           prefixIcon: Icon(Icons.lock),
-                          suffixIcon:IconButton(icon:Icon(Icons.visibility_off), onPressed:_toggleVisibility),
+                          suffixIcon: IconButton(
+                              icon: Icon(Icons.visibility_off),
+                              onPressed: _toggleVisibility),
                         ),
                         obscureText: _isHiddenPassword,
                         style: blackFontStyle3,
@@ -127,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             prefixIcon: Container(
                                 padding: EdgeInsets.fromLTRB(15, 11, 0, 11),
                                 child: Text(
-                                  '+62',
+                                  '+628',
                                   style: blackFontStyle2,
                                 ))),
                         maxLength: 15,
@@ -183,27 +201,54 @@ class _RegisterPageState extends State<RegisterPage> {
           ? _errorPasswordField = true
           : _errorPasswordField = false;
       _phoneController.text.isNotEmpty &&
-              AppValidator.phoneNumberValidator('+62${_phoneController.text}')
+              AppValidator.phoneNumberValidator('+628${_phoneController.text}')
           ? _errorPhoneField = false
           : _errorPhoneField = true;
     });
 
     if (!_errorNameField && !_errorPasswordField && !_errorPhoneField) {
       _isLoading = true;
-      await context
-          .read<RegisterCubit>()
-          .register(_nameController.text.trim(), _passwordController.text.trim());
+      await context.read<RegisterCubit>().register(
+          _nameController.text.trim(), _passwordController.text.trim());
       RegisterState state = context.read<RegisterCubit>().state;
       try {
         if (state is RegisterLoaded) {
-          var userId = state.user.id.toString();
-          var username = state.user.name.toString();
-          saveSharedPreference(_nameController.text.trim(), _passwordController.text.trim());
-          setState(() {
-            _isLoading = false;
-          });
-          Get.offAllNamed(AppRoutes.OTP,
-              arguments: [userId, username, '+62${_phoneController.text}']);
+          // var _userId = state.user.id;
+          // var _username = state.user.name.toString();
+
+          // Login for get the Token
+          await context.read<LoginCubit>().login(_nameController.text.trim(), _passwordController.text.trim());
+          LoginState stateLogin = context.read<LoginCubit>().state;
+          if (stateLogin is LoginLoaded) {
+            String apiToken = stateLogin.user.apiToken;
+            var idUser = stateLogin.user.id;
+            var username = stateLogin.user.name;
+            // Put Phone Number to User
+            await context.read<UpdateUserCubit>().updateUser(apiToken, idUser, '+628${_phoneController.text}');
+            UpdateUserState stateUpdateUser = context.read<UpdateUserCubit>().state;
+            if(stateUpdateUser is UpdateUserLoaded) {
+              saveSharedPreference(_nameController.text.trim(), _passwordController.text.trim());
+              setState(() {
+                _isLoading = false;
+              });
+              Get.toNamed(AppRoutes.OTP, arguments: [idUser, username, '+628${_phoneController.text}']);
+            } else if (stateUpdateUser is UpdateUserFailed) {
+              print('Update User Gagal, ${stateUpdateUser.message}');
+            }
+          } else if (stateLogin is LoginFailed) {
+            print('Login Gagal, ${stateLogin.message}');
+          }
+
+          // context.read<UpdateUserCubit>().updateUser(_apiToken, _userId, '+628${_phoneController.text}');
+          // saveSharedPreference(_nameController.text.trim(), _passwordController.text.trim());
+          // setState(() {
+          //   _isLoading = false;
+          // });
+          // Get.offAllNamed(AppRoutes.OTP, arguments: [
+          //   _userId,
+          //   _username,
+          //   '+628${_phoneController.text}'
+          // ]);
         } else if (state is RegisterFailed) {
           var message = state.message.toString();
           showSnackbar('Terjadi kesalahan!', message);
@@ -219,9 +264,9 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void saveSharedPreference(String name, String password) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString(KeySharedPreference.name, name);
-  await prefs.setString(KeySharedPreference.password, password);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(KeySharedPreference.name, name);
+    await prefs.setString(KeySharedPreference.password, password);
   }
 
   @override

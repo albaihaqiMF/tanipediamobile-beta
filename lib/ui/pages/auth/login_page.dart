@@ -151,35 +151,21 @@ class _LoginPageState extends State<LoginPage> {
 
     if (!_errorNameField && !_errorPasswordField) {
       _isLoading = true;
-      await context
-          .read<LoginCubit>()
-          .login(_nameController.text, _passwordController.text);
+      await context.read<LoginCubit>().login(_nameController.text.trim(), _passwordController.text.trim());
       LoginState state = context.read<LoginCubit>().state;
       try {
         if (state is LoginLoaded) {
           String apiToken = state.user.apiToken;
-          String idProfile = state.user.idProfile.toString();
+          int idProfile = state.user.idProfile;
           var idUser = state.user.id;
           var noTelp = state.user.telp;
-          var username = state.user.telp;
-          print('LOGIN PAGE : id profile = $idProfile');
-          print('LOGIN PAGE : token = $apiToken');
-          print('LOGIN PAGE : token API = ${state.user.apiToken}');
-          print(idProfile);
-          saveData(apiToken, idProfile);
-          if (idProfile != null) {
-            print('LOGIN PAGE : true = $idProfile');
-            print('LOGIN PAGE : true token = $apiToken');
-            // await getData(apiToken, idProfile);
-            await context.read<LoginCubit>().toInitial();
-            await context.read<ProfileCubit>().getProfile(apiToken, idProfile);
-          }
+          var username = state.user.name;
+          saveData(apiToken, idUser, idProfile, noTelp, username, _passwordController.text);
           setState(() {
             _isLoading = false;
           });
           // Get.offAllNamed(AppRoutes.MAIN);
-          Get.toNamed(AppRoutes.OTP,
-              arguments: [idUser,username, noTelp]);
+          Get.toNamed(AppRoutes.OTP, arguments: [idUser, username, noTelp]);
         } else if (state is LoginFailed) {
           var message = state.message.toString();
           showSnackbar('Terjadi kesalahan!', message);
@@ -194,13 +180,17 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void saveData(String apiToken, String idProfile) async {
+  void saveData(String apiToken, int idUser, int idProfile, String phoneNumber, String username, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(KeySharedPreference.apiToken, apiToken);
-    await prefs.setString(KeySharedPreference.idProfile, idProfile);
+    await prefs.setInt(KeySharedPreference.idUser, idUser);
+    await prefs.setInt(KeySharedPreference.idProfile, idProfile);
+    await prefs.setString(KeySharedPreference.phoneNumber, phoneNumber);
+    await prefs.setString(KeySharedPreference.name, username);
+    await prefs.setString(KeySharedPreference.password, password);
   }
 
-  Future<void> getData(String apiToken, String idProfile) async {
-    await context.read<ProfileCubit>().getProfile(apiToken, idProfile);
-  }
+  // Future<void> getData(String apiToken, int idProfile) async {
+  //   await context.read<ProfileCubit>().getProfile(apiToken, idProfile);
+  // }
 }

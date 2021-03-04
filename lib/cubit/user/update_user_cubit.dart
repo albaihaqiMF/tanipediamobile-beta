@@ -8,8 +8,8 @@ part 'update_user_state.dart';
 class UpdateUserCubit extends Cubit<UpdateUserState> {
   UpdateUserCubit() : super(UpdateUserInitial());
 
-  Future<void> updateUser(String apiToken, String idUser, String idProfile, String noTelp) async {
-    ApiReturnValue<User> result = await UserServices.update(apiToken, idUser, idProfile, noTelp);
+  Future<void> updateUser(String apiToken, int idUser, String noTelp, {int idProfile}) async {
+    ApiReturnValue<User> result = await UserServices.update(apiToken, idUser, noTelp, idProfile: idProfile);
     if (result.value != null) {
       emit(UpdateUserLoaded(result.value));
     } else {

@@ -1,22 +1,45 @@
 part of '../pages.dart';
 
-class BiodataPage extends StatelessWidget {
+class BiodataPage extends StatefulWidget {
+  @override
+  _BiodataPageState createState() => _BiodataPageState();
+}
+
+class _BiodataPageState extends State<BiodataPage> {
+  // String _apiToken;
+  // int _userId;
+  // getToken() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _apiToken = prefs.getString(KeySharedPreference.apiToken);
+  //     _userId = prefs.getInt(KeySharedPreference.idUser);
+  //   });
+  // }
+
+  @override
+  void initState(){
+    super.initState();
+    // getToken();
+  }
+
   @override
   Widget build(BuildContext context) {
     ProfileState stateProfile = context.watch<ProfileCubit>().state;
     final data = (context.watch<ProfileCubit>().state as ProfileLoaded);
+    int idUser = data.profile.idUser;
+    String nama = data.profile.nama;
     String tglLahir = data.profile.tglLahir;
     String gender = data.profile.gender;
     String agama = data.profile.agama;
     String suku = data.profile.suku;
     String pekerjaan = data.profile.pekerjaan;
     String pendidikan = data.profile.pendidikan;
-    String kategori = data.profile.kategori;
+    // String kategori = data.profile.kategori;
     String kk = data.profile.kk;
     String nik = data.profile.nik;
     String kodePos = data.profile.kodepos;
     String golDarah = data.profile.golDarah;
-
+    String telp = data.profile.telepon;
     return Scaffold(
       backgroundColor: Colors.white,
       body: (stateProfile is ProfileInitial)
@@ -95,11 +118,11 @@ class BiodataPage extends StatelessWidget {
                                       'Pendidikan',
                                       style: greyFontStyle,
                                     ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      'Kategori',
-                                      style: greyFontStyle,
-                                    ),
+                                    // SizedBox(height: 10),
+                                    // Text(
+                                    //   'Kategori',
+                                    //   style: greyFontStyle,
+                                    // ),
                                     SizedBox(height: 10),
                                     Text(
                                       'Nomor KK',
@@ -108,11 +131,6 @@ class BiodataPage extends StatelessWidget {
                                     SizedBox(height: 10),
                                     Text(
                                       'NIK',
-                                      style: greyFontStyle,
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      'Kode Pos',
                                       style: greyFontStyle,
                                     ),
                                   ]),
@@ -153,11 +171,11 @@ class BiodataPage extends StatelessWidget {
                                     (pendidikan != null) ? pendidikan : '-',
                                     style: blackFontStyle4,
                                   ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    (kategori != null) ? kategori : '-',
-                                    style: blackFontStyle4,
-                                  ),
+                                  // SizedBox(height: 10),
+                                  // Text(
+                                  //   (kategori != null) ? kategori : '-',
+                                  //   style: blackFontStyle4,
+                                  // ),
                                   SizedBox(height: 10),
                                   Text(
                                     (kk != null) ? kk : '-',
@@ -166,11 +184,6 @@ class BiodataPage extends StatelessWidget {
                                   SizedBox(height: 10),
                                   Text(
                                     (nik != null) ? nik : '-',
-                                    style: blackFontStyle4,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    (kodePos != null) ? kodePos : '-',
                                     style: blackFontStyle4,
                                   ),
                                 ],
@@ -185,6 +198,8 @@ class BiodataPage extends StatelessWidget {
                                 showDialog(
                                     context: context,
                                     builder: (context) => CommingSoonDialog());
+                                // Get.offNamed(AppRoutes.CREATE_PROFILE_PAGE1, arguments: [true]);
+                                // Get.offNamed(AppRoutes.CREATE_PROFILE_PAGE1, arguments: [true, idUser, nama, telp, ]);
                               },
                               text: 'Ubah',
                               icon: Icons.edit_outlined),

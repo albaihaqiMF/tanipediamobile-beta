@@ -6,6 +6,7 @@ export 'user/update_user_cubit.dart';
 export 'profile/create_profile_cubit.dart';
 export 'profile/profile_cubit.dart';
 export 'profile/upload_photo_profile_cubit.dart';
+export 'profile/update_profile_cubit.dart';
 
 export 'pupuk/get_detail_pupuk_cubit.dart';
 export 'pupuk/get_list_pupuk_cubit.dart';

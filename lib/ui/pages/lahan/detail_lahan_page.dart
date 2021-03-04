@@ -82,7 +82,7 @@ class _DetailLahanPageState extends State<DetailLahanPage> {
                                 Text(
                                     (state.lahan.desa != null)
                                         ? 'Kelurahan ${state.lahan.desa}'
-                                        : '',
+                                        : '-',
                                     style: blackFontStyle4),
                                 Text(
                                     (state.lahan.kabupaten != null)

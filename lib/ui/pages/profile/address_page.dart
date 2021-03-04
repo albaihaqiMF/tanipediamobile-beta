@@ -82,7 +82,7 @@ class AddressPage extends StatelessWidget {
                         style: blackFontStyle4,
                       ),
                       Text(
-                        (kodepos != null) ? 'Kode Pos $kodepos' : '-',
+                        (kodepos != 'null') ? 'Kode Pos $kodepos' : '-',
                         style: blackFontStyle4,
                       ),
                       SizedBox(
@@ -93,6 +93,7 @@ class AddressPage extends StatelessWidget {
                             showDialog(
                                 context: context,
                                 builder: (context) => CommingSoonDialog());
+                            // Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE3, arguments: [true]);
                           },
                           text: 'Ubah',
                           icon: Icons.edit_outlined)

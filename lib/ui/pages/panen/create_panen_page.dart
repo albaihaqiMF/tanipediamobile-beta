@@ -7,7 +7,7 @@ class CreatePanenPage extends StatefulWidget {
 
 class _CreatePanenPageState extends State<CreatePanenPage> {
   String apiToken;
-  String _idProfile;
+  int _idProfile;
   String _idPanen;
   int _selectedKategoriPertanian;
   // Field
@@ -329,7 +329,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
       try {
         await context.read<CreatePanenCubit>().createPanen(
             apiToken,
-            int.tryParse(_idProfile),
+            _idProfile,
             _selectedKategoriPertanian.toString(),
             // '1234',
             int.tryParse(_totalPanenController.text),
@@ -374,7 +374,7 @@ class _CreatePanenPageState extends State<CreatePanenPage> {
         await context.read<UpdatePanenCubit>().updatePanen(
             apiToken,
             int.tryParse(_idPanen),
-            int.tryParse(_idProfile),
+            _idProfile,
             _selectedKategoriPertanian.toString(),
             // '1234',
             int.tryParse(_totalPanenController.text),

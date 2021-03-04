@@ -6,23 +6,45 @@ class CreateProfilePage2 extends StatefulWidget {
 }
 
 class _CreateProfilePage2State extends State<CreateProfilePage2> {
-  int _userId = Get.arguments[0];
-  String _name = Get.arguments[1];
-  String _noTelp = Get.arguments[2];
-  String _tglLahir = Get.arguments[3];
-  int _gender = Get.arguments[4];
-  int _golDarah = Get.arguments[5];
-  int _agama = Get.arguments[6];
-  int _suku = Get.arguments[7];
-  int _pendidikan = Get.arguments[8];
-  int _pekerjaan = Get.arguments[9];
+  String _apiToken;
+  int _idProfile;
+  _getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _apiToken = prefs.getString(KeySharedPreference.apiToken);
+      _idProfile = prefs.getInt(KeySharedPreference.idProfile);
+    });
+  }
+
+  bool _isUpdate = Get.arguments[0];
+  int _userId = Get.arguments[1];
+  String _name = Get.arguments[2];
+  String _noTelp = Get.arguments[3];
+  String _tglLahir = Get.arguments[4];
+  int _gender = Get.arguments[5];
+  int _golDarah = Get.arguments[6];
+  int _agama = Get.arguments[7];
+  int _suku = Get.arguments[8];
+  int _pendidikan = Get.arguments[9];
+  int _pekerjaan = Get.arguments[10];
 
   TextEditingController _nikController = TextEditingController();
   TextEditingController _kkController = TextEditingController();
 
+  _isGetProfile() async {
+    final data = (context.read<ProfileCubit>().state as ProfileLoaded);
+    _nikController.text = data.profile.nik;
+    _kkController.text = data.profile.kk;
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+    if (_isUpdate) {
+      _isGetProfile();
+    }
+    _getToken();
     print('Data ID User : $_userId');
     print('Data Nama : $_name');
     print('Data No.Telp : $_noTelp');
@@ -41,7 +63,8 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          title: Text('Data Pribadi', style: mainFontBoldStyle1),
+          title: Text((_isUpdate) ? 'Ubah Data Pribadi' : 'Data Pribadi',
+              style: mainFontBoldStyle1),
           brightness: Brightness.light,
           backgroundColor: Colors.white,
           elevation: 0,
@@ -117,20 +140,26 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
                   child: CustomButton(
                       onPress: () async {
                         if (validationField()) {
-                          Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE3, arguments: [
-                            _userId,
-                            _name,
-                            _noTelp,
-                            _tglLahir,
-                            _gender,
-                            _golDarah,
-                            _agama,
-                            _suku,
-                            _pendidikan,
-                            _pekerjaan,
-                            _nikController.text,
-                            _kkController.text,
-                          ]);
+                          if (_isUpdate) {
+                            onUpdateProfile();
+                          } else {
+                            Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE3,
+                                arguments: [
+                                  false,
+                                  _userId,
+                                  _name,
+                                  _noTelp,
+                                  _tglLahir,
+                                  _gender,
+                                  _golDarah,
+                                  _agama,
+                                  _suku,
+                                  _pendidikan,
+                                  _pekerjaan,
+                                  _nikController.text,
+                                  _kkController.text,
+                                ]);
+                          }
                         } else {
                           showSnackbar(
                               'Terjadi Kesalahan', 'Semua kolom harus diisi');
@@ -143,6 +172,45 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
         ),
       ),
     );
+  }
+
+  onUpdateProfile() async {
+    showProgressDialog(context, 'Mohon tunggu...');
+    await context.read<UpdateProfileCubit>().updateProfile(
+        apiToken: _apiToken,
+        idUser: _userId,
+        idProfile: _idProfile,
+        nama: _name,
+        telp: _noTelp,
+        nik: _nikController.text,
+        kk: _kkController.text,
+        tglLahir: _tglLahir,
+        gender: _gender.toString(),
+        golDarah: _golDarah.toString(),
+        suku: _suku.toString(),
+        agama: _agama.toString(),
+        pendidikan: _pendidikan.toString(),
+        pekerjaan: _pekerjaan.toString());
+
+    UpdateProfileState state = context.read<UpdateProfileCubit>().state;
+    if (state is UpdateProfileLoaded) {
+      context.read<UpdateUserCubit>().updateUser(_apiToken, _userId, _noTelp, idProfile: _idProfile);
+      await context.read<ProfileCubit>().getProfile(_apiToken, _idProfile);
+      dismissProgressDialog(context);
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => SuccessDialog(
+                title: 'Sukses',
+                description: 'Anda berhasil mengupdate biodata',
+                onPress: () => Get.offNamedUntil(
+                    AppRoutes.BIODATA, ModalRoute.withName(AppRoutes.MAIN)),
+              ));
+    } else if (state is UpdateProfileFailed) {
+      var message = state.message.toString();
+      showSnackbar('Update biodata gagal!', message);
+      dismissProgressDialog(context);
+    }
   }
 
   bool validationField() {

@@ -15,9 +15,25 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
     });
   }
 
+  isUpdateLahan() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isUpdate = prefs.getBool(KeySharedPreference.updateLahan);
+    apiToken = prefs.getString(KeySharedPreference.apiToken);
+    if (isUpdate) {
+      final dataResponse =
+      (context.read<GetDetailLahanCubit>().state as GetDetailLahanLoaded);
+      _idLahan = dataResponse.lahan.id;
+      _luasController.text = dataResponse.lahan.luas.toString();
+      _alamatController.text = dataResponse.lahan.alamat;
+      _usiaTanamController.text = dataResponse.lahan.usiaTanam.toString();
+      setState(() {
+      });
+    }
+  }
+
   bool isUpdate=false;
   String _idLahan;
-  String idPetani;
+  int idPetani;
   String idInstansi = '2';
 
   // Field
@@ -42,21 +58,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
   List<S2Choice<String>> listKecamatan = [];
   List<S2Choice<String>> listDesa = [];
 
-  isUpdateLahan() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    isUpdate = prefs.getBool(KeySharedPreference.updateLahan);
-    apiToken = prefs.getString(KeySharedPreference.apiToken);
-    if (isUpdate) {
-      final dataResponse =
-          (context.read<GetDetailLahanCubit>().state as GetDetailLahanLoaded);
-      _idLahan = dataResponse.lahan.id;
-      _luasController.text = dataResponse.lahan.luas.toString();
-      _alamatController.text = dataResponse.lahan.alamat;
-      _usiaTanamController.text = dataResponse.lahan.usiaTanam.toString();
-      setState(() {
-      });
-    }
-  }
+
 
   @override
   void initState() {
@@ -815,7 +817,6 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
                     onPress: () => Get.offNamedUntil(
                         AppRoutes.DETAIL_LAHAN, ModalRoute.withName(AppRoutes.LAHAN)),
                   ));
-          // Get.to(ListLahanPage());
         } else if (state is UpdateLahanFailed) {
           var message = state.message.toString();
           showSnackbar('Update Lahan Gagal!', message);
@@ -835,7 +836,7 @@ class _CreateLahanPageState extends State<CreateLahanPage> {
     if (_luasController.text.isNotEmpty &&
         _usiaTanamController.text.isNotEmpty &&
         _alamatController.text.isNotEmpty &&
-        _selectedDesa != null &&
+        _idDesa != null &&
         _idKecamatan != null &&
         _idKabupaten != null &&
         _idProvinsi != null &&

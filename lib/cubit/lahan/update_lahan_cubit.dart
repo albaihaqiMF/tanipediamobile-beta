@@ -15,7 +15,7 @@ class UpdateLahanCubit extends Cubit<UpdateLahanState> {
       int luas,
       // String satuan,
       String usiaTanam,
-      String idPetani,
+      int idPetani,
       String instansi,
       String alamat,
       String desa,

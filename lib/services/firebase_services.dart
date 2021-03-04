@@ -13,7 +13,7 @@ class FirebaseServices {
         print('Firestore : Add to Firestore');
         userRef.add({
           'user_id': int.tryParse(userId) ?? 0,
-          'user_phone': int.tryParse(phoneNumber) ?? 0,
+          'user_phone': phoneNumber,
           'device_token': uid,
           'username': username,
         });

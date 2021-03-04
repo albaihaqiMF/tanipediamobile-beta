@@ -82,8 +82,8 @@ class UserServices {
   //                          UPDATE User
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<User>> update(String token,
-      String idUser, String idProfile, String noTelp) async {
-    Map<String, String> fieldFormURL = {
+      int idUser, String noTelp, {int idProfile}) async {
+    Map<String, dynamic> fieldFormURL = {
       'id': idUser,
       'id_profil': idProfile,
       'telp':noTelp

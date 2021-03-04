@@ -256,7 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
       String imagePath = AppConverter.toBase64(_pickedFile);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final apiToken = prefs.getString(KeySharedPreference.apiToken);
-      final idProfil = prefs.getString(KeySharedPreference.idProfile);
+      final idProfil = prefs.getInt(KeySharedPreference.idProfile);
       showProgressDialog(context, 'Uploading file...');
 
       await context
@@ -337,88 +337,45 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget bottomSheet(BuildContext context) {
-    return Container(
-      // color: mainColor,
-      height: 160,
-      width: double.infinity,
-      padding: EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        border:
-            Border.all(width: 3, color: Colors.green, style: BorderStyle.solid),
-      ),
-      child: Column(
-        children: [
-          Stack(children: [
-            Align(
-                alignment: Alignment.center,
-                child: Text('Pilih foto profil', style: blackFontStyle2)),
-            Align(
-                alignment: Alignment.topRight,
-                child:
-                    InkWell(onTap: () => Get.back(), child: Icon(Icons.close)))
-          ]),
-          SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              FlatButton.icon(
-                onPressed: () {
-                  takePhoto(ImageSource.camera, context);
-                },
-                icon: Icon(Icons.camera),
-                label: Text('Camera'),
-              ),
-              FlatButton.icon(
-                onPressed: () {
-                  takePhoto(ImageSource.gallery, context);
-                },
-                icon: Icon(Icons.image),
-                label: Text('Gallery'),
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
   Future<dynamic> getBottomSheet(BuildContext context){
     return Get.bottomSheet(
       Container(
+        margin: EdgeInsets.all(defaultMargin),
+        height: 160,
         child:Column(
           children: [
-            Stack(children: [
-              Align(
-                  alignment: Alignment.center,
-                  child: Text('Pilih foto profil', style: blackFontStyle2)),
-              Align(
-                  alignment: Alignment.topRight,
-                  child:
-                  InkWell(onTap: () => Get.back(), child: Icon(Icons.close)))
-            ]),
-            SizedBox(height: 8),
+            Align(
+                alignment: Alignment.center,
+                child: Text('Pilih foto profil', style: blackFontBoldStyle3)),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                FlatButton.icon(
-                  onPressed: () {
-                    takePhoto(ImageSource.camera, context);
-                  },
-                  icon: Icon(Icons.camera),
-                  label: Text('Camera'),
-                ),
-                FlatButton.icon(
-                  onPressed: () {
-                    takePhoto(ImageSource.gallery, context);
-                  },
-                  icon: Icon(Icons.image),
-                  label: Text('Gallery'),
-                )
+                Column(children: [
+                  InkWell(
+                    onTap:()=>takePhoto(ImageSource.camera, context),
+                    child: Container(
+                        height:40,
+                        width:40,
+                        child: Image(image:AssetImage('assets/ic_camera.png'))),
+                  ),
+                  Text('Camera', style:blackFontStyle3),
+                ],),
+
+                Column(children: [
+                  InkWell(
+                    onTap:()=>takePhoto(ImageSource.gallery, context),
+                    child: Container(
+                        height:40,
+                        width:40,
+                        child: Image(image:AssetImage('assets/ic_gallery.png'))),
+                  ),
+                  Text('Gallery', style:blackFontStyle3),
+                ],),
               ],
-            )
+            ),
+            SizedBox(height: 10),
+            CustomButton(color: mainColor,onPress: ()=>Get.back(),text: 'Batal',),
           ],
         ),
       ),

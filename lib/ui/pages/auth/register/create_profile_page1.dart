@@ -6,8 +6,9 @@ class CreateProfilePage extends StatefulWidget {
 }
 
 class _CreateProfilePageState extends State<CreateProfilePage> {
-  int _userId = int.tryParse(Get.arguments[0]);
-  String _noTelp = Get.arguments[1];
+  bool _isUpdate = Get.arguments[0];
+  int _userId = Get.arguments[1];
+  String _noTelp = Get.arguments[2];
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _noTelpController = TextEditingController();
@@ -36,11 +37,37 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     });
   }
 
+  _isUpdateProfile() async {
+      final data = (context.read<ProfileCubit>().state as ProfileLoaded);
+      String tglLahir = data.profile.tglLahir;
+      String golDarah = data.profile.golDarah;
+      // String gender = data.profile.gender;
+      // String agama = data.profile.agama;
+      // String suku = data.profile.suku;
+      // String pekerjaan = data.profile.pekerjaan;
+      // String pendidikan = data.profile.pendidikan;
+      _nameController.text = data.profile.nama;
+      if(_noTelp != null){
+        _noTelpController.text = _noTelp.substring(4);
+      }
+      _tglLahirController.text = tglLahir;
+      _selectedBlood = int.tryParse(golDarah);
+      // _selectedGender = int.tryParse(gender);
+      // _selectedReligion =int.tryParse(agama);
+      // _selectedEthnic =int.tryParse(suku);
+      // _selectedEducation =int.tryParse(pendidikan);
+      // _selectedProfession =int.tryParse(pekerjaan);
+      setState(() {
+      });
+  }
+
   @override
   void initState() {
     super.initState();
-    _noTelpController.text = _noTelp;
-    // _selectedGender;
+    _noTelpController.text = _noTelp.substring(4);
+    if (_isUpdate) {
+    _isUpdateProfile();
+    }
   }
 
   @override
@@ -49,7 +76,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          title: Text('Data Diri', style: mainFontBoldStyle1),
+          title: Text((_isUpdate)?'Ubah Data Diri':'Data Diri', style: mainFontBoldStyle1),
           brightness: Brightness.light,
           backgroundColor: Colors.white,
           elevation: 0,
@@ -94,12 +121,19 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
             ),
             SizedBox(height: 20),
             TextField(
+              style: blackFontStyle2,
               onEditingComplete: () => FocusScope.of(context).nextFocus(),
               decoration: InputDecoration(
                 labelText: 'Nomor Telepon',
                 labelStyle: greyFontStyle,
                 hintText: 'Masukkan Nomor Telepon',
                 hintStyle: greyFontStyle,
+                  prefixIcon: Container(
+                      padding: EdgeInsets.fromLTRB(15, 11, 0, 11),
+                      child: Text(
+                        '+628',
+                        style: blackFontStyle2,
+                      )),
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 focusedBorder: OutlineInputBorder(
@@ -378,8 +412,10 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                 modalType: S2ModalType.popupDialog,
                 value: _selectedReligion.toString(),
                 choiceItems: LocalData.agama,
-                onChange: (selected) =>
-                    _selectedReligion = int.tryParse(selected.value),
+                onChange: (selected) {
+                    _selectedReligion = int.tryParse(selected.value);
+                    print('Selected Religion : $_selectedReligion');
+                    },
                 tileBuilder: (context, state) {
                   return ListTile(
                     title: Text(state.title,
@@ -552,18 +588,35 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                       print('Data Pendidikan : $_selectedEducation');
                       print('Data Pekerjaan : $_selectedProfession');
 
-                      Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE2, arguments: [
-                        _userId,
-                        _nameController.text,
-                        _noTelpController.text,
-                        _tglLahirController.text,
-                        _selectedGender,
-                        _selectedBlood,
-                        _selectedReligion,
-                        _selectedEthnic,
-                        _selectedEducation,
-                        _selectedProfession
-                      ]);
+                      if(_isUpdate){
+                        Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE2, arguments: [
+                          true,
+                          _userId,
+                          _nameController.text,
+                          '+628${_noTelpController.text}',
+                          _tglLahirController.text,
+                          _selectedGender,
+                          _selectedBlood,
+                          _selectedReligion,
+                          _selectedEthnic,
+                          _selectedEducation,
+                          _selectedProfession
+                        ]);
+                      } else {
+                        Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE2, arguments: [
+                          false,
+                          _userId,
+                          _nameController.text,
+                          '+628${_noTelpController.text}',
+                          _tglLahirController.text,
+                          _selectedGender,
+                          _selectedBlood,
+                          _selectedReligion,
+                          _selectedEthnic,
+                          _selectedEducation,
+                          _selectedProfession
+                        ]);
+                      }
                     } else {
                       showSnackbar(
                           'Terjadi Kesalahan', 'Semua kolom harus diisi');
@@ -583,6 +636,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
         _nameController.text.isNotEmpty &&
         _tglLahirController.text.isNotEmpty &&
         _noTelpController.text.isNotEmpty &&
+        AppValidator.phoneNumberValidator('+628${_noTelpController.text}') &&
         _selectedBlood != null &&
         _selectedEducation != null &&
         _selectedProfession != null &&

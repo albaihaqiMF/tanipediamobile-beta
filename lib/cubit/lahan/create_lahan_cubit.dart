@@ -14,7 +14,7 @@ class CreateLahanCubit extends Cubit<CreateLahanState> {
       int luas,
       // String satuan,
       String usiaTanam,
-      String idPetani,
+      int idPetani,
       String instansi,
       String alamat,
       String desa,

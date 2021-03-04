@@ -28,7 +28,6 @@ class ProfileServices {
       String kabupaten,
       String kecamatan,
       String desa) async {
-    // assert(nama != null);
     Map<String, dynamic> fieldFormURL = {
       'id_user': idUser,
       'nama': nama,
@@ -52,9 +51,8 @@ class ProfileServices {
       'id_kecamatan': kecamatan,
       'id_desa': desa
     };
-    print('Data Post : $fieldFormURL');
+    print('$tag Data Post : $fieldFormURL');
     var body = jsonEncode(fieldFormURL);
-    print('Data Post Encoded : $body');
     try {
       final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.profile,
           headers: apiHeaders(apiToken: token), body: body);
@@ -73,16 +71,118 @@ class ProfileServices {
   }
 
   //--------------------------------------------------------------------
+  //                          UPDATE Profile
+  //--------------------------------------------------------------------
+  static Future<ApiReturnValue<Profile>> update(
+      String token,
+      int idUser,
+      int idProfile,
+      String nama,
+      String telp,
+      String tglLahir,
+      String gender,
+      String golDarah,
+      String agama,
+      String suku,
+      String pendidikan,
+      String pekerjaan,
+      String nik,
+      String kk,
+      String alamat,
+      String rt,
+      String rw,
+      String kodePos,
+      String provinsi,
+      String kabupaten,
+      String kecamatan,
+      String desa) async {
+    Map<String, dynamic> fieldFormURL = {
+      'id':idProfile,
+      'id_user': idUser,
+      'nama': nama,
+      'telp':telp,
+      'tgl_lahir': tglLahir,
+      'gender': gender,
+      'gol_darah': golDarah,
+      'agama': agama,
+      'suku': suku,
+      'pendidikan': pendidikan,
+      'pekerjaan': pekerjaan,
+      'nik': nik,
+      'kk': kk,
+      'alamat': alamat,
+      'rt': rt,
+      'rw': rw,
+      'kodepos': kodePos,
+      'id_provinsi': provinsi,
+      'id_kabupaten': kabupaten,
+      'id_kecamatan': kecamatan,
+      'id_desa': desa
+    };
+    // Map<String, dynamic> updateBiodata = {
+    //   'id':idProfile,
+    //   'id_user': idUser,
+    //   'nama': nama,
+    //   'telp':telp,
+    //   'tgl_lahir': tglLahir,
+    //   'gender': gender,
+    //   'gol_darah': golDarah,
+    //   'agama': agama,
+    //   'suku': suku,
+    //   'pendidikan': pendidikan,
+    //   'pekerjaan': pekerjaan,
+    //   'nik': nik,
+    //   'kk': kk,
+    // };
+    // Map<String, dynamic> updateAddress = {
+    //   'id':idProfile,
+    //   'id_user': idUser,
+    //   'alamat': alamat,
+    //   'rt': rt,
+    //   'rw': rw,
+    //   'kodepos': kodePos,
+    //   'id_provinsi': provinsi,
+    //   'id_kabupaten': kabupaten,
+    //   'id_kecamatan': kecamatan,
+    //   'id_desa': desa
+    // };
+    // print('$tag Data Post : $updateBiodata');
+    // print('$tag Data Post : $updateAddress');
+    try {
+      // var apiResponse;
+      // if(nama!=null){
+      //   apiResponse  = await http.put(ApiUrl.baseURL + ApiUrl.profile,
+      //       headers: apiHeaders(apiToken: token), body: jsonEncode(updateBiodata));
+      // }
+      // else if(alamat!=null){
+      //   apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.profile,
+      //       headers: apiHeaders(apiToken: token), body: jsonEncode(updateAddress));
+      // }
+      final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.profile,
+          headers: apiHeaders(apiToken: token), body: jsonEncode(fieldFormURL));
+      final responseBody = ReturnResponse.response(apiResponse);
+      final baseResponse = Response.fromJSON(responseBody);
+      final responseCreateProfile = Profile.fromJSON(baseResponse.data);
+
+      return ApiReturnValue(
+          value: responseCreateProfile, message: baseResponse.message);
+    } catch (e) {
+      print('$tag : ${e.toString()}');
+      return ApiReturnValue(message: 'Terjadi Kesalahan..');
+    }
+  }
+
+  //--------------------------------------------------------------------
   //                          GET Profile
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Profile>> read(String token, String idUser) async {
+  static Future<ApiReturnValue<Profile>> read(String token, int idProfile) async {
     print(
-        '$tag GET : $idUser, token = $token');
+        '$tag GET : $idProfile, token = $token');
     print(
         '$tag GET : Headers ${apiHeaders(apiToken: token)}');
     try {
       final apiResponse = await http.get(
-          ApiUrl.baseURL + ApiUrl.profile + '/' + idUser,
+          ApiUrl.baseURL + ApiUrl.profile + '/$idProfile',
           headers: apiHeaders(apiToken: token));
       print(
           '$tag GET : ${apiResponse.statusCode}, ${apiResponse.body}, ${apiResponse.headers}');
@@ -100,7 +200,7 @@ class ProfileServices {
   //                          EDIT Photo Profile
   //--------------------------------------------------------------------
   static Future<ApiReturnValue<Profile>> editPhotoProfile(String token,
-      String idProfile, String photoProfile) async {
+      int idProfile, String photoProfile) async {
     Map<String, dynamic> fieldFormURL = {
       'id': idProfile,
       'foto_profil': photoProfile
