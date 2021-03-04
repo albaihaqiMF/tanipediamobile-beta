@@ -1,4 +1,4 @@
-part of '../../pages.dart';
+part of '../pages.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

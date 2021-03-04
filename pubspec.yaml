@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^0.5.12
   smart_select: ^4.3.2
   supercharged: ^1.10.0
+  percent_indicator: ^2.1.9+1
 
 dev_dependencies:
   flutter_test:

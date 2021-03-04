@@ -70,16 +70,55 @@ class _ProfilePageState extends State<ProfilePage> {
                                 (noTelp != null) ? noTelp : '-',
                                 style: blackFontStyle4,
                               ),
+                                LinearPercentIndicator(
+                                  width: 200.0,
+                                  lineHeight: 10.0,
+                                  percent: 1,
+                                  linearStrokeCap: LinearStrokeCap.roundAll,
+                                  backgroundColor: Colors.grey[300],
+                                  progressColor: mainColor,
+                                ),
+                              SizedBox(height: 5),
+                              Text(
+                                'Kelengkapan Profil Anda 100%',
+                                style: TextStyle(color: Colors.amber[800], fontSize: 12, fontWeight: FontWeight.w500),
+                              ),
                             ],
                           ),
                         ),
-                        Spacer(),
-                        InkWell(
-                            onTap: () {
-                              Get.toNamed(AppRoutes.BIODATA);
-                            },
-                            child: Icon(Icons.arrow_forward_ios_rounded))
+                        // Spacer(),
+                        // InkWell(
+                        //     onTap: () {
+                        //       Get.toNamed(AppRoutes.BIODATA);
+                        //     },
+                        //     child: Icon(Icons.arrow_forward_ios_rounded))
                       ],
+                    ),
+                  ),
+                  Container(
+                    height: 80,
+                    width: double.infinity,
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.BIODATA);
+                      },
+                      child: Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(),
+                        child: Container(
+                          padding: EdgeInsets.all(14),
+                          child: Row(
+                            children: [
+                              Icon(Icons.assignment_ind_outlined,
+                                  color: mainColor),
+                              SizedBox(width: 10),
+                              Text('Data Diri', style: blackFontStyle2),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios_rounded)
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   Container(
@@ -110,32 +149,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     Icon(
                                       Icons.arrow_forward_ios_rounded,
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 80,
-                          width: double.infinity,
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed(AppRoutes.ADDRESS);
-                            },
-                            child: Card(
-                              elevation: 3,
-                              shape: RoundedRectangleBorder(),
-                              child: Container(
-                                padding: EdgeInsets.all(14),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.location_on_outlined,
-                                        color: mainColor),
-                                    SizedBox(width: 10),
-                                    Text('Alamat', style: blackFontStyle2),
-                                    Spacer(),
-                                    Icon(Icons.arrow_forward_ios_rounded)
                                   ],
                                 ),
                               ),

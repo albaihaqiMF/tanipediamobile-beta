@@ -1,4 +1,4 @@
-part of '../../pages.dart';
+part of '../pages.dart';
 
 class CreateProfilePage3 extends StatefulWidget {
   @override
@@ -7,18 +7,6 @@ class CreateProfilePage3 extends StatefulWidget {
 
 class _CreateProfilePage3State extends State<CreateProfilePage3> {
   bool _isUpdate = Get.arguments[0];
-  // int _userId;
-  // String _name;
-  // String _noTelp;
-  // String _tglLahir;
-  // int _gender;
-  // int _golDarah;
-  // int _agama;
-  // int _suku;
-  // int _pendidikan;
-  // int _pekerjaan;
-  // String _nik;
-  // String _kk;
 
   int _userId = Get.arguments[1];
   String _name = Get.arguments[2];
@@ -84,20 +72,6 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
     if(_isUpdate) {
       _isGetProfile();
     }
-    // else {
-    //   _userId = Get.arguments[1];
-    //   _name = Get.arguments[2];
-    //   _noTelp = Get.arguments[3];
-    //   _tglLahir = Get.arguments[4];
-    //   _gender = Get.arguments[5];
-    //   _golDarah = Get.arguments[6];
-    //   _agama = Get.arguments[7];
-    //   _suku = Get.arguments[8];
-    //   _pendidikan = Get.arguments[9];
-    //   _pekerjaan = Get.arguments[10];
-    //   _nik = Get.arguments[11];
-    //   _kk = Get.arguments[12];
-    // }
     context.read<ProvinsiCubit>().getProvinsi();
     context.read<ProvinsiCubit>().toInitial();
     context.read<KabupatenCubit>().toInitial();
@@ -602,6 +576,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                           value: _selectedDesa.toString(),
                           choiceItems: listDesa,
                           onChange: (selected) async {
+                            showProgressDialog(context, 'Mohon tunggu...');
                             _selectedDesa = int.tryParse(selected.value);
                             if (_selectedDesa != null) {
                               //// Get id/value Kabupaten
@@ -611,10 +586,14 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                                     _selectedKabupaten.toString(),
                                     _selectedKecamatan.toString(),
                                     desa: _selectedDesa.toString());
-                                final data = (context.read<DesaCubit>().state
-                                    as DesaLoaded);
-                                List<Wilayah> listValue = data.wilayah.toList();
-                                _idDesa = listValue[0].id;
+                                DesaState stateDesa = context.read<DesaCubit>().state;
+                                if(stateDesa is DesaLoaded){
+                                  List<Wilayah> listValue = stateDesa.wilayah.toList();
+                                  _idDesa = listValue[0].id;
+                                  dismissProgressDialog(context);
+                                }
+                                // final data = (context.read<DesaCubit>().state
+                                //     as DesaLoaded);
                               } catch (e) {
                                 print(
                                     'Pick Kecamatan Exception : ${e.toString()}');
@@ -774,7 +753,6 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
     context.read<UpdateUserCubit>().updateUser(apiToken, idUser, noTelp, idProfile: idProfile);
   }
 
-
   void onUpdateData() async{
     if (validationField()) {
       showProgressDialog(context, 'Mohon tunggu...');
@@ -782,6 +760,17 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
         apiToken: _apiToken,
         idUser: _userId,
         idProfile: _idProfileUpdate,
+        nama: _name,
+        telp: _noTelp,
+        nik: _nik,
+        kk: _kk,
+        tglLahir: _tglLahir,
+        gender: _gender.toString(),
+        golDarah: _golDarah.toString(),
+        suku: _suku.toString(),
+        agama: _agama.toString(),
+        pendidikan: _pendidikan.toString(),
+        pekerjaan: _pekerjaan.toString(),
         alamat: _alamatController.text,
         kodePos: _kodePosController.text,
         rt: _rtController.text,
@@ -803,7 +792,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
               title: 'Sukses',
               description: 'Anda berhasil mengupdate alamat',
               onPress: () => Get.offNamedUntil(
-                  AppRoutes.ADDRESS, ModalRoute.withName(AppRoutes.MAIN)),
+                  AppRoutes.BIODATA, ModalRoute.withName(AppRoutes.MAIN)),
             ));
       } else if (stateUpdateProfile is UpdateProfileFailed) {
         var message = stateUpdateProfile.message.toString();

@@ -1,4 +1,4 @@
-part of '../../pages.dart';
+part of '../pages.dart';
 
 class CreateProfilePage extends StatefulWidget {
   @override
@@ -41,22 +41,12 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
       final data = (context.read<ProfileCubit>().state as ProfileLoaded);
       String tglLahir = data.profile.tglLahir;
       String golDarah = data.profile.golDarah;
-      // String gender = data.profile.gender;
-      // String agama = data.profile.agama;
-      // String suku = data.profile.suku;
-      // String pekerjaan = data.profile.pekerjaan;
-      // String pendidikan = data.profile.pendidikan;
       _nameController.text = data.profile.nama;
       if(_noTelp != null){
         _noTelpController.text = _noTelp.substring(4);
       }
       _tglLahirController.text = tglLahir;
       _selectedBlood = int.tryParse(golDarah);
-      // _selectedGender = int.tryParse(gender);
-      // _selectedReligion =int.tryParse(agama);
-      // _selectedEthnic =int.tryParse(suku);
-      // _selectedEducation =int.tryParse(pendidikan);
-      // _selectedProfession =int.tryParse(pekerjaan);
       setState(() {
       });
   }

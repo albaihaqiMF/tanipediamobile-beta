@@ -35,6 +35,9 @@ class HelpPage extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 // Get.to(HelpPage());
+                showDialog(
+                    context: context,
+                    builder: (context) => CommingSoonDialog());
               },
               child: Card(
                 elevation: 3,
@@ -58,6 +61,9 @@ class HelpPage extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 // Get.to(HelpPage());
+                showDialog(
+                    context: context,
+                    builder: (context) => CommingSoonDialog());
               },
               child: Card(
                 elevation: 3,
@@ -81,6 +87,9 @@ class HelpPage extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 // Get.to(HelpPage());
+                showDialog(
+                    context: context,
+                    builder: (context) => CommingSoonDialog());
               },
               child: Card(
                 elevation: 3,
@@ -104,6 +113,9 @@ class HelpPage extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 // Get.to(HelpPage());
+                showDialog(
+                    context: context,
+                    builder: (context) => CommingSoonDialog());
               },
               child: Card(
                 elevation: 3,
@@ -127,6 +139,9 @@ class HelpPage extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 // Get.to(HelpPage());
+                showDialog(
+                    context: context,
+                    builder: (context) => CommingSoonDialog());
               },
               child: Card(
                 elevation: 3,

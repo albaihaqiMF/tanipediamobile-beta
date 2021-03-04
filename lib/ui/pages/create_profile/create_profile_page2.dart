@@ -1,4 +1,4 @@
-part of '../../pages.dart';
+part of '../pages.dart';
 
 class CreateProfilePage2 extends StatefulWidget {
   @override
@@ -6,16 +6,6 @@ class CreateProfilePage2 extends StatefulWidget {
 }
 
 class _CreateProfilePage2State extends State<CreateProfilePage2> {
-  String _apiToken;
-  int _idProfile;
-  _getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _apiToken = prefs.getString(KeySharedPreference.apiToken);
-      _idProfile = prefs.getInt(KeySharedPreference.idProfile);
-    });
-  }
-
   bool _isUpdate = Get.arguments[0];
   int _userId = Get.arguments[1];
   String _name = Get.arguments[2];
@@ -44,7 +34,7 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
     if (_isUpdate) {
       _isGetProfile();
     }
-    _getToken();
+    // _getToken();
     print('Data ID User : $_userId');
     print('Data Nama : $_name');
     print('Data No.Telp : $_noTelp');
@@ -141,7 +131,23 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
                       onPress: () async {
                         if (validationField()) {
                           if (_isUpdate) {
-                            onUpdateProfile();
+                            // onUpdateProfile();
+                            Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE3,
+                                arguments: [
+                                  true,
+                                  _userId,
+                                  _name,
+                                  _noTelp,
+                                  _tglLahir,
+                                  _gender,
+                                  _golDarah,
+                                  _agama,
+                                  _suku,
+                                  _pendidikan,
+                                  _pekerjaan,
+                                  _nikController.text,
+                                  _kkController.text,
+                                ]);
                           } else {
                             Get.toNamed(AppRoutes.CREATE_PROFILE_PAGE3,
                                 arguments: [
@@ -172,45 +178,6 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
         ),
       ),
     );
-  }
-
-  onUpdateProfile() async {
-    showProgressDialog(context, 'Mohon tunggu...');
-    await context.read<UpdateProfileCubit>().updateProfile(
-        apiToken: _apiToken,
-        idUser: _userId,
-        idProfile: _idProfile,
-        nama: _name,
-        telp: _noTelp,
-        nik: _nikController.text,
-        kk: _kkController.text,
-        tglLahir: _tglLahir,
-        gender: _gender.toString(),
-        golDarah: _golDarah.toString(),
-        suku: _suku.toString(),
-        agama: _agama.toString(),
-        pendidikan: _pendidikan.toString(),
-        pekerjaan: _pekerjaan.toString());
-
-    UpdateProfileState state = context.read<UpdateProfileCubit>().state;
-    if (state is UpdateProfileLoaded) {
-      context.read<UpdateUserCubit>().updateUser(_apiToken, _userId, _noTelp, idProfile: _idProfile);
-      await context.read<ProfileCubit>().getProfile(_apiToken, _idProfile);
-      dismissProgressDialog(context);
-      showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) => SuccessDialog(
-                title: 'Sukses',
-                description: 'Anda berhasil mengupdate biodata',
-                onPress: () => Get.offNamedUntil(
-                    AppRoutes.BIODATA, ModalRoute.withName(AppRoutes.MAIN)),
-              ));
-    } else if (state is UpdateProfileFailed) {
-      var message = state.message.toString();
-      showSnackbar('Update biodata gagal!', message);
-      dismissProgressDialog(context);
-    }
   }
 
   bool validationField() {

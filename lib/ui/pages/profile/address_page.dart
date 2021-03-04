@@ -33,15 +33,15 @@ class AddressPage extends StatelessWidget {
         ),
       ),
       body:
-          // (alamat == null &&
-          //         rt == null &&
-          //         rw == null &&
-          //         desa == null &&
-          //         kecamatan == null &&
-          //         kabupaten == null &&
-          //         provinsi == null)
-          //     ? Center(child: Text('Anda belum mengisi alamat'))
-          //     :
+          (alamat == null &&
+                  rt == null &&
+                  rw == null &&
+                  desa == null &&
+                  kecamatan == null &&
+                  kabupaten == null &&
+                  provinsi == null)
+              ? Center(child: Text('Anda belum mengisi alamat'))
+              :
           (stateProfile is ProfileInitial)
               ? loadingIndicator
               : Container(
