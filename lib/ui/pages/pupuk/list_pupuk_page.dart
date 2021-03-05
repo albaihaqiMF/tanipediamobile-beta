@@ -71,7 +71,7 @@ class _ListPupukPageState extends State<ListPupukPage> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 30),
                                 child: Text((listPupuk[index].poktan!=null)?
-                                    listPupuk[index].poktan:'Tidak ada data poktan',
+                                    listPupuk[index].poktan:'Poktan',
                                     style: mainFontBoldStyle2),
                               ),
                               Divider(color: Colors.black),

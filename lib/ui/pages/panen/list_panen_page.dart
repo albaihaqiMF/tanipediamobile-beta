@@ -103,7 +103,7 @@ class _ListPanenPageState extends State<ListPanenPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text((listPanen[index].kategori!=null)?
-                                            '${listPanen[index].kategori}':'Tidak ada kategori',
+                                            '${listPanen[index].kategori}':'Panen',
                                             style: blackFontStyle4),
                                         Text((listPanen[index].totalPanen!=null)?
                                             '${listPanen[index].totalPanen} Kg':'- Kg',

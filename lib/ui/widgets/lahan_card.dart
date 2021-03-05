@@ -29,7 +29,7 @@ class LahanCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text((lahan.kategori!=null)?'${lahan.kategori}':'Tidak ada kategori', style: blackFontBoldStyle4),
+                  Text((lahan.kategori!=null)?'${lahan.kategori}':'Lahan', style: blackFontBoldStyle4),
                   Row(
                     children: [
                       Text('Luas lahan : ', style:blackFontStyle3),

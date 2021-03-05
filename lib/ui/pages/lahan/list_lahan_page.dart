@@ -45,7 +45,6 @@ class _ListLahanPageState extends State<ListLahanPage> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setBool(KeySharedPreference.updateLahan, false);
           Get.toNamed(AppRoutes.CREATE_LAHAN);
-          // context.watch<GetListLahanCubit>().close();
         },
         child: Icon(Icons.add, color: Colors.white),
       ),
@@ -96,7 +95,7 @@ class _ListLahanPageState extends State<ListLahanPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text((listLahan[index].kategori!=null)?
-                                          '${listLahan[index].kategori}':'Tidak ada kategori',
+                                          '${listLahan[index].kategori}':'Lahan',
                                           style: blackFontBoldStyle4),
                                       Text(
                                           (listLahan[index].kecamatan != null)

@@ -20,7 +20,7 @@ class PupukCard extends StatelessWidget {
             ),
             SizedBox(width: 5),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text((pupuk.poktan!=null)?pupuk.poktan:'Tidak ada data poktan', style: mainFontBoldStyle2),
+              Text((pupuk.poktan!=null)?pupuk.poktan:'Poktan', style: mainFontBoldStyle2),
               Text((pupuk.tglDistribusi!=null)?'Tanggal Distribusi: ${pupuk.tglDistribusi}':'Tanggal Distribusi: -',
                   style: greyFontStyleSmall.copyWith(color: Colors.black)),
               Text((pupuk.keterangan!=null)?'Status: ${pupuk.keterangan}':'Status: -',

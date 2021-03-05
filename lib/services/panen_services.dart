@@ -18,7 +18,9 @@ class PanenServices {
           .toList()
           .cast<Panen>();
       return ApiReturnValue(value: listPanen);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -38,7 +40,9 @@ class PanenServices {
           .toList()
           .cast<Panen>();
       return ApiReturnValue(value: listPanen);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -59,7 +63,9 @@ class PanenServices {
       final dataDetailPanen = Panen.fromJSON(baseResponse.data);
 
       return ApiReturnValue(value: dataDetailPanen);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -80,7 +86,9 @@ class PanenServices {
       final dataDetailPanen = Panen.fromJSON(baseResponse.data);
 
       return ApiReturnValue(value: dataDetailPanen);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -127,7 +135,9 @@ class PanenServices {
       final dataDetailPanen = Panen.fromJSON(baseResponse.data);
 
       return ApiReturnValue(value: dataDetailPanen);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -177,7 +187,9 @@ class PanenServices {
       final dataDetailPanen = Panen.fromJSON(baseResponse.data);
 
       return ApiReturnValue(value: dataDetailPanen);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }

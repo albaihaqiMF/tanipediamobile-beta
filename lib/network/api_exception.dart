@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:tanipedia_mobile_app/model/base/response.dart';
 import 'dart:convert';
@@ -25,23 +27,22 @@ class ReturnResponse {
 
       case 401:
         print('$tag : ${response.body.toString()}');
-        throw UnauthorisedException('Anda harus login terlebih dahulu.');
+        throw UnauthorisedException();
 
       case 403:
-        //final responseJSON = Response.fromJSON(json.decode(responseBody));
         print('$tag ${response.body.toString()}');
         print('$tag ${response.statusCode.toString()}');
-        throw InvalidInputException('Anda tidak memiliki akses.');
+        throw InvalidInputException();
 
       case 404:
-        //final responseJSON = Response.fromJSON(json.decode(responseBody));
         print('$tag ${response.body.toString()}');
         print('$tag ${response.statusCode.toString()}');
-        throw AddressNotFoundException('Alamat URL tidak ditemukan.');
+        throw AddressNotFoundException();
 
       case 500:
+        final responseJSON = Response.fromJSON(json.decode(responseBody));
         print('$tag : ${response.body.toString()}');
-        throw InternalServerErrorException('Terjadi Kesalahan');
+        throw InternalServerErrorException(responseJSON.message);
 
       default:
         throw FetchDataException(
@@ -54,36 +55,40 @@ class AppException implements Exception {
   final _message;
   final _prefix;
 
-  AppException([this._message, this._prefix]);
+  AppException([this._prefix, this._message]);
 
   String toString() {
-    return "$_prefix$_message";
+    if(_message!=null){
+      return "$_prefix$_message";
+    } else {
+      return "$_prefix";
+    }
   }
 }
 
 class FetchDataException extends AppException {
   FetchDataException([String message])
-      : super(message, "Error During Communication: ");
+      : super("Error during Communication:", message);
 }
 
 class BadRequestException extends AppException {
-  BadRequestException([message]) : super(message, "Bad Request, message: ");
+  BadRequestException([message]) : super("Permintaan Ditolak, pesan: ", message);
 }
 
 class UnauthorisedException extends AppException {
-  UnauthorisedException([message]) : super(message, "Unauthorized: ");
+  UnauthorisedException([message]) : super("Anda harus login terlebih dahulu.", message);
 }
 
 class AddressNotFoundException extends AppException {
   AddressNotFoundException([String message])
-      : super(message, "Address Not Found: ");
+      : super("Alamat tidak ditemukan.", message);
 }
 
 class InvalidInputException extends AppException {
-  InvalidInputException([String message]) : super(message, "Invalid Input: ");
+  InvalidInputException([String message]) : super("Invalid Input: ", message);
 }
 
 class InternalServerErrorException extends AppException {
   InternalServerErrorException([String message])
-      : super(message, "Internal Server Error: ");
+      : super("Internal Server Error: ", message);
 }

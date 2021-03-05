@@ -283,7 +283,7 @@ class _DashboardPageState extends State<DashboardPage> {
       child: BlocBuilder<GetListPupukCubit, GetListPupukState>(
         builder: (_, state) => (state is GetListPupukLoaded)
             ? (state.pupuk.length == 0)
-                ? Center(child: Text('Tidak ada data Pupuk'))
+                ? Center(child: Text('Pupuk'))
                 : ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -313,7 +313,7 @@ class _DashboardPageState extends State<DashboardPage> {
       child: BlocBuilder<GetPanenCubit, GetPanenState>(
         builder: (_, state) => (state is GetListPanenLoaded)
             ? (state.panen.length == 0)
-                ? Center(child: Text('Tidak ada data Panen'))
+                ? Center(child: Text('Panen'))
                 : ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -344,7 +344,7 @@ class _DashboardPageState extends State<DashboardPage> {
       child: BlocBuilder<GetListLahanCubit, GetListLahanState>(
         builder: (_, state) => (state is GetListLahanLoaded)
             ? (state.lahan.length == 0)
-            ? Center(child: Text('Tidak ada data Panen'))
+            ? Center(child: Text('Panen'))
             : ListView(
           scrollDirection: Axis.horizontal,
           children: [

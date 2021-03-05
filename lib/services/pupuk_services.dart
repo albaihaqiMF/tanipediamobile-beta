@@ -19,6 +19,8 @@ class PupukServices {
           .cast<Pupuk>();
 
       return ApiReturnValue(value: listPupuk);
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
     } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
@@ -40,7 +42,9 @@ class PupukServices {
           .cast<Pupuk>();
 
       return ApiReturnValue(value: listPupuk);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -61,7 +65,9 @@ class PupukServices {
       final dataDetailPupuk = Pupuk.fromJSON(baseResponse.data);
 
       return ApiReturnValue(value: dataDetailPupuk);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }

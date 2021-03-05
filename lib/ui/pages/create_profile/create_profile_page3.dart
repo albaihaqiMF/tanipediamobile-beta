@@ -153,35 +153,6 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                     onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     decoration: InputDecoration(
                       counterText: "",
-                      labelText: 'Kode Pos',
-                      labelStyle: greyFontStyle,
-                      hintText: 'Masukkan Kode Pos',
-                      hintStyle: greyFontStyle,
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                          borderRadius: BorderRadius.circular(10)),
-                      enabledBorder: (OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: mainColor,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(10))),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    maxLength: 7,
-
-                    keyboardType: TextInputType.number,
-                    controller: _kodePosController,
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                    decoration: InputDecoration(
-                      counterText: "",
                       labelText: 'RT',
                       labelStyle: greyFontStyle,
                       hintText: 'Masukkan RT',
@@ -662,6 +633,34 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                       );
                     }
                   }),
+                  SizedBox(height: 10),
+                  TextField(
+                    onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    decoration: InputDecoration(
+                      counterText: "",
+                      labelText: 'Kode Pos',
+                      labelStyle: greyFontStyle,
+                      hintText: 'Masukkan Kode Pos',
+                      hintStyle: greyFontStyle,
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                          borderRadius: BorderRadius.circular(10)),
+                      enabledBorder: (OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: mainColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(10))),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    maxLength: 7,
+                    keyboardType: TextInputType.number,
+                    controller: _kodePosController,
+                  ),
                   SizedBox(height: 20),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 30),

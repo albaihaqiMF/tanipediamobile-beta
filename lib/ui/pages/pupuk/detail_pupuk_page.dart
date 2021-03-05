@@ -33,7 +33,7 @@ class DetailPupukPage extends StatelessWidget {
                         child: WrapBorder(
                           Center(
                             child: Text((state.pupuk.poktan!=null)?
-                                state.pupuk.poktan:'Tidak ada data poktan',
+                                state.pupuk.poktan:'Poktan',
                                 style: mainFontBoldStyle3),
                           ),
                           color: Colors.green,

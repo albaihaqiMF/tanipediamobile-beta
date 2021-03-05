@@ -41,6 +41,7 @@ part 'main_page.dart';
 
 // General
 part 'dashboard_page.dart';
+part 'coming_soon_page.dart';
 
 // Auth
 part 'auth/login_page.dart';

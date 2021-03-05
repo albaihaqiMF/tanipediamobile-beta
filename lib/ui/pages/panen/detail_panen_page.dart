@@ -61,7 +61,7 @@ class DetailPanenPage extends StatelessWidget {
                                     Text(
                                         (state.panen.kategori != null)
                                             ? '${state.panen.kategori}'
-                                            : 'Tidak ada kategori',
+                                            : 'Panen',
                                         style: blackFontStyle3),
                                     Text(
                                         (state.panen.totalPanen != null)

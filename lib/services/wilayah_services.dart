@@ -29,7 +29,9 @@ class WilayahServices {
           .toList()
           .cast<Wilayah>();
       return ApiReturnValue(value: listProvinsi);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Provinsi, Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -64,7 +66,9 @@ class WilayahServices {
           .toList()
           .cast<Wilayah>();
       return ApiReturnValue(value: listProvinsi);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Kabupaten, Exception ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -102,7 +106,9 @@ class WilayahServices {
           .toList()
           .cast<Wilayah>();
       return ApiReturnValue(value: listWilayah);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Kecamatan, Exception ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -142,7 +148,9 @@ class WilayahServices {
           .toList()
           .cast<Wilayah>();
       return ApiReturnValue(value: listWilayah);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Desa, Exception ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }

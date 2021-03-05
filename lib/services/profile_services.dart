@@ -63,7 +63,9 @@ class ProfileServices {
 
       return ApiReturnValue(
           value: responseCreateProfile, message: baseResponse.message);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag : ${e.toString()}');
       // return ApiReturnValue(message: "Tidak ada koneksi internet!");
       return ApiReturnValue(message: 'Terjadi Kesalahan..');
@@ -166,7 +168,9 @@ class ProfileServices {
 
       return ApiReturnValue(
           value: responseCreateProfile, message: baseResponse.message);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag : ${e.toString()}');
       return ApiReturnValue(message: 'Terjadi Kesalahan..');
     }
@@ -190,7 +194,9 @@ class ProfileServices {
       final baseResponse = Response.fromJSON(responseBody);
       final dataProfil = Profile.fromJSON(baseResponse.data);
       return ApiReturnValue(value: dataProfil, message: baseResponse.message);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -215,7 +221,9 @@ class ProfileServices {
       final baseResponse = Response.fromJSON(responseBody);
       final dataProfil = Profile.fromJSON(baseResponse.data);
       return ApiReturnValue(value: dataProfil, message: baseResponse.message);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }

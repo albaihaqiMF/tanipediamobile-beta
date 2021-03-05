@@ -27,9 +27,11 @@ class UserServices {
       } else {
         return ApiReturnValue(message: 'Username telah terdaftar.');
       }
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
     } catch (e) {
       print('$tag : ${e.toString()}');
-      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+      return ApiReturnValue(message: e.toString());
     }
   }
 
@@ -45,6 +47,8 @@ class UserServices {
       var responseLogin = User.fromJSON(baseResponse.data);
       return ApiReturnValue(
           value: responseLogin, message: baseResponse.message);
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
     } catch (e) {
       print('$tag : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
@@ -73,9 +77,11 @@ class UserServices {
       } else {
         return ApiReturnValue(message: baseResponse.message);
       }
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
     } catch (e) {
       print('$tag : ${e.toString()}');
-      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+      return ApiReturnValue(message: e.toString());
     }
   }
 
@@ -98,9 +104,11 @@ class UserServices {
         var responseLogin = User.fromJSON(baseResponse.data);
         return ApiReturnValue(value: responseLogin);
 
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
     } catch (e) {
       print('$tag : ${e.toString()}');
-      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+      return ApiReturnValue(message: e.toString());
     }
   }
 }

@@ -32,7 +32,7 @@ class PanenCard extends StatelessWidget {
                   // Text('${panen.varietas} ${panen.kategori}',
                   //     style: blackFontBoldStyle4),
                   Text((panen.kategori!=null)?
-                      '${panen.kategori}' : 'Tidak ada Kategori', style: blackFontBoldStyle4),
+                      '${panen.kategori}' : 'Panen', style: blackFontBoldStyle4),
                   Row(
                     children: [
                       Row(

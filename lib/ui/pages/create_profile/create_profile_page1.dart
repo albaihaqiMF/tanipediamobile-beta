@@ -40,13 +40,14 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   _isUpdateProfile() async {
       final data = (context.read<ProfileCubit>().state as ProfileLoaded);
       String tglLahir = data.profile.tglLahir;
-      String golDarah = data.profile.golDarah;
       _nameController.text = data.profile.nama;
       if(_noTelp != null){
         _noTelpController.text = _noTelp.substring(4);
       }
       _tglLahirController.text = tglLahir;
-      _selectedBlood = int.tryParse(golDarah);
+
+      // String golDarah = data.profile.golDarah;
+      // _selectedBlood = int.tryParse(golDarah);
       setState(() {
       });
   }
@@ -54,7 +55,6 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   @override
   void initState() {
     super.initState();
-    _noTelpController.text = _noTelp.substring(4);
     if (_isUpdate) {
     _isUpdateProfile();
     }

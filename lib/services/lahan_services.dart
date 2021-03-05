@@ -22,7 +22,9 @@ class LahanServices {
           .cast<Lahan>();
 
       return ApiReturnValue(value: listLahan);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -45,7 +47,9 @@ class LahanServices {
           .cast<Lahan>();
 
       return ApiReturnValue(value: listLahan);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -66,7 +70,9 @@ class LahanServices {
       final dataDetailLahan = Lahan.fromJSON(baseResponse.data);
 
       return ApiReturnValue(value: dataDetailLahan);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -116,7 +122,9 @@ class LahanServices {
       final baseResponse = Response.fromJSON(responseBody);
       final responseDataLahan = Lahan.fromJSON(baseResponse.data);
       return ApiReturnValue(value: responseDataLahan);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -135,7 +143,9 @@ class LahanServices {
       final baseResponse = Response.fromJSON(responseBody);
       final responseDataLahan = Lahan.fromJSON(baseResponse.data);
       return ApiReturnValue(value: responseDataLahan);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -186,7 +196,9 @@ class LahanServices {
       final baseResponse = Response.fromJSON(responseBody);
       final responseDataLahan = Lahan.fromJSON(baseResponse.data);
       return ApiReturnValue(value: responseDataLahan);
-    } catch (e) {
+    } on SocketException {
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
+    }  catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }

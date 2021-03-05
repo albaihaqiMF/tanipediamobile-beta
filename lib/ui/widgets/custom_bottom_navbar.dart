@@ -35,7 +35,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 child: IconButton(
                   icon: Icon(
                     Icons.home_outlined,
-                    size: ((selectedIndex == 0) ? 40 : 30),
+                    size: ((selectedIndex == 0) ? 35 : 25),
                     color: ((selectedIndex == 0) ? mainColor : Colors.grey),
                   ),
                   onPressed: () {
@@ -46,26 +46,12 @@ class CustomBottomNavBar extends StatelessWidget {
                 ),
               ),
               Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text((selectedIndex == 0)?'Beranda':'', style: mainFontBoldStyle3,))
+                  padding: EdgeInsets.only(top: 5),
+                  child: Text((selectedIndex == 0)?'Beranda':'', style: mainFontBoldStyle3.copyWith(fontSize: 14),
+                  ),
+              ),
             ],
           ),
-          // Container(
-          //   width: 50,
-          //   height: 50,
-          //   child: IconButton(
-          //     icon: Icon(
-          //       Icons.chrome_reader_mode_outlined,
-          //       size: ((selectedIndex == 1) ? 35 : 25),
-          //       color: ((selectedIndex == 1) ? mainColor : Colors.grey),
-          //     ),
-          //     onPressed: () {
-          //       if (onTap != null) {
-          //         onTap(1);
-          //       }
-          //     },
-          //   ),
-          // ),
           Row(
             children: [
               Container(
@@ -73,8 +59,8 @@ class CustomBottomNavBar extends StatelessWidget {
                 height: 50,
                 child: IconButton(
                   icon: Icon(
-                    Icons.person_outline,
-                    size: ((selectedIndex == 1) ? 40 : 30),
+                    Icons.language_outlined,
+                    size: ((selectedIndex == 1) ? 35 : 25),
                     color: ((selectedIndex == 1) ? mainColor : Colors.grey),
                   ),
                   onPressed: () {
@@ -85,10 +71,176 @@ class CustomBottomNavBar extends StatelessWidget {
                 ),
               ),
               Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text((selectedIndex == 1)?'Profil':'', style: mainFontBoldStyle3,))
+                padding: EdgeInsets.only(top: 5),
+                child: Text((selectedIndex == 1)?'Sosmed':'', style: mainFontBoldStyle3.copyWith(fontSize: 14),
+                ),
+              ),
             ],
           ),
+          Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.chrome_reader_mode_outlined,
+                    size: ((selectedIndex == 2) ? 35 : 25),
+                    color: ((selectedIndex == 2) ? mainColor : Colors.grey),
+                  ),
+                  onPressed: () {
+                    if (onTap != null) {
+                      onTap(2);
+                    }
+                  },
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 5),
+                child: Text((selectedIndex == 2)?'Belajar':'', style: mainFontBoldStyle3.copyWith(fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.shopping_basket_outlined,
+                    size: ((selectedIndex == 3) ? 35 : 25),
+                    color: ((selectedIndex == 3) ? mainColor : Colors.grey),
+                  ),
+                  onPressed: () {
+                    if (onTap != null) {
+                      onTap(3);
+                    }
+                  },
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 5),
+                child: Text((selectedIndex == 3)?'Pasar & \nKeuangan':'', style: mainFontBoldStyle3.copyWith(fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.person_outline,
+                    size: ((selectedIndex == 4) ? 35 : 25),
+                    color: ((selectedIndex == 4) ? mainColor : Colors.grey),
+                  ),
+                  onPressed: () {
+                    if (onTap != null) {
+                      onTap(4);
+                    }
+                  },
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text((selectedIndex == 4)?'Profil':'', style: mainFontBoldStyle3.copyWith(fontSize: 14),
+                  ),
+              ),
+            ],
+          ),
+          // Column(
+          //
+          //   children: [
+          //     Container(
+          //       width: 50,
+          //       height: 50,
+          //       child: IconButton(
+          //         icon: Icon(
+          //           Icons.home_outlined,
+          //           size: ((selectedIndex == 0) ? 25 : 25),
+          //           color: ((selectedIndex == 0) ? mainColor : Colors.grey),
+          //         ),
+          //         onPressed: () {
+          //           if (onTap != null) {
+          //             onTap(0);
+          //           }
+          //         },
+          //       ),
+          //     ),
+          //     Text(
+          //       'Beranda',
+          //       style: TextStyle(fontSize: 10),
+          //     ),
+          //   ],
+          // ),
+          // Container(
+          //   width: 50,
+          //   height: 50,
+          //   child: IconButton(
+          //     icon: Icon(
+          //       Icons.language_outlined,
+          //       size: ((selectedIndex == 1) ? 35 : 25),
+          //       color: ((selectedIndex == 1) ? mainColor : Colors.grey),
+          //     ),
+          //     onPressed: () {
+          //       if (onTap != null) {
+          //         onTap(1);
+          //       }
+          //     },
+          //   ),
+          // ),
+          // Container(
+          //   width: 50,
+          //   height: 50,
+          //   child: IconButton(
+          //     icon: Icon(
+          //       Icons.chrome_reader_mode_outlined,
+          //       size: ((selectedIndex == 2) ? 35 : 25),
+          //       color: ((selectedIndex == 2) ? mainColor : Colors.grey),
+          //     ),
+          //     onPressed: () {
+          //       if (onTap != null) {
+          //         onTap(2);
+          //       }
+          //     },
+          //   ),
+          // ),
+          // Container(
+          //   width: 50,
+          //   height: 50,
+          //   child: IconButton(
+          //     icon: Icon(
+          //       Icons.shopping_basket_outlined,
+          //       size: ((selectedIndex == 3) ? 35 : 25),
+          //       color: ((selectedIndex == 3) ? mainColor : Colors.grey),
+          //     ),
+          //     onPressed: () {
+          //       if (onTap != null) {
+          //         onTap(3);
+          //       }
+          //     },
+          //   ),
+          // ),
+          // Container(
+          //   width: 50,
+          //   height: 50,
+          //   child: IconButton(
+          //     icon: Icon(
+          //       Icons.person_outline,
+          //       size: ((selectedIndex == 4) ? 35 : 25),
+          //       color: ((selectedIndex == 4) ? mainColor : Colors.grey),
+          //     ),
+          //     onPressed: () {
+          //       if (onTap != null) {
+          //         onTap(4);
+          //       }
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
