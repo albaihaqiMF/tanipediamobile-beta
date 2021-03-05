@@ -4,10 +4,14 @@ void showToast(BuildContext context, String message) {
   final scaffold = Scaffold.of(context);
   scaffold.showSnackBar(
     SnackBar(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
       behavior: SnackBarBehavior.floating,
-      content: Text('$message'),
-      action: SnackBarAction(
-          label: 'CLOSE', onPressed: scaffold.hideCurrentSnackBar),
+      content: Text('$message', textAlign: TextAlign.center,),
+      margin: EdgeInsets.symmetric(vertical: 100, horizontal: 40),
+      // action: SnackBarAction(
+      //     label: 'CLOSE', onPressed: scaffold.hideCurrentSnackBar),
     ),
   );
 }

@@ -45,6 +45,7 @@ dependencies:
   smart_select: ^4.3.2
   supercharged: ^1.10.0
   percent_indicator: ^2.1.9+1
+  double_back_to_close_app: ^1.2.0
 
 dev_dependencies:
   flutter_test:

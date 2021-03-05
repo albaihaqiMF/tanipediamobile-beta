@@ -22,6 +22,7 @@ import 'package:tanipedia_mobile_app/network/api_url.dart';
 import 'package:tanipedia_mobile_app/routes/app_routes.dart';
 import 'package:tanipedia_mobile_app/shared/shared.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +40,6 @@ import 'dart:async';
 part 'main_page.dart';
 
 // General
-part 'home_page.dart';
 part 'dashboard_page.dart';
 
 // Auth

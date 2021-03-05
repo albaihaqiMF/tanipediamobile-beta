@@ -25,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       key: scaffoldState,
       body: Container(
+        padding: EdgeInsets.only(bottom: 60),
         child: (stateProfile is ProfileLoaded)
             ? ListView(
                 children: [
