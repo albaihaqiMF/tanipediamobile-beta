@@ -51,7 +51,8 @@ class _LoginPageState extends State<LoginPage> {
                 onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(16),
-                  hintText: 'Masukkan Nama',
+                  labelText: 'Username',
+                  hintText: 'Masukkan Username',
                   hintStyle: greyFontStyle,
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue, width: 2),
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  errorText: _errorNameField ? 'Nama tidak boleh kosong' : null,
+                  errorText: _errorNameField ? 'Username tidak boleh kosong' : null,
                   prefixIcon: Icon(Icons.person),
                 ),
                 style: blackFontStyle3,
@@ -77,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                 onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(16),
+                  labelText: 'Password',
                   hintText: 'Masukkan Password',
                   hintStyle: greyFontStyle,
                   focusedBorder: OutlineInputBorder(

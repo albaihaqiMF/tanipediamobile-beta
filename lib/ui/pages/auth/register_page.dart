@@ -61,7 +61,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             FocusScope.of(context).nextFocus(),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(16),
-                          hintText: 'Masukkan Nama',
+                          labelText: 'Username',
+                          hintText: 'Masukkan Username',
                           hintStyle: greyFontStyle,
                           prefixIcon: Icon(Icons.person),
                           focusedBorder: OutlineInputBorder(
@@ -78,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           errorText: _errorNameField
-                              ? 'Nama tidak boleh kosong'
+                              ? 'Username tidak boleh kosong'
                               : null,
                         ),
                         style: blackFontStyle3,
@@ -91,6 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             FocusScope.of(context).nextFocus(),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(16),
+                          labelText: 'Password',
                           hintText: 'Masukkan Password',
                           hintStyle: greyFontStyle,
                           focusedBorder: OutlineInputBorder(
@@ -198,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _nameController.text.isEmpty
           ? _errorNameField = true
           : _errorNameField = false;
-      _passwordController.text.isEmpty || _passwordController.text.length <=6
+      _passwordController.text.isEmpty || _passwordController.text.length<6
           ? _errorPasswordField = true
           : _errorPasswordField = false;
       _phoneController.text.isNotEmpty &&
