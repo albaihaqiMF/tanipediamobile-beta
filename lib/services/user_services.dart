@@ -12,7 +12,6 @@ class UserServices {
       'username': username,
       'password': password
     };
-
     var body = jsonEncode(fieldFormURL);
 
     try {
@@ -20,12 +19,14 @@ class UserServices {
           headers: apiHeaders(), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
-      var responseLogin = User.fromJSON(baseResponse.data);
       print('$tag : ${responseBody.toString()}');
-      print(
-          '$tag : ${baseResponse.status}, ${baseResponse.message}, ${baseResponse.data}');
-      return ApiReturnValue(
-          value: responseLogin, message: baseResponse.status);
+
+      if (baseResponse.status == 'OK') {
+        var responseRegister = User.fromJSON(baseResponse.data);
+        return ApiReturnValue(value: responseRegister);
+      } else {
+        return ApiReturnValue(message: 'Username telah terdaftar.');
+      }
     } catch (e) {
       print('$tag : ${e.toString()}');
       return ApiReturnValue(message: "Tidak ada koneksi internet!");

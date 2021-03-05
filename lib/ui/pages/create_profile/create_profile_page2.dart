@@ -75,6 +75,7 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
               TextField(
                 onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 decoration: InputDecoration(
+                  counterText: "",
                   labelText: 'Nomor KTP (NIK)',
                   labelStyle: greyFontStyle,
                   hintText: 'Masukkan Nomor KTP (NIK)',
@@ -94,6 +95,7 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                maxLength: 17,
                 controller: _nikController,
                 keyboardType: TextInputType.number,
               ),
@@ -101,6 +103,7 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
               TextField(
                 onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 decoration: InputDecoration(
+                  counterText: "",
                   labelText: 'Nomor KK',
                   labelStyle: greyFontStyle,
                   hintText: 'Masukkan Nomor KK',
@@ -120,6 +123,7 @@ class _CreateProfilePage2State extends State<CreateProfilePage2> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                maxLength: 17,
                 controller: _kkController,
                 keyboardType: TextInputType.number,
               ),

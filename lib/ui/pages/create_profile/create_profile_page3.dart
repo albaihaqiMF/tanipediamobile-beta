@@ -152,6 +152,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                   TextField(
                     onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     decoration: InputDecoration(
+                      counterText: "",
                       labelText: 'Kode Pos',
                       labelStyle: greyFontStyle,
                       hintText: 'Masukkan Kode Pos',
@@ -171,6 +172,8 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    maxLength: 7,
+
                     keyboardType: TextInputType.number,
                     controller: _kodePosController,
                   ),
@@ -178,6 +181,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                   TextField(
                     onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     decoration: InputDecoration(
+                      counterText: "",
                       labelText: 'RT',
                       labelStyle: greyFontStyle,
                       hintText: 'Masukkan RT',
@@ -199,10 +203,12 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                     ),
                     keyboardType: TextInputType.number,
                     controller: _rtController,
+                    maxLength: 4,
                   ),
                   SizedBox(height: 10),
                   TextField(
                     decoration: InputDecoration(
+                      counterText: "",
                       labelText: 'RW',
                       labelStyle: greyFontStyle,
                       hintText: 'Masukkan RW',
@@ -222,6 +228,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    maxLength: 4,
                     keyboardType: TextInputType.number,
                     controller: _rwController,
                   ),
@@ -790,7 +797,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
             context: context,
             builder: (context) => SuccessDialog(
               title: 'Sukses',
-              description: 'Anda berhasil mengupdate alamat',
+              description: 'Anda berhasil mengubah Data Diri',
               onPress: () => Get.offNamedUntil(
                   AppRoutes.BIODATA, ModalRoute.withName(AppRoutes.MAIN)),
             ));

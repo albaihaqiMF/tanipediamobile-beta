@@ -107,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           errorText: _errorPasswordField
-                              ? 'Password tidak boleh kosong'
+                              ? 'Password minimal terdiri dari 6 karakter'
                               : null,
                           prefixIcon: Icon(Icons.lock),
                           suffixIcon: IconButton(
@@ -160,7 +160,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 margin: EdgeInsets.only(top: 10),
                                 child: loadingIndicator)
                             : CustomButton(
-                                onPress: () => register(),
+                                onPress: () => showDialog(context: context, builder: (context)=>ConfirmDialog(confirmPress: () => register(), cancelPress: () => Get.back(),
+                                  title: 'Konfirmasi', description: 'Apakah anda yakin No.Telepon sudah benar ?',)),
                                 text: 'DAFTAR',
                                 color: mainColor),
                       ),
@@ -197,7 +198,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _nameController.text.isEmpty
           ? _errorNameField = true
           : _errorNameField = false;
-      _passwordController.text.isEmpty
+      _passwordController.text.isEmpty || _passwordController.text.length <=6
           ? _errorPasswordField = true
           : _errorPasswordField = false;
       _phoneController.text.isNotEmpty &&
@@ -207,6 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
     });
 
     if (!_errorNameField && !_errorPasswordField && !_errorPhoneField) {
+      Get.back();
       _isLoading = true;
       await context.read<RegisterCubit>().register(
           _nameController.text.trim(), _passwordController.text.trim());
@@ -238,17 +240,6 @@ class _RegisterPageState extends State<RegisterPage> {
           } else if (stateLogin is LoginFailed) {
             print('Login Gagal, ${stateLogin.message}');
           }
-
-          // context.read<UpdateUserCubit>().updateUser(_apiToken, _userId, '+628${_phoneController.text}');
-          // saveSharedPreference(_nameController.text.trim(), _passwordController.text.trim());
-          // setState(() {
-          //   _isLoading = false;
-          // });
-          // Get.offAllNamed(AppRoutes.OTP, arguments: [
-          //   _userId,
-          //   _username,
-          //   '+628${_phoneController.text}'
-          // ]);
         } else if (state is RegisterFailed) {
           var message = state.message.toString();
           showSnackbar('Terjadi kesalahan!', message);
@@ -260,6 +251,8 @@ class _RegisterPageState extends State<RegisterPage> {
         print('Register Page Exception : ${e.toString()}');
         showSnackbar('Terjadi kesalahan!', e.toString());
       }
+    } else {
+      Get.back();
     }
   }
 
