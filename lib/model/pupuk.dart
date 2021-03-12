@@ -4,7 +4,7 @@ class Pupuk {
   String id;
   String jenis;
   int kapasitas;
-  int satuan;
+  String satuan;
   String idPoktan;
   String poktan;
   String petani;

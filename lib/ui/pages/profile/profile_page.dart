@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Text(
                                 (nama != null) ? nama : '-',
-                                style: blackFontBoldStyle3,
+                                style: blackFontBoldStyle2,
                               ),
                               Text(
                                 (noTelp != null) ? noTelp : '-',

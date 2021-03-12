@@ -748,17 +748,6 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
     }
   }
 
-  void saveData(String apiToken, int idProfile) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(KeySharedPreference.apiToken, apiToken);
-    await prefs.setInt(KeySharedPreference.idProfile, idProfile);
-  }
-
-  Future<void> getData(String apiToken, int idProfile, int idUser, String noTelp) async {
-    await context.read<ProfileCubit>().getProfile(apiToken,idProfile);
-    context.read<UpdateUserCubit>().updateUser(apiToken, idUser, noTelp, idProfile: idProfile);
-  }
-
   void onUpdateData() async{
     if (validationField()) {
       showProgressDialog(context, 'Mohon tunggu...');
@@ -809,6 +798,17 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
       dismissProgressDialog(context);
       showSnackbar('Terjadi Kesalahan', 'Semua kolom harus diisi');
     }
+  }
+
+  void saveData(String apiToken, int idProfile) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(KeySharedPreference.apiToken, apiToken);
+    await prefs.setInt(KeySharedPreference.idProfile, idProfile);
+  }
+
+  Future<void> getData(String apiToken, int idProfile, int idUser, String noTelp) async {
+    await context.read<ProfileCubit>().getProfile(apiToken,idProfile);
+    context.read<UpdateUserCubit>().updateUser(apiToken, idUser, noTelp, idProfile: idProfile);
   }
 
   bool validationField() {
