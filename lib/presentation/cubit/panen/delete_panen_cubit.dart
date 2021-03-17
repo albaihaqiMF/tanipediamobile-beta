@@ -1,0 +1,20 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:tanipedia_mobile_app/data/model/models.dart';
+import 'package:tanipedia_mobile_app/data/data_source/remote/remote_services.dart';
+
+part 'delete_panen_state.dart';
+
+class DeletePanenCubit extends Cubit<DeletePanenState> {
+  DeletePanenCubit() : super(DeletePanenInitial());
+
+  Future<void> deletePanen(String apiToken, String idPanen) async {
+    ApiReturnValue<Panen> result =
+        await PanenServices.deletePanen(apiToken, idPanen);
+    if (result.value != null) {
+      emit(DeletePanenLoaded(result.value));
+    } else {
+      emit(DeletePanenFailed(result.message));
+    }
+  }
+}

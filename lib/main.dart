@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as getX;
-import 'package:tanipedia_mobile_app/cubit/profile/update_profile_cubit.dart';
-import 'package:tanipedia_mobile_app/routes/app_pages.dart';
-import 'package:tanipedia_mobile_app/shared/shared.dart';
-import 'package:tanipedia_mobile_app/ui/pages/test.dart';
-import 'cubit/cubit.dart';
-import 'ui/pages/pages.dart';
+import 'package:tanipedia_mobile_app/presentation/cubit/profile/update_profile_cubit.dart';
+import 'package:tanipedia_mobile_app/injection_container.dart';
+import 'package:tanipedia_mobile_app/core/routes/app_pages.dart';
+import 'package:tanipedia_mobile_app/presentation/shared/shared.dart';
+import 'presentation/cubit/cubit.dart';
+import 'presentation/ui/pages/pages.dart';
+import 'injection_container.dart' as di;
 
 void main() async {
   // Firebase
   WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   await Firebase.initializeApp();
 
   // Set Statusbar Default
@@ -36,11 +38,11 @@ class MyApp extends StatelessWidget {
         // Register
         BlocProvider(create: (_) => UpdateUserCubit()),
         BlocProvider(create: (_) => RegisterCubit()),
-        BlocProvider(create: (_) => CreateProfileCubit()),
+        BlocProvider(create: (_) => sl<CreateProfileCubit>()),
         // Profile
-        BlocProvider(create: (_) => ProfileCubit()),
-        BlocProvider(create: (_) => UploadPhotoProfileCubit()),
-        BlocProvider(create: (_) => UpdateProfileCubit()),
+        BlocProvider(create: (_) => sl<GetProfileCubit>()),
+        BlocProvider(create: (_) => sl<UploadPhotoProfileCubit>()),
+        BlocProvider(create: (_) => sl<UpdateProfileCubit>()),
         // Pupuk
         BlocProvider(create: (_) => GetListPupukCubit()),
         BlocProvider(create: (_) => DetailPupukCubit()),

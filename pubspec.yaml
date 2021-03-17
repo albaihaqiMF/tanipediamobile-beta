@@ -23,17 +23,33 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cloud_firestore: ^0.16.0
-  cupertino_icons: ^1.0.0
-  lottie: ^0.7.0+1
-  dio: ^3.0.10
-  equatable: ^1.2.6
+
+  # Firebase
   firebase_auth: ^0.20.0+1
   firebase_core: ^0.7.0
+  cloud_firestore: ^0.16.0
+
+  # State Management
   flutter_bloc: ^6.0.1
+
+  # Navigation Management
+  get: ^3.4.6
+
+  # Service locator
+  get_it: ^5.0.6
+
+  # Connection Checker
+  data_connection_checker: ^0.3.4
+
+  # Local Storage
+  shared_preferences: ^0.5.12
+
+  # UI Asset
+  cupertino_icons: ^1.0.0
+  lottie: ^0.7.0+1
+  equatable: ^1.2.6
   flutter_spinkit: ^4.1.2+1
   flutter_statusbarcolor: ^0.2.3
-  get: ^3.4.6
   google_fonts: ^1.1.0
   image_picker: ^0.6.7+22
   intl: ^0.16.1
@@ -41,11 +57,11 @@ dependencies:
   material_design_icons_flutter: ^4.0.5555
   pin_code_fields: ^6.1.0
   progress_dialog: ^1.2.4
-  shared_preferences: ^0.5.12
   smart_select: ^4.3.2
   supercharged: ^1.10.0
   percent_indicator: ^2.1.9+1
   double_back_to_close_app: ^1.2.0
+
 
 dev_dependencies:
   flutter_test:
