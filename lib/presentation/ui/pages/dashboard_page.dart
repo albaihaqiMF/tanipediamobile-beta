@@ -20,7 +20,7 @@ class _DashboardPageState extends State<DashboardPage> {
     setState(() {
       apiToken = prefs.getString(KeySharedPreference.apiToken);
       context.read<GetListPupukCubit>().getListPupukFiltered(apiToken,queryParam);
-      context.read<GetPanenCubit>().getListPanenFiltered(apiToken, queryParam);
+      context.read<GetListPanenCubit>().getListPanenFiltered(apiToken, queryParam);
       context.read<GetListLahanCubit>().getListLahanFiltered(apiToken,queryParam);
     });
   }
@@ -38,7 +38,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 60),
+          padding: EdgeInsets.only(bottom: 80),
           child: Column(
             children: [
               Container(
@@ -310,7 +310,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return Container(
       height: 120,
       width: double.infinity,
-      child: BlocBuilder<GetPanenCubit, GetPanenState>(
+      child: BlocBuilder<GetListPanenCubit, GetPanenState>(
         builder: (_, state) => (state is GetListPanenLoaded)
             ? (state.panen.length == 0)
                 ? Center(child: Text('Panen'))

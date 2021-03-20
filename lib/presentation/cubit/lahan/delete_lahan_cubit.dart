@@ -1,16 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/data/data_source/remote/remote_services.dart';
+import 'package:meta/meta.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
 
 part 'delete_lahan_state.dart';
 
 class DeleteLahanCubit extends Cubit<DeleteLahanState> {
-  DeleteLahanCubit() : super(DeleteLahanInitial());
+  final LahanRepositoryContract repository;
+  DeleteLahanCubit({@required this.repository})
+      : assert(repository != null),super(DeleteLahanInitial());
 
   Future<void> deleteLahan(String apiToken, String idLahan) async {
     ApiReturnValue<Lahan> result =
-        await LahanServices.deleteLahan(apiToken, idLahan);
+        await repository.deleteLahan(apiToken, idLahan);
     if (result.value != null) {
       emit(DeleteLahanLoaded(result.value));
     } else {

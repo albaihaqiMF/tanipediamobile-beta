@@ -179,7 +179,7 @@ class _AuthPageState extends State<AuthPage> {
             .then((value) async {
           if (value.user != null) {
 
-            // FirebaseServices.registerFirestore(_userId.toString(), value.user.uid, _phoneNumber, _username);
+            FirebaseServices.registerFirestore(_userId.toString(), value.user.uid, _phoneNumber, _username);
             SharedPreferences prefs = await SharedPreferences.getInstance();
             int _idProfile = prefs.getInt(KeySharedPreference.idProfile);
             print('OTP_PAGE : idProfil = $_idProfile');
@@ -216,7 +216,7 @@ class _AuthPageState extends State<AuthPage> {
           FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
             _isLoading = false;
             if (value.user != null) {
-              // FirebaseServices.registerFirestore(_userId.toString(), value.user.uid, _phoneNumber, _username);
+              FirebaseServices.registerFirestore(_userId.toString(), value.user.uid, _phoneNumber, _username);
               SharedPreferences prefs = await SharedPreferences.getInstance();
               int _idProfile = prefs.getInt(KeySharedPreference.idProfile);
               print('AUTH PAGE ID PROFILE : $_idProfile');

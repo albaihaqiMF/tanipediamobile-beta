@@ -1,19 +1,21 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/data/data_source/remote/remote_services.dart';
-
+import 'package:meta/meta.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
 part 'kabupaten_state.dart';
 
 class KabupatenCubit extends Cubit<KabupatenState> {
-  KabupatenCubit() : super(KabupatenInitial());
+  final WilayahRepositoryContract repository;
+  KabupatenCubit({@required this.repository}): assert(repository != null), super(KabupatenInitial());
+
   Future<void> getKabupaten(String provinsi, {String kabupaten}) async {
     ApiReturnValue<List<Wilayah>> result;
     if (provinsi != null) {
-      result =
-          await WilayahServices.getKabupaten(provinsi, kabupaten: kabupaten);
+      result = await repository.getKabupaten(
+          provinsi: provinsi, kabupaten: kabupaten);
     } else {
-      result = await WilayahServices.getKabupaten(provinsi);
+      result = await repository.getKabupaten(provinsi: provinsi);
     }
 
     if (result.value != null) {

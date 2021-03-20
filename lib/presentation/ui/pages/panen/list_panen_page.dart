@@ -16,8 +16,8 @@ class _ListPanenPageState extends State<ListPanenPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       apiToken = prefs.getString(KeySharedPreference.apiToken);
-      context.read<GetPanenCubit>().toInitial();
-      context.read<GetPanenCubit>().getListPanen(apiToken);
+      context.read<GetListPanenCubit>().toInitial();
+      context.read<GetListPanenCubit>().getListPanen(apiToken);
     });
   }
 
@@ -53,13 +53,13 @@ class _ListPanenPageState extends State<ListPanenPage> {
         child: Icon(Icons.add, color: Colors.white),
       ),
       backgroundColor: Colors.white,
-      body: BlocBuilder<GetPanenCubit, GetPanenState>(builder: (_, state) {
+      body: BlocBuilder<GetListPanenCubit, GetPanenState>(builder: (_, state) {
         if (state is GetListPanenLoaded) {
           List<Panen> listPanen = state.panen.toList();
           if (listPanen.length != 0) {
             return RefreshIndicator(
               onRefresh: () =>
-                  context.read<GetPanenCubit>().getListPanen(apiToken),
+                  context.read<GetListPanenCubit>().getListPanen(apiToken),
               child: ListView.builder(
                   itemCount: listPanen.length,
                   itemBuilder: (context, index) {
@@ -91,7 +91,7 @@ class _ListPanenPageState extends State<ListPanenPage> {
                                             BorderRadius.circular(8.0),
                                         child: Image(
                                             image: NetworkImage(
-                                                'http://bulelengkab.go.id/assets/instansikab/71/artikel/waspada-serangan-hama-padi-di-musim-hujan-mengintai-16.jpg'),
+                                                'https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2020/04/15/1911549200.jpg'),
                                             fit: BoxFit.cover),
                                       ),
                                     ),

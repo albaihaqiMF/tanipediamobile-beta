@@ -1,4 +1,4 @@
-import 'package:tanipedia_mobile_app/data/model/models.dart';
+part of '../repositories_contract.dart';
 
 abstract class ProfileRepositoryContract {
   Future<ApiReturnValue<Profile>> createDataProfile(
@@ -22,8 +22,8 @@ abstract class ProfileRepositoryContract {
       String provinsi,
       String kabupaten,
       String kecamatan,
-      String desa}
-      );
+      String desa,
+  });
   Future<ApiReturnValue<Profile>> updateDataProfile(
   {String token,
       int idUser,
@@ -46,8 +46,8 @@ abstract class ProfileRepositoryContract {
       String provinsi,
       String kabupaten,
       String kecamatan,
-      String desa}
-      );
+      String desa,
+  });
   Future<ApiReturnValue<Profile>> getDataProfile({String token, int idProfile});
   Future<ApiReturnValue<Profile>> editPhotoProfile({String token, int idProfile, String photoProfile});
 }

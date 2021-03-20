@@ -1,14 +1,18 @@
-part of 'remote_services.dart';
+part of '../remote_services.dart';
 
-class PanenServices {
+class PanenServices implements PanenServicesContract {
   static const String tag = 'PANEN_SERVICE';
+  final http.Client client;
+  PanenServices({@required this.client});
 
   //--------------------------------------------------------------------
   //                          READ List Panen
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Panen>>> getlistPanen(String token) async {
+  @override
+  Future<ApiReturnValue<List<Panen>>> getlistPanen({String token}) async {
     try {
-      final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.panen + '?order_by=id&sort=DESC',
+      final apiResponse = await http.get(
+          ApiUrl.baseURL + ApiUrl.panen + '?order_by=id&sort=DESC',
           headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
@@ -20,7 +24,7 @@ class PanenServices {
       return ApiReturnValue(value: listPanen);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -29,10 +33,13 @@ class PanenServices {
   //--------------------------------------------------------------------
   //                          READ Panen Filter
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Panen>>> getlistPanenFilter(String token, Map<String, String> queryFilter) async {
+  @override
+  Future<ApiReturnValue<List<Panen>>> getlistPanenFilter(
+  {String token, Map<String, String> queryFilter}) async {
     try {
-      var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.panen}', queryFilter);
-      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
+      var uri = Uri.https(ApiUrl.baseHttpsURI, '/${ApiUrl.panen}', queryFilter);
+      final apiResponse =
+          await http.get(uri, headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final listPanen = (baseResponse.data)
@@ -42,7 +49,7 @@ class PanenServices {
       return ApiReturnValue(value: listPanen);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -51,8 +58,9 @@ class PanenServices {
   //--------------------------------------------------------------------
   //                          GET Detail Panen
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Panen>> getDetailPanen(
-      String token, String idPanen) async {
+  @override
+  Future<ApiReturnValue<Panen>> getDetailPanen(
+  {String token, String idPanen}) async {
     try {
       final apiResponse = await http.get(
           ApiUrl.baseURL + ApiUrl.panen + '/$idPanen',
@@ -65,7 +73,7 @@ class PanenServices {
       return ApiReturnValue(value: dataDetailPanen);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -74,8 +82,9 @@ class PanenServices {
   //--------------------------------------------------------------------
   //                          DELETE Panen
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Panen>> deletePanen(
-      String token, String idPanen) async {
+  @override
+  Future<ApiReturnValue<Panen>> deletePanen(
+  {String token, String idPanen}) async {
     try {
       final apiResponse = await http.delete(
           ApiUrl.baseURL + ApiUrl.panen + '/$idPanen',
@@ -88,7 +97,7 @@ class PanenServices {
       return ApiReturnValue(value: dataDetailPanen);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -97,8 +106,8 @@ class PanenServices {
   //--------------------------------------------------------------------
   //                          CReATE/POST Panen
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Panen>> createPanen(
-    String token,
+  @override
+  Future<ApiReturnValue<Panen>> createPanen({String token,
     int idPetani,
     String kategori,
     int totalPanen,
@@ -110,7 +119,7 @@ class PanenServices {
     // int instansi,
     // String varietas,
     // int idLahan,
-  ) async {
+  }) async {
     Map<String, dynamic> fieldFormURL = {
       'id_petani': idPetani,
       'kategori': kategori,
@@ -137,7 +146,7 @@ class PanenServices {
       return ApiReturnValue(value: dataDetailPanen);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -146,8 +155,9 @@ class PanenServices {
   //--------------------------------------------------------------------
   //                          UPDATE Panen
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Panen>> updatePanen(
-    String token,
+  @override
+  Future<ApiReturnValue<Panen>> updatePanen(
+  {String token,
     int idPanen,
     int idPetani,
     String kategori,
@@ -160,7 +170,7 @@ class PanenServices {
     // String instansi,
     // String varietas,
     // int idLahan,
-  ) async {
+  }) async {
     Map<String, dynamic> fieldFormURL = {
       'id': idPanen,
       'id_petani': idPetani,
@@ -189,7 +199,7 @@ class PanenServices {
       return ApiReturnValue(value: dataDetailPanen);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }

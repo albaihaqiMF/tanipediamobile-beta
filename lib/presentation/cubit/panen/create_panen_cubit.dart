@@ -1,12 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/data/data_source/remote/remote_services.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:meta/meta.dart';
 
 part 'create_panen_state.dart';
 
 class CreatePanenCubit extends Cubit<CreatePanenState> {
-  CreatePanenCubit() : super(CreatePanenInitial());
+  final PanenRepositoryContract repository;
+  CreatePanenCubit({@required this.repository})
+      : assert(repository != null), super(CreatePanenInitial());
 
   Future<void> createPanen(
     String apiToken,
@@ -22,19 +25,19 @@ class CreatePanenCubit extends Cubit<CreatePanenState> {
     // String idLahan,
     String keterangan,
   ) async {
-    ApiReturnValue<Panen> result = await PanenServices.createPanen(
-        apiToken,
-        idProfile,
+    ApiReturnValue<Panen> result = await repository.createPanen(
+        token:apiToken,
+        idPetani:idProfile,
         // instansi,
-        kategori,
+        kategori:kategori,
         // varietas,
-        totalPanen,
+        totalPanen:totalPanen,
         // satuan,
         // usiaTanam,
-        tglTanam,
-        tglPanen,
+        tglTanam:tglTanam,
+        tglPanen:tglPanen,
         // idLahan,
-        keterangan);
+        keterangan:keterangan);
     if (result.value != null) {
       emit(CreatePanenLoaded(result.value));
     } else {

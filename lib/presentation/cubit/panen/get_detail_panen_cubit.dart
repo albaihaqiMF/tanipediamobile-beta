@@ -1,16 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/data/data_source/remote/remote_services.dart';
-
+import 'package:meta/meta.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
 part 'get_detail_panen_state.dart';
 
 class GetDetailPanenCubit extends Cubit<GetDetailPanenState> {
-  GetDetailPanenCubit() : super(GetDetailPanenInitial());
+  final PanenRepositoryContract repository;
+  GetDetailPanenCubit({@required this.repository})
+      : assert(repository != null),super(GetDetailPanenInitial());
 
   Future<void> getDetailPanen(String apiToken, String idPanen) async {
     ApiReturnValue<Panen> result =
-        await PanenServices.getDetailPanen(apiToken, idPanen);
+        await repository.getDetailPanen(token:apiToken, idPanen: idPanen);
     if (result.value != null) {
       emit(GetDetailPanenLoaded(result.value));
     } else {

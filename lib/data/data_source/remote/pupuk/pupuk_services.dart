@@ -1,14 +1,17 @@
-part of 'remote_services.dart';
+part of '../remote_services.dart';
 
-class PupukServices {
+class PupukServices implements PupukServicesContract {
   static const String tag = 'PUPUK_SERVICE';
+  final http.Client client;
+  PupukServices({@required this.client});
 
   //--------------------------------------------------------------------
   //                          GET List Pupuk
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Pupuk>>> getlistPupuk(String token) async {
+  @override
+  Future<ApiReturnValue<List<Pupuk>>> getlistPupuk({String token}) async {
     try {
-      final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.jadwalPupuk,
+      final apiResponse = await client.get(ApiUrl.baseURL + ApiUrl.jadwalPupuk,
           headers: apiHeaders(apiToken: token));
 
       final responseBody = ReturnResponse.response(apiResponse);
@@ -30,10 +33,11 @@ class PupukServices {
   //--------------------------------------------------------------------
   //                          GET List Pupuk Filter
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Pupuk>>> getlistPupukFilter(String token, Map<String, String> queryFilter) async {
+  @override
+  Future<ApiReturnValue<List<Pupuk>>> getlistPupukFilter({String token, Map<String, String> queryFilter}) async {
     try {
-      var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.jadwalPupuk}', queryFilter);
-      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
+      var uri = Uri.https(ApiUrl.baseHttpsURI, '/${ApiUrl.jadwalPupuk}', queryFilter);
+      final apiResponse = await client.get(uri, headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final listPupuk = (baseResponse.data)
@@ -53,10 +57,10 @@ class PupukServices {
   //--------------------------------------------------------------------
   //                          GET Detail Pupuk
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Pupuk>> getDetailPupuk(
-      String token, String idPupuk) async {
+  @override
+  Future<ApiReturnValue<Pupuk>> getDetailPupuk({String token, String idPupuk}) async {
     try {
-      final apiResponse = await http.get(
+      final apiResponse = await client.get(
           ApiUrl.baseURL + ApiUrl.jadwalPupuk + '/' + idPupuk,
           headers: apiHeaders(apiToken: token));
 

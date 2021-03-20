@@ -20,24 +20,26 @@ class LahanCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image(
                     image: NetworkImage(
-                        'https://cdn.sinarharapan.co/foto/2018/10/25/91-lahan_persawahan-800x450.jpg'),
+                        'https://cdn.pixabay.com/photo/2020/10/03/11/14/rice-fields-5623251__340.jpg'),
                     fit: BoxFit.cover),
               ),
             ),
             SizedBox(width: 5),
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text((lahan.kategori!=null)?'${lahan.kategori}':'Lahan', style: blackFontBoldStyle4),
-                  Row(
-                    children: [
-                      Text('Luas lahan : ', style:blackFontStyle3),
-                      Text((lahan.luas!=null)?'${lahan.luas} m3':' - m3',
-                          style: mainFontBoldStyle3),
-                    ],
-                  ),
-                ]),
+            Flexible(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text((lahan.kategori!=null)?'${lahan.kategori}':'Lahan', style: blackFontBoldStyle4),
+                    Row(
+                      children: [
+                        Text('Luas lahan : ', style:blackFontStyle3),
+                        Text((lahan.luas!=null)?'${lahan.luas} m3':' - m3',
+                          style: mainFontBoldStyle3, overflow: TextOverflow.ellipsis, maxLines: 2,),
+                      ],
+                    ),
+                  ]),
+            ),
           ],
         ),
       ),

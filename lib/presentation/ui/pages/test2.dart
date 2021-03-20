@@ -13,7 +13,7 @@ class Test2Page extends StatelessWidget {
               int idProfile = prefs.getInt(KeySharedPreference.idProfile);
               await context.read<GetProfileCubit>().getProfile(apiToken, idProfile);
             },
-            text: 'Show ProgressDialog',
+            text: 'Cache Data Profile',
             color: mainColor),
       ),
     );

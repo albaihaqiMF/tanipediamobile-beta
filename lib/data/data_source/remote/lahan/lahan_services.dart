@@ -1,16 +1,20 @@
-part of 'remote_services.dart';
+part of '../remote_services.dart';
 
-class LahanServices {
+class LahanServices implements LahanServicesContract {
   static const String tag = 'LAHAN_SERVICE';
+  final http.Client client;
+  LahanServices({@required this.client});
 
   //--------------------------------------------------------------------
   //                          GET List Lahan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Lahan>>> getlistLahan(
-    String token,
+  @override
+  Future<ApiReturnValue<List<Lahan>>> getlistLahan(
+  {String token}
   ) async {
     try {
-      final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.lahan + '?order_by=id&sort=DESC',
+      final apiResponse = await client.get(
+          ApiUrl.baseURL + ApiUrl.lahan + '?order_by=id&sort=DESC',
           headers: apiHeaders(apiToken: token));
       print('$tag token : $token');
 
@@ -24,7 +28,7 @@ class LahanServices {
       return ApiReturnValue(value: listLahan);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -33,11 +37,13 @@ class LahanServices {
   //--------------------------------------------------------------------
   //                          GET List Lahan Filter
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Lahan>>> getlistLahanFilter(
-      String token, Map<String, String> queryFilter) async {
+  @override
+  Future<ApiReturnValue<List<Lahan>>> getlistLahanFilter(
+      {String token, Map<String, String> queryFilter}) async {
     try {
-      var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.lahan}', queryFilter);
-      final apiResponse = await http.get(uri, headers: apiHeaders(apiToken: token));
+      var uri = Uri.https(ApiUrl.baseHttpsURI, '/${ApiUrl.lahan}', queryFilter);
+      final apiResponse =
+          await client.get(uri, headers: apiHeaders(apiToken: token));
       print('$tag token : $token');
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -49,7 +55,7 @@ class LahanServices {
       return ApiReturnValue(value: listLahan);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -58,10 +64,11 @@ class LahanServices {
   //--------------------------------------------------------------------
   //                          GET Detail Lahan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Lahan>> getDetailLahan(
-      String token, String idLahan) async {
+  @override
+  Future<ApiReturnValue<Lahan>> getDetailLahan(
+      {String token, String idLahan}) async {
     try {
-      final apiResponse = await http.get(
+      final apiResponse = await client.get(
           ApiUrl.baseURL + ApiUrl.lahan + '/$idLahan',
           headers: apiHeaders(apiToken: token));
 
@@ -72,7 +79,7 @@ class LahanServices {
       return ApiReturnValue(value: dataDetailLahan);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -81,8 +88,9 @@ class LahanServices {
   //--------------------------------------------------------------------
   //                          CREATE/POST Lahan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Lahan>> createLahan(
-      String token,
+  @override
+  Future<ApiReturnValue<Lahan>> createLahan(
+      {String token,
       String kategori,
       int luas,
       // String satuan,
@@ -95,7 +103,7 @@ class LahanServices {
       String kabupaten,
       String provinsi,
       String latitude,
-      String longitude) async {
+      String longitude}) async {
     Map<String, dynamic> fieldFormURL = {
       'kategori': kategori,
       'luas': luas,
@@ -116,7 +124,7 @@ class LahanServices {
     print('$tag, $body');
 
     try {
-      final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.lahan,
+      final apiResponse = await client.post(ApiUrl.baseURL + ApiUrl.lahan,
           headers: apiHeaders(apiToken: token), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -124,7 +132,7 @@ class LahanServices {
       return ApiReturnValue(value: responseDataLahan);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -133,10 +141,11 @@ class LahanServices {
   //--------------------------------------------------------------------
   //                          DELETE Lahan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Lahan>> deleteLahan(
-      String token, String idLahan) async {
+  @override
+  Future<ApiReturnValue<Lahan>> deleteLahan(
+      {String token, String idLahan}) async {
     try {
-      final apiResponse = await http.delete(
+      final apiResponse = await client.delete(
           ApiUrl.baseURL + ApiUrl.lahan + '/$idLahan',
           headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
@@ -145,7 +154,7 @@ class LahanServices {
       return ApiReturnValue(value: responseDataLahan);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -154,8 +163,9 @@ class LahanServices {
   //--------------------------------------------------------------------
   //                          UPDATE Lahan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<Lahan>> updateLahan(
-      String token,
+  @override
+  Future<ApiReturnValue<Lahan>> updateLahan(
+      {String token,
       String idLahan,
       String kategori,
       int luas,
@@ -169,7 +179,7 @@ class LahanServices {
       String kabupaten,
       String provinsi,
       String latitude,
-      String longitude) async {
+      String longitude}) async {
     Map<String, dynamic> fieldFormURL = {
       'id': idLahan,
       'kategori': kategori,
@@ -190,7 +200,7 @@ class LahanServices {
     var body = jsonEncode(fieldFormURL);
 
     try {
-      final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.lahan,
+      final apiResponse = await client.put(ApiUrl.baseURL + ApiUrl.lahan,
           headers: apiHeaders(apiToken: token), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -198,7 +208,7 @@ class LahanServices {
       return ApiReturnValue(value: responseDataLahan);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }

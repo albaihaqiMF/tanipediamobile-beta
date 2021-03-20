@@ -1,19 +1,18 @@
 part of 'local_services.dart';
 
 abstract class ProfileLocalServicesContract {
-  Future<ApiReturnValue<Profile>> getLastNumberTrivia();
-  Future<void> cacheNumberTrivia(Profile triviaToCache);
+  Future<ApiReturnValue<Profile>> getDataProfile();
+  Future<void> cacheDataProfile(Profile triviaToCache);
 }
 
-const CACHED_PROFILE = 'CACHED_NUMBER_TRIVIA';
 class ProfileLocalServices implements ProfileLocalServicesContract {
   final SharedPreferences sharedPreferences;
   ProfileLocalServices({@required this.sharedPreferences});
 
   @override
-  Future<ApiReturnValue<Profile>> getLastNumberTrivia() async {
+  Future<ApiReturnValue<Profile>> getDataProfile() async {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final jsonString = sharedPreferences.getString(CACHED_PROFILE);
+    final jsonString = sharedPreferences.getString(KeySharedPreference.CACHED_PROFILE);
     if (jsonString != null) {
       print('CACHED JSON : $jsonString');
       final dataProfile = Profile.fromJSON(json.decode(jsonString));
@@ -25,10 +24,10 @@ class ProfileLocalServices implements ProfileLocalServicesContract {
   }
 
   @override
-  Future<void> cacheNumberTrivia(Profile profileToCache) async {
+  Future<void> cacheDataProfile(Profile profileToCache) async {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.setString(
-      CACHED_PROFILE,
+      KeySharedPreference.CACHED_PROFILE,
       json.encode(profileToCache.toJson()),
     );
   }

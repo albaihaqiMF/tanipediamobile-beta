@@ -224,33 +224,37 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                       value: _selectedProvinsi.toString(),
                       choiceItems: listProvinsi,
                       onChange: (selected) async {
-                        _selectedProvinsi = int.tryParse(selected.value);
-                        _selectedKabupaten = null;
-                        _selectedKecamatan = null;
-                        _selectedDesa = null;
-                        listKabupaten.clear();
-                        listKecamatan.clear();
-                        listDesa.clear();
-                        context.read<KabupatenCubit>().toInitial();
-                        context.read<KecamatanCubit>().toInitial();
-                        context.read<DesaCubit>().toInitial();
-                        if (_selectedProvinsi != null) {
-                          //// Get id/value Provinsi
-                          try {
-                            await context
-                                .read<ProvinsiCubit>()
-                                .getProvinsi(provinsi: selected.value);
-                            final data = (context.read<ProvinsiCubit>().state
-                                as ProvinsiLoaded);
-                            List<Wilayah> listValueProvinsi =
-                                data.wilayah.toList();
-                            _idProvinsi = listValueProvinsi[0].id;
-                          } catch (e) {
-                            print('Pick Provinsi Exception : ${e.toString()}');
+                        if(selected.value!=null && int.tryParse(selected.value) != _selectedProvinsi) {
+                          showProgressDialog(context, 'Mohon tunggu...');
+                          print('SELECTED VALUE : ${selected.value}');
+                          _selectedProvinsi = int.tryParse(selected.value);
+                          _selectedKabupaten = null;
+                          _selectedKecamatan = null;
+                          _selectedDesa = null;
+                          listKabupaten.clear();
+                          listKecamatan.clear();
+                          listDesa.clear();
+                          context.read<KabupatenCubit>().toInitial();
+                          context.read<KecamatanCubit>().toInitial();
+                          context.read<DesaCubit>().toInitial();
+                          if (_selectedProvinsi != null) {
+                            //// Get id/value Provinsi
+                            try {
+                              await context
+                                  .read<ProvinsiCubit>()
+                                  .getProvinsi(provinsi: selected.value);
+                              ProvinsiState state = context.read<ProvinsiCubit>().state;
+                              if(state is ProvinsiLoaded){
+                                List<Wilayah> listValueProvinsi = state.wilayah.toList();
+                                _idProvinsi = listValueProvinsi[0].id;
+                              }
+                            } catch (e) {
+                              print('Pick Provinsi Exception : ${e.toString()}');
+                            }
+                            context
+                                .read<KabupatenCubit>()
+                                .getKabupaten(_selectedProvinsi.toString());
                           }
-                          context
-                              .read<KabupatenCubit>()
-                              .getKabupaten(_selectedProvinsi.toString());
                         }
                       },
                       tileBuilder: (context, state) {
@@ -280,256 +284,264 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                   //// Dropdown Kabupaten
                   BlocBuilder<KabupatenCubit, KabupatenState>(
                       builder: (_, stateKabupaten) {
-                    if (stateKabupaten is KabupatenLoaded) {
-                      List<Wilayah> listKabupatenAPI =
-                          stateKabupaten.wilayah.toList();
+                        if (stateKabupaten is KabupatenLoaded) {
+                          dismissProgressDialog(context);
+                          List<Wilayah> listKabupatenAPI = stateKabupaten.wilayah.toList();
+                          for (int i = 0; i < listKabupatenAPI.length; i++) {
+                            listKabupaten.add(S2Choice<String>(
+                                value: listKabupatenAPI[i].kabupaten,
+                                title: listKabupatenAPI[i].name));
+                          }
 
-                      for (int i = 0; i < listKabupatenAPI.length; i++) {
-                        listKabupaten.add(S2Choice<String>(
-                            value: listKabupatenAPI[i].kabupaten,
-                            title: listKabupatenAPI[i].name));
-                      }
-
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: BorderSide(color: mainColor, width: 2)),
-                        child: SmartSelect<String>.single(
-                          title: 'Kabupaten',
-                          modalHeaderStyle: S2ModalHeaderStyle(
-                              backgroundColor: mainColor,
-                              textStyle: whiteFontBoldStyle3),
-                          modalStyle: S2ModalStyle(
+                          return Card(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                          ),
-                          choiceEmptyBuilder: (context, value) => Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.search,
-                                  size: 150,
-                                  color: Colors.grey[500],
+                                borderRadius: BorderRadius.circular(12.0),
+                                side: BorderSide(color: mainColor, width: 2)),
+                            child: SmartSelect<String>.single(
+                              title: 'Kabupaten',
+                              modalHeaderStyle: S2ModalHeaderStyle(
+                                  backgroundColor: mainColor,
+                                  textStyle: whiteFontBoldStyle3),
+                              modalStyle: S2ModalStyle(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                Text('Woops', style: greyFontStyleSuperBig),
-                                Text('Terjadi Kesalahan!',
-                                    style: greyFontStyleVeryBig),
-                                Text('Klik tombol dibawah ini',
-                                    style: greyFontStyle),
-                                SizedBox(height: 10),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.refresh_outlined,
-                                      color: Colors.blue,
-                                      size: 44,
-                                    )),
-                              ],
+                              ),
+                              choiceEmptyBuilder: (context, value) => Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.search,
+                                      size: 150,
+                                      color: Colors.grey[500],
+                                    ),
+                                    Text('Woops', style: greyFontStyleSuperBig),
+                                    Text('Terjadi Kesalahan!',
+                                        style: greyFontStyleVeryBig),
+                                    Text('Klik tombol dibawah ini',
+                                        style: greyFontStyle),
+                                    SizedBox(height: 10),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.refresh_outlined,
+                                          color: Colors.blue,
+                                          size: 44,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              modalType: S2ModalType.popupDialog,
+                              value: _selectedKabupaten.toString(),
+                              choiceItems: listKabupaten,
+                              onChange: (selected) async {
+                                if(selected.value!=null && int.tryParse(selected.value) != _selectedKabupaten) {
+                                  showProgressDialog(context, 'Mohon tunggu...');
+                                  _selectedKabupaten = int.tryParse(selected.value);
+                                  _selectedKecamatan = null;
+                                  _selectedDesa = null;
+                                  listKecamatan.clear();
+                                  listDesa.clear();
+                                  context.read<KecamatanCubit>().toInitial();
+                                  context.read<DesaCubit>().toInitial();
+                                  if (_selectedKabupaten != null) {
+                                    //// Get id/value Kabupaten
+                                    try {
+                                      await context.read<KabupatenCubit>().getKabupaten(_selectedProvinsi.toString(),kabupaten: _selectedKabupaten.toString());
+                                      KabupatenState state = context.read<KabupatenCubit>().state;
+                                      if(state is KabupatenLoaded){
+                                        List<Wilayah> listValue = state.wilayah.toList();
+                                        _idKabupaten = listValue[0].id;
+                                      }
+                                    } catch (e) {
+                                      print(
+                                          'Pick Kabupaten Exception : ${e.toString()}');
+                                    }
+                                    context.read<KecamatanCubit>().getKecamatan(
+                                        _selectedProvinsi.toString(),
+                                        _selectedKabupaten.toString());
+                                  }
+                                }
+                              },
+                              tileBuilder: (context, state) {
+                                return ListTile(
+                                  title: Text(state.title,
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey)),
+                                  subtitle: Text(
+                                    (state.valueTitle != null)
+                                        ? state.valueTitle.toString()
+                                        : 'Pilih kabupaten',
+                                    style: (state.valueTitle != null)
+                                        ? blackFontBoldStyle4
+                                        : greyFontStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.black,
+                                  ),
+                                  onTap: state.showModal,
+                                );
+                              },
                             ),
-                          ),
-                          modalType: S2ModalType.popupDialog,
-                          value: _selectedKabupaten.toString(),
-                          choiceItems: listKabupaten,
-                          onChange: (selected) async {
-                            _selectedKabupaten = int.tryParse(selected.value);
-                            _selectedKecamatan = null;
-                            _selectedDesa = null;
-                            listKecamatan.clear();
-                            listDesa.clear();
-                            context.read<KecamatanCubit>().toInitial();
-                            context.read<DesaCubit>().toInitial();
-                            if (_selectedKabupaten != null) {
-                              //// Get id/value Kabupaten
-                              try {
-                                await context.read<KabupatenCubit>().getKabupaten(_selectedProvinsi.toString(),kabupaten: _selectedKabupaten.toString());
-                                final data = (context.read<KabupatenCubit>().state
-                                    as KabupatenLoaded);
-                                List<Wilayah> listValue = data.wilayah.toList();
-                                _idKabupaten = listValue[0].id;
-                              } catch (e) {
-                                print(
-                                    'Pick Kabupaten Exception : ${e.toString()}');
-                              }
-                              context.read<KecamatanCubit>().getKecamatan(
-                                  _selectedProvinsi.toString(),
-                                  _selectedKabupaten.toString());
-                            }
-                          },
-                          tileBuilder: (context, state) {
-                            return ListTile(
-                              title: Text(state.title,
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.grey)),
-                              subtitle: Text(
-                                (state.valueTitle != null)
-                                    ? state.valueTitle.toString()
-                                    : 'Pilih kabupaten',
-                                style: (state.valueTitle != null)
-                                    ? blackFontBoldStyle4
-                                    : greyFontStyle,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              trailing: const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Colors.black,
-                              ),
-                              onTap: state.showModal,
-                            );
-                          },
-                        ),
-                      );
-                    } else {
-                      return Center(
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(color: Colors.grey, width: 2)),
-                          child: SmartSelect<String>.single(
-                            title: 'Kabupaten',
-                            value: _selectedKabupaten.toString(),
-                            choiceItems: listKabupaten,
-                            onChange: (selected) =>
+                          );
+                        } else {
+                          return Center(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  side: BorderSide(color: Colors.grey, width: 2)),
+                              child: SmartSelect<String>.single(
+                                title: 'Kabupaten',
+                                value: _selectedKabupaten.toString(),
+                                choiceItems: listKabupaten,
+                                onChange: (selected) =>
                                 _selectedKabupaten = int.tryParse(selected.value),
-                            tileBuilder: (context, state) {
-                              return ListTile(
-                                title: Text(state.title,
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey)),
-                                subtitle: Text(
-                                  'Pilih kabupaten',
-                                  style: greyFontStyle,
-                                ),
-                                trailing: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.black,
-                                ),
-                                enabled: false,
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }
-                  }),
+                                tileBuilder: (context, state) {
+                                  return ListTile(
+                                    title: Text(state.title,
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.grey)),
+                                    subtitle: Text(
+                                      'Pilih kabupaten',
+                                      style: greyFontStyle,
+                                    ),
+                                    trailing: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: Colors.black,
+                                    ),
+                                    enabled: false,
+                                  );
+                                },
+                              ),
+                            ),
+                          );
+                        }
+                      }),
                   SizedBox(height: 10),
                   // Dropdown Kecamatan
                   BlocBuilder<KecamatanCubit, KecamatanState>(
                       builder: (_, stateKecamatan) {
-                    if (stateKecamatan is KecamatanLoaded) {
-                      List<Wilayah> listAPI = stateKecamatan.wilayah.toList();
-
-                      for (int i = 0; i < listAPI.length; i++) {
-                        listKecamatan.add(S2Choice<String>(
-                            value: listAPI[i].kecamatan, title: listAPI[i].name));
-                      }
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: BorderSide(color: mainColor, width: 2)),
-                        child: SmartSelect<String>.single(
-                          choiceStyle: S2ChoiceStyle(accentColor: Colors.red),
-                          title: 'Kecamatan',
-                          modalHeaderStyle: S2ModalHeaderStyle(
-                              backgroundColor: mainColor,
-                              textStyle: whiteFontBoldStyle3),
-                          modalStyle: S2ModalStyle(
+                        if (stateKecamatan is KecamatanLoaded) {
+                          dismissProgressDialog(context);
+                          List<Wilayah> listAPI = stateKecamatan.wilayah.toList();
+                          for (int i = 0; i < listAPI.length; i++) {
+                            listKecamatan.add(S2Choice<String>(
+                                value: listAPI[i].kecamatan, title: listAPI[i].name));
+                          }
+                          return Card(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                                borderRadius: BorderRadius.circular(12.0),
+                                side: BorderSide(color: mainColor, width: 2)),
+                            child: SmartSelect<String>.single(
+                              choiceStyle: S2ChoiceStyle(accentColor: Colors.red),
+                              title: 'Kecamatan',
+                              modalHeaderStyle: S2ModalHeaderStyle(
+                                  backgroundColor: mainColor,
+                                  textStyle: whiteFontBoldStyle3),
+                              modalStyle: S2ModalStyle(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                              ),
+                              modalType: S2ModalType.popupDialog,
+                              value: _selectedKecamatan.toString(),
+                              choiceItems: listKecamatan,
+                              onChange: (selected) async {
+                                if(selected.value!=null && int.tryParse(selected.value) != _selectedKecamatan) {
+                                  showProgressDialog(context, 'Mohon tunggu...');
+                                  _selectedKecamatan = int.tryParse(selected.value);
+                                  _selectedDesa = null;
+                                  listDesa.clear();
+                                  context.read<DesaCubit>().toInitial();
+                                  if (_selectedKecamatan != null) {
+                                    //// Get id/value Kabupaten
+                                    try {
+                                      await context.read<KecamatanCubit>().getKecamatan(
+                                          _selectedProvinsi.toString(),
+                                          _selectedKabupaten.toString(),
+                                          kecamatan: _selectedKecamatan.toString());
+                                      KecamatanState state = context.read<KecamatanCubit>().state;
+                                      if(state is KecamatanLoaded){
+                                        List<Wilayah> listValue = state.wilayah.toList();
+                                        _idKecamatan = listValue[0].id;
+                                      }
+                                    } catch (e) {
+                                      print(
+                                          'Pick Kecamatan Exception : ${e.toString()}');
+                                    }
+                                    context.read<DesaCubit>().getDesa(
+                                        _selectedProvinsi.toString(),
+                                        _selectedKabupaten.toString(),
+                                        _selectedKecamatan.toString());
+                                  }
+                                }
+                              },
+                              tileBuilder: (context, state) {
+                                return ListTile(
+                                  title: Text(state.title,
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey)),
+                                  subtitle: Text(
+                                    (state.valueTitle != null)
+                                        ? state.valueTitle.toString()
+                                        : 'Pilih kecamatan',
+                                    style: (state.valueTitle != null)
+                                        ? blackFontBoldStyle4
+                                        : greyFontStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.black,
+                                  ),
+                                  onTap: state.showModal,
+                                );
+                              },
                             ),
-                          ),
-                          modalType: S2ModalType.popupDialog,
-                          value: _selectedKecamatan.toString(),
-                          choiceItems: listKecamatan,
-                          onChange: (selected) async {
-                            _selectedKecamatan = int.tryParse(selected.value);
-                            _selectedDesa = null;
-                            listDesa.clear();
-                            context.read<DesaCubit>().toInitial();
-                            if (_selectedKecamatan != null) {
-                              //// Get id/value Kabupaten
-                              try {
-                                await context.read<KecamatanCubit>().getKecamatan(
-                                    _selectedProvinsi.toString(),
-                                    _selectedKabupaten.toString(),
-                                    kecamatan: _selectedKecamatan.toString());
-                                final data = (context.read<KecamatanCubit>().state
-                                    as KecamatanLoaded);
-                                List<Wilayah> listValue = data.wilayah.toList();
-                                _idKecamatan = listValue[0].id;
-                              } catch (e) {
-                                print(
-                                    'Pick Kecamatan Exception : ${e.toString()}');
-                              }
-                              context.read<DesaCubit>().getDesa(
-                                  _selectedProvinsi.toString(),
-                                  _selectedKabupaten.toString(),
-                                  _selectedKecamatan.toString());
-                            }
-                          },
-                          tileBuilder: (context, state) {
-                            return ListTile(
-                              title: Text(state.title,
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.grey)),
-                              subtitle: Text(
-                                (state.valueTitle != null)
-                                    ? state.valueTitle.toString()
-                                    : 'Pilih kecamatan',
-                                style: (state.valueTitle != null)
-                                    ? blackFontBoldStyle4
-                                    : greyFontStyle,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              trailing: const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Colors.black,
-                              ),
-                              onTap: state.showModal,
-                            );
-                          },
-                        ),
-                      );
-                    } else {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: BorderSide(color: Colors.grey, width: 2)),
-                        child: SmartSelect<String>.single(
-                          title: 'Kecamatan',
-                          value: _selectedKabupaten.toString(),
-                          choiceItems: listKabupaten,
-                          onChange: (selected) =>
+                          );
+                        } else {
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                                side: BorderSide(color: Colors.grey, width: 2)),
+                            child: SmartSelect<String>.single(
+                              title: 'Kecamatan',
+                              value: _selectedKabupaten.toString(),
+                              choiceItems: listKabupaten,
+                              onChange: (selected) =>
                               _selectedKabupaten = int.tryParse(selected.value),
-                          tileBuilder: (context, state) {
-                            return ListTile(
-                              title: Text(state.title,
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.grey)),
-                              subtitle: Text(
-                                'Pilih Kecamatan',
-                                style: greyFontStyle,
-                              ),
-                              trailing: const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Colors.black,
-                              ),
-                              enabled: false,
-                            );
-                          },
-                        ),
-                      );
-                    }
-                  }),
+                              tileBuilder: (context, state) {
+                                return ListTile(
+                                  title: Text(state.title,
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey)),
+                                  subtitle: Text(
+                                    'Pilih Kecamatan',
+                                    style: greyFontStyle,
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.black,
+                                  ),
+                                  enabled: false,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      }),
                   SizedBox(height: 10),
                   // Dropdown Desa
                   BlocBuilder<DesaCubit, DesaState>(builder: (_, stateDesa) {
                     if (stateDesa is DesaLoaded) {
+                      dismissProgressDialog(context);
                       List<Wilayah> listAPI = stateDesa.wilayah.toList();
                       for (int i = 0; i < listAPI.length; i++) {
                         listDesa.add(S2Choice<String>(
@@ -554,27 +566,27 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                           value: _selectedDesa.toString(),
                           choiceItems: listDesa,
                           onChange: (selected) async {
-                            showProgressDialog(context, 'Mohon tunggu...');
-                            _selectedDesa = int.tryParse(selected.value);
-                            if (_selectedDesa != null) {
-                              //// Get id/value Kabupaten
-                              try {
-                                await context.read<DesaCubit>().getDesa(
-                                    _selectedProvinsi.toString(),
-                                    _selectedKabupaten.toString(),
-                                    _selectedKecamatan.toString(),
-                                    desa: _selectedDesa.toString());
-                                DesaState stateDesa = context.read<DesaCubit>().state;
-                                if(stateDesa is DesaLoaded){
-                                  List<Wilayah> listValue = stateDesa.wilayah.toList();
-                                  _idDesa = listValue[0].id;
-                                  dismissProgressDialog(context);
+                            if(selected.value!=null && int.tryParse(selected.value) != _selectedDesa) {
+                              showProgressDialog(context, 'Mohon tunggu...');
+                              _selectedDesa = int.tryParse(selected.value);
+                              if (_selectedDesa != null) {
+                                //// Get id/value Kabupaten
+                                try {
+                                  await context.read<DesaCubit>().getDesa(
+                                      _selectedProvinsi.toString(),
+                                      _selectedKabupaten.toString(),
+                                      _selectedKecamatan.toString(),
+                                      desa: _selectedDesa.toString());
+                                  DesaState stateDesa = context.read<DesaCubit>().state;
+                                  if(stateDesa is DesaLoaded){
+                                    List<Wilayah> listValue = stateDesa.wilayah.toList();
+                                    _idDesa = listValue[0].id;
+                                    dismissProgressDialog(context);
+                                  }
+                                } catch (e) {
+                                  print(
+                                      'Pick Kecamatan Exception : ${e.toString()}');
                                 }
-                                // final data = (context.read<DesaCubit>().state
-                                //     as DesaLoaded);
-                              } catch (e) {
-                                print(
-                                    'Pick Kecamatan Exception : ${e.toString()}');
                               }
                             }
                           },
@@ -612,7 +624,7 @@ class _CreateProfilePage3State extends State<CreateProfilePage3> {
                           value: _selectedKabupaten.toString(),
                           choiceItems: listKabupaten,
                           onChange: (selected) =>
-                              _selectedKabupaten = int.tryParse(selected.value),
+                          _selectedKabupaten = int.tryParse(selected.value),
                           tileBuilder: (context, state) {
                             return ListTile(
                               title: Text(state.title,

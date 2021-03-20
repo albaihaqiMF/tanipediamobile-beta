@@ -1,12 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/data/data_source/remote/remote_services.dart';
+import 'package:meta/meta.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
 
 part 'create_lahan_state.dart';
 
 class CreateLahanCubit extends Cubit<CreateLahanState> {
-  CreateLahanCubit() : super(CreateLahanInitial());
+  final LahanRepositoryContract repository;
+  CreateLahanCubit({@required this.repository})
+      : assert(repository != null),super(CreateLahanInitial());
 
   Future<void> createLahan(
       String apiToken,
@@ -23,7 +26,7 @@ class CreateLahanCubit extends Cubit<CreateLahanState> {
       String provinsi,
       String latitude,
       String longitude) async {
-    ApiReturnValue<Lahan> result = await LahanServices.createLahan(
+    ApiReturnValue<Lahan> result = await repository.createLahan(
         apiToken,
         kategori,
         luas,

@@ -1,13 +1,15 @@
-part of 'remote_services.dart';
+part of '../remote_services.dart';
 
-class WilayahServices {
+class WilayahServices implements WilayahServicesContract {
   static const String tag = 'WILAYAH_SERVICE';
+  final http.Client client;
+  WilayahServices({@required this.client});
 
   //--------------------------------------------------------------------
   //                          GET List Provinsi
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Wilayah>>> getProvinsi(
-      {String provinsi}) async {
+  @override
+  Future<ApiReturnValue<List<Wilayah>>> getProvinsi({String provinsi}) async {
     try {
       var apiResponse;
       if (provinsi != null) {
@@ -15,7 +17,7 @@ class WilayahServices {
           'provinsi': provinsi,
         };
         print('$tag Provinsi : $queryParam');
-        var uri = Uri.https(ApiUrl.baseURI, ApiUrl.provinsi, queryParam);
+        var uri = Uri.https(ApiUrl.baseHttpsURI, ApiUrl.provinsi, queryParam);
         apiResponse = await http.get(uri, headers: apiHeaders());
       } else {
         apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.provinsi,
@@ -31,7 +33,7 @@ class WilayahServices {
       return ApiReturnValue(value: listProvinsi);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Provinsi, Exception : ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -40,8 +42,8 @@ class WilayahServices {
   //--------------------------------------------------------------------
   //                          GET List Kabupaten
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Wilayah>>> getKabupaten(String provinsi,
-      {String kabupaten}) async {
+  @override
+  Future<ApiReturnValue<List<Wilayah>>> getKabupaten({String provinsi, String kabupaten}) async {
     Map<String, String> queryParam;
     try {
       if (kabupaten != null) {
@@ -57,8 +59,8 @@ class WilayahServices {
         };
       }
       print('$tag Kabupaten : $queryParam');
-      final uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.kabupaten}', queryParam);
-      final apiResponse = await http.get(uri, headers: apiHeaders());
+      final uri = Uri.https(ApiUrl.baseHttpsURI, '/${ApiUrl.kabupaten}', queryParam);
+      final apiResponse = await client.get(uri, headers: apiHeaders());
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
       final listProvinsi = (baseResponse.data)
@@ -68,7 +70,7 @@ class WilayahServices {
       return ApiReturnValue(value: listProvinsi);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Kabupaten, Exception ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -77,9 +79,8 @@ class WilayahServices {
   //--------------------------------------------------------------------
   //                          GET List Kecamatan
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Wilayah>>> getKecamatan(
-      String provinsi, String kabupaten,
-      {String kecamatan}) async {
+  @override
+  Future<ApiReturnValue<List<Wilayah>>> getKecamatan({String provinsi, String kabupaten, String kecamatan}) async {
     try {
       Map<String, String> queryParam;
       if (kecamatan != null) {
@@ -97,7 +98,7 @@ class WilayahServices {
         };
       }
       print('$tag Kecamatan : $queryParam');
-      final uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.kecamatan}', queryParam);
+      final uri = Uri.https(ApiUrl.baseHttpsURI, '/${ApiUrl.kecamatan}', queryParam);
       final apiResponse = await http.get(uri, headers: apiHeaders());
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -108,7 +109,7 @@ class WilayahServices {
       return ApiReturnValue(value: listWilayah);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Kecamatan, Exception ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }
@@ -117,9 +118,8 @@ class WilayahServices {
   //--------------------------------------------------------------------
   //                          GET List Desa
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<List<Wilayah>>> getDesa(
-      String provinsi, String kabupaten, String kecamatan,
-      {String desa}) async {
+  @override
+  Future<ApiReturnValue<List<Wilayah>>> getDesa({String provinsi, String kabupaten, String kecamatan, String desa}) async {
     try {
       Map<String, String> queryParam;
       if (desa != null) {
@@ -139,7 +139,7 @@ class WilayahServices {
         };
       }
       print('$tag Desa : $queryParam');
-      var uri = Uri.https(ApiUrl.baseURI, '/${ApiUrl.desa}', queryParam);
+      var uri = Uri.https(ApiUrl.baseHttpsURI, '/${ApiUrl.desa}', queryParam);
       final apiResponse = await http.get(uri, headers: apiHeaders());
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -150,7 +150,7 @@ class WilayahServices {
       return ApiReturnValue(value: listWilayah);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
-    }  catch (e) {
+    } catch (e) {
       print('$tag Desa, Exception ${e.toString()}');
       return ApiReturnValue(message: e.toString());
     }

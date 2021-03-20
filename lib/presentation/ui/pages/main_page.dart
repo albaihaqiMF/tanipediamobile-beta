@@ -54,6 +54,9 @@ class _MainPageState extends State<MainPage> {
                     child: Test2Page(),
                   ),
                   Center(
+                    child: ComingSoonPage(),
+                  ),
+                  Center(
                     child: ProfilePage(),
                   ),
                 ],

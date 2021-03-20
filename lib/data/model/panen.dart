@@ -18,8 +18,6 @@ class Panen {
   // String varietas;
   String tglTanam;
   String tglPanen;
-
-
   int totalPanen;
   int usiaTanam;
   int idPetani;

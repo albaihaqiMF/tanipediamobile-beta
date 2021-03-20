@@ -12,4 +12,6 @@ class KeySharedPreference {
   static const updateLahan = 'update-lahan';
   // Panen
   static const updatePanen = 'update-panen';
+
+  static const CACHED_PROFILE = 'CACHED_NUMBER_TRIVIA';
 }

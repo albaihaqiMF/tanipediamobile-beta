@@ -1,13 +1,15 @@
-part of 'remote_services.dart';
+part of '../remote_services.dart';
 
-class UserServices {
+class UserServices implements UserServicesContract {
   static const String tag = 'USER_SERVICE';
+  final http.Client client;
+  UserServices({@required this.client});
 
   //--------------------------------------------------------------------
   //                          REGISTER User
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<User>> register(
-      String username, String password) async {
+  @override
+  Future<ApiReturnValue<User>> register({String username, String password}) async {
     Map<String, String> fieldFormURL = {
       'username': username,
       'password': password
@@ -15,7 +17,7 @@ class UserServices {
     var body = jsonEncode(fieldFormURL);
 
     try {
-      final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.register,
+      final apiResponse = await client.post(ApiUrl.baseURL + ApiUrl.register,
           headers: apiHeaders(), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -38,9 +40,10 @@ class UserServices {
   //--------------------------------------------------------------------
   //                          VERIFY User
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<User>> verifyUser(String token) async {
+  @override
+  Future<ApiReturnValue<User>> verifyUser({String token}) async {
     try {
-      final apiResponse = await http.get(ApiUrl.baseURL + ApiUrl.login,
+      final apiResponse = await client.get(ApiUrl.baseURL + ApiUrl.login,
           headers: apiHeaders(apiToken: token));
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -58,15 +61,15 @@ class UserServices {
   //--------------------------------------------------------------------
   //                          LOGIN User
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<User>> login(
-      String username, String password) async {
+  @override
+  Future<ApiReturnValue<User>> login({String username, String password}) async {
     Map<String, String> fieldFormURL = {
       'username': username,
       'password': password
     };
     var body = jsonEncode(fieldFormURL);
     try {
-      final apiResponse = await http.post(ApiUrl.baseURL + ApiUrl.login,
+      final apiResponse = await client.post(ApiUrl.baseURL + ApiUrl.login,
           headers: apiHeaders(), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
@@ -88,22 +91,21 @@ class UserServices {
   //--------------------------------------------------------------------
   //                          UPDATE User
   //--------------------------------------------------------------------
-  static Future<ApiReturnValue<User>> update(String token,
-      int idUser, String noTelp, {int idProfile}) async {
+  @override
+  Future<ApiReturnValue<User>> update({String token, int idUser, String noTelp, int idProfile}) async {
     Map<String, dynamic> fieldFormURL = {
       'id': idUser,
       'id_profil': idProfile,
-      'telp':noTelp
+      'telp': noTelp
     };
     var body = jsonEncode(fieldFormURL);
     try {
-      final apiResponse = await http.put(ApiUrl.baseURL + ApiUrl.user,
+      final apiResponse = await client.put(ApiUrl.baseURL + ApiUrl.user,
           headers: apiHeaders(apiToken: token), body: body);
       final responseBody = ReturnResponse.response(apiResponse);
       final baseResponse = Response.fromJSON(responseBody);
-        var responseLogin = User.fromJSON(baseResponse.data);
-        return ApiReturnValue(value: responseLogin);
-
+      var responseLogin = User.fromJSON(baseResponse.data);
+      return ApiReturnValue(value: responseLogin);
     } on SocketException {
       return ApiReturnValue(message: "Tidak ada koneksi internet!");
     } catch (e) {

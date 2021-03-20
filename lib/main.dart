@@ -33,36 +33,36 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         // Auth
-        BlocProvider(create: (_) => LoginCubit()),
-        BlocProvider(create: (_) => VerifyUserCubit()),
+        BlocProvider(create: (_) => sl<LoginCubit>()),
+        BlocProvider(create: (_) => sl<VerifyUserCubit>()),
         // Register
-        BlocProvider(create: (_) => UpdateUserCubit()),
-        BlocProvider(create: (_) => RegisterCubit()),
-        BlocProvider(create: (_) => sl<CreateProfileCubit>()),
+        BlocProvider(create: (_) => sl<UpdateUserCubit>()),
+        BlocProvider(create: (_) => sl<RegisterCubit>()),
         // Profile
+        BlocProvider(create: (_) => sl<CreateProfileCubit>()),
         BlocProvider(create: (_) => sl<GetProfileCubit>()),
         BlocProvider(create: (_) => sl<UploadPhotoProfileCubit>()),
         BlocProvider(create: (_) => sl<UpdateProfileCubit>()),
         // Pupuk
-        BlocProvider(create: (_) => GetListPupukCubit()),
-        BlocProvider(create: (_) => DetailPupukCubit()),
+        BlocProvider(create: (_) => sl<GetListPupukCubit>()),
+        BlocProvider(create: (_) => sl<DetailPupukCubit>()),
         // Lahan
-        BlocProvider(create: (_) => GetDetailLahanCubit()),
-        BlocProvider(create: (_) => GetListLahanCubit()),
-        BlocProvider(create: (_) => CreateLahanCubit()),
-        BlocProvider(create: (_) => DeleteLahanCubit()),
-        BlocProvider(create: (_) => UpdateLahanCubit()),
+        BlocProvider(create: (_) => sl<GetDetailLahanCubit>()),
+        BlocProvider(create: (_) => sl<GetListLahanCubit>()),
+        BlocProvider(create: (_) => sl<CreateLahanCubit>()),
+        BlocProvider(create: (_) => sl<DeleteLahanCubit>()),
+        BlocProvider(create: (_) => sl<UpdateLahanCubit>()),
         // Panen
-        BlocProvider(create: (_) => CreatePanenCubit()),
-        BlocProvider(create: (_) => GetPanenCubit()),
-        BlocProvider(create: (_) => GetDetailPanenCubit()),
-        BlocProvider(create: (_) => DeletePanenCubit()),
-        BlocProvider(create: (_) => UpdatePanenCubit()),
+        BlocProvider(create: (_) => sl<CreatePanenCubit>()),
+        BlocProvider(create: (_) => sl<GetListPanenCubit>()),
+        BlocProvider(create: (_) => sl<GetDetailPanenCubit>()),
+        BlocProvider(create: (_) => sl<DeletePanenCubit>()),
+        BlocProvider(create: (_) => sl<UpdatePanenCubit>()),
         // Wilayah
-        BlocProvider(create: (_) => ProvinsiCubit()),
-        BlocProvider(create: (_) => KabupatenCubit()),
-        BlocProvider(create: (_) => KecamatanCubit()),
-        BlocProvider(create: (_) => DesaCubit()),
+        BlocProvider(create: (_) => sl<ProvinsiCubit>()),
+        BlocProvider(create: (_) => sl<KabupatenCubit>()),
+        BlocProvider(create: (_) => sl<KecamatanCubit>()),
+        BlocProvider(create: (_) => sl<DesaCubit>()),
       ],
       child: getX.GetMaterialApp(
         theme: appThemeData,

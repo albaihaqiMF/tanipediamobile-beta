@@ -1,12 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/data/data_source/remote/remote_services.dart';
+import 'package:meta/meta.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
 
 part 'get_list_pupuk_state.dart';
 
 class GetListPupukCubit extends Cubit<GetListPupukState> {
-  GetListPupukCubit() : super(GetListPupukInitial());
+  final PupukRepositoryContract repository;
+  GetListPupukCubit({@required this.repository}): assert(repository != null),super(GetListPupukInitial());
 
   void toInitial() {
     emit(GetListPupukInitial());
@@ -14,7 +16,7 @@ class GetListPupukCubit extends Cubit<GetListPupukState> {
 
   Future<void> getListPupuk(String apiToken) async {
     ApiReturnValue<List<Pupuk>> result =
-        await PupukServices.getlistPupuk(apiToken);
+        await repository.getlistPupuk(token:apiToken);
     if (result.value != null) {
       emit(GetListPupukLoaded(result.value));
     } else {
@@ -24,7 +26,7 @@ class GetListPupukCubit extends Cubit<GetListPupukState> {
 
   Future<void> getListPupukFiltered(String apiToken, Map<String,String> queryFilter ) async {
     ApiReturnValue<List<Pupuk>> result =
-    await PupukServices.getlistPupukFilter(apiToken, queryFilter);
+    await repository.getlistPupukFilter(token:apiToken, queryFilter: queryFilter);
     if (result.value != null) {
       emit(GetListPupukLoaded(result.value));
     } else {

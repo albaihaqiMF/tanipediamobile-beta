@@ -17,11 +17,11 @@ class ProfileRepository implements ProfileRepositoryContract {
   {String token, int idProfile}) async {
     if (await networkInfo.isConnected) {
       final networkData = await networkDataSource.read(token:token, idProfile:idProfile);
-      localDataSource.cacheNumberTrivia(networkData.value);
+      localDataSource.cacheDataProfile(networkData.value);
       print('$tag, isConnected');
       return networkData;
     } else {
-      final localData = await localDataSource.getLastNumberTrivia();
+      final localData = await localDataSource.getDataProfile();
       print('$tag, isDisconnected : $localData');
       print('$tag, Local Data : $localData');
       return localData;
@@ -74,22 +74,22 @@ class ProfileRepository implements ProfileRepositoryContract {
           kabupaten: kabupaten,
           kecamatan: kecamatan,
           desa: desa);
-      localDataSource.cacheNumberTrivia(networkData.value);
+      // localDataSource.cacheDataProfile(networkData.value);
       print('$tag, isConnected');
       return networkData;
     } else {
-      final localData = await localDataSource.getLastNumberTrivia();
-      print('$tag, isDisconnected : $localData');
-      print('$tag, Local Data : $localData');
-      return localData;
+      // Handle Disconnect
+      // final finallocalData = await localDataSource.getDataProfile();
+      print('$tag, isDisconnected : LocalData');
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
     }
   }
 
   @override
   Future<ApiReturnValue<Profile>> updateDataProfile(
   {String token,
-    int idUser,
     int idProfile,
+    int idUser,
     String nama,
     String telp,
     String tglLahir,
@@ -113,6 +113,7 @@ class ProfileRepository implements ProfileRepositoryContract {
     if (await networkInfo.isConnected) {
       final networkData = await networkDataSource.update(
           token: token,
+          idProfile: idProfile,
           idUser: idUser,
           nama: nama,
           telp: telp,
@@ -133,14 +134,11 @@ class ProfileRepository implements ProfileRepositoryContract {
           kabupaten: kabupaten,
           kecamatan: kecamatan,
           desa: desa);
-      localDataSource.cacheNumberTrivia(networkData.value);
       print('$tag, isConnected');
       return networkData;
     } else {
-      final localData = await localDataSource.getLastNumberTrivia();
-      print('$tag, isDisconnected : $localData');
-      print('$tag, Local Data : $localData');
-      return localData;
+      // Handle Disconnect
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
     }
   }
 
@@ -149,14 +147,12 @@ class ProfileRepository implements ProfileRepositoryContract {
   {String token, int idProfile, String photoProfile}) async {
     if (await networkInfo.isConnected) {
       final networkData = await networkDataSource.editPhotoProfile(token:token, idProfile:idProfile, photoProfile:photoProfile);
-      localDataSource.cacheNumberTrivia(networkData.value);
+      // localDataSource.cacheDataProfile(networkData.value);
       print('$tag, isConnected');
       return networkData;
     } else {
-      final localData = await localDataSource.getLastNumberTrivia();
-      print('$tag, isDisconnected : $localData');
-      print('$tag, Local Data : $localData');
-      return localData;
+      // Handle Disconnect
+      return ApiReturnValue(message: "Tidak ada koneksi internet!");
     }
   }
 }

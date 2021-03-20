@@ -1,16 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/data/data_source/remote/remote_services.dart';
+import 'package:meta/meta.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
 
 part 'get_detail_lahan_state.dart';
 
 class GetDetailLahanCubit extends Cubit<GetDetailLahanState> {
-  GetDetailLahanCubit() : super(GetDetailLahanInitial());
+  final LahanRepositoryContract repository;
+  GetDetailLahanCubit({@required this.repository})
+      : assert(repository != null),super(GetDetailLahanInitial());
 
   Future<void> getDetailLahan(String apiToken, String idLahan) async {
     ApiReturnValue<Lahan> result =
-        await LahanServices.getDetailLahan(apiToken, idLahan);
+        await repository.getDetailLahan(apiToken, idLahan);
     if (result.value != null) {
       emit(GetDetailLahanLoaded(result.value));
     } else {

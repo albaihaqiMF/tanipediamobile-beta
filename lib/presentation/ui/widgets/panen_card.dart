@@ -25,29 +25,31 @@ class PanenCard extends StatelessWidget {
               ),
             ),
             SizedBox(width: 5),
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Text('${panen.varietas} ${panen.kategori}',
-                  //     style: blackFontBoldStyle4),
-                  Text((panen.kategori!=null)?
-                      '${panen.kategori}' : 'Panen', style: blackFontBoldStyle4),
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          Text('Hasil Panen : ', style: blackFontStyle3,),
-                          Text((panen.totalPanen!=null)?
-                              '${panen.totalPanen} Kg': '- Kg',
-                              style: mainFontBoldStyle3),
-                        ],
-                      ),
-                    ],
-                  ),
-                  // Text('${panen.kabupaten} - ${panen.kecamatan}',
-                  //     style: greyFontStyleSmall),
-                ]),
+            Flexible(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Text('${panen.varietas} ${panen.kategori}',
+                    //     style: blackFontBoldStyle4),
+                    Text((panen.kategori!=null)?
+                    '${panen.kategori}' : 'Panen', style: blackFontBoldStyle4),
+                    Row(
+                      children: [
+                        Row(
+                          children: [
+                            Text('Hasil Panen : ', style: blackFontStyle3,),
+                            Text((panen.totalPanen!=null)?
+                            '${panen.totalPanen} Kg': '- Kg',
+                              style: mainFontBoldStyle3, overflow: TextOverflow.ellipsis, maxLines: 2,),
+                          ],
+                        ),
+                      ],
+                    ),
+                    // Text('${panen.kabupaten} - ${panen.kecamatan}',
+                    //     style: greyFontStyleSmall),
+                  ]),
+            ),
           ],
         ),
       ),
