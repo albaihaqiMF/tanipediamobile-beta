@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/presentation/shared/shared.dart';
+import 'package:tanipedia_mobile_app/core/shared/shared.dart';
 
 part 'basic_widget.dart';
 part 'custom_button.dart';

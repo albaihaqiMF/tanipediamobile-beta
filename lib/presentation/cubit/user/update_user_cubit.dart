@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 
 part 'update_user_state.dart';
 
 class UpdateUserCubit extends Cubit<UpdateUserState> {
-  final UserRepositoryContract repository;
+  final UserRepository repository;
   UpdateUserCubit({@required this.repository}): assert(repository != null), super(UpdateUserInitial());
 
   Future<void> updateUser(String apiToken, int idUser, String noTelp, {int idProfile}) async {

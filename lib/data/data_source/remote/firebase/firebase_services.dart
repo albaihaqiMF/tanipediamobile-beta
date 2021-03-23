@@ -1,4 +1,4 @@
-part of 'remote_services.dart';
+part of '../remote_services_impl.dart';
 
 class FirebaseServices {
   static const String tag = 'FIRESTORE';

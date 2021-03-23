@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 
 part 'create_profile_state.dart';
 
 class CreateProfileCubit extends Cubit<CreateProfileState> {
-  final ProfileRepositoryContract repository;
+  final ProfileRepository repository;
   CreateProfileCubit({@required this.repository})
       : assert(repository != null),
         super(CreateProfileInitial());

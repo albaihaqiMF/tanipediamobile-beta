@@ -2,11 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 part 'get_list_panen_state.dart';
 
 class GetListPanenCubit extends Cubit<GetPanenState> {
-  final PanenRepositoryContract repository;
+  final PanenRepository repository;
   GetListPanenCubit({@required this.repository})
       : assert(repository != null),super(GetPanenInitial());
 

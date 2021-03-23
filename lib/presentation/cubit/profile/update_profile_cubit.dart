@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 import 'package:meta/meta.dart';
 
 part 'update_profile_state.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileState> {
-  final ProfileRepositoryContract repository;
+  final ProfileRepository repository;
   UpdateProfileCubit({@required this.repository}) : assert(repository != null), super(UpdateProfileInitial());
 
   Future<void> updateProfile(

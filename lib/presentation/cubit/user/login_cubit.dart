@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  final UserRepositoryContract repository;
+  final UserRepository repository;
   LoginCubit({@required this.repository}): assert(repository != null), super(LoginInitial());
 
   Future<void> login(String username, String password) async {

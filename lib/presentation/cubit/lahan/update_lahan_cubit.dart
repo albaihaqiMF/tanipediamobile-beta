@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 
 part 'update_lahan_state.dart';
 
 class UpdateLahanCubit extends Cubit<UpdateLahanState> {
-  final LahanRepositoryContract repository;
+  final LahanRepository repository;
   UpdateLahanCubit({@required this.repository})
       : assert(repository != null),super(UpdateLahanInitial());
 

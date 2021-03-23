@@ -2,11 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 part 'update_panen_state.dart';
 
 class UpdatePanenCubit extends Cubit<UpdatePanenState> {
-  final PanenRepositoryContract repository;
+  final PanenRepository repository;
   UpdatePanenCubit({@required this.repository})
       : assert(repository != null),super(UpdatePanenInitial());
   Future<void> updatePanen(

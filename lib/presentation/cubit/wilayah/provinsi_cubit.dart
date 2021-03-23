@@ -2,11 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 part 'provinsi_state.dart';
 
 class ProvinsiCubit extends Cubit<ProvinsiState> {
-  final WilayahRepositoryContract repository;
+  final WilayahRepository repository;
   ProvinsiCubit({@required this.repository}) : assert(repository != null), super(ProvinsiInitial());
 
   Future<void> getProvinsi({String provinsi}) async {

@@ -5,14 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanipedia_mobile_app/presentation/cubit/cubit.dart';
 
 import 'data/data_source/local/local_services.dart';
-import 'data/data_source/remote/remote_services.dart';
+import 'data/data_source/remote/remote_services_impl.dart';
 import 'core/network/network_info.dart';
-import 'data/data_source/remote/remote_services_contract.dart';
+import 'data/data_source/remote/remote_services.dart';
+import 'data/repository/repositories_impl.dart';
 import 'data/repository/repositories.dart';
-import 'data/repository/repositories_contract.dart';
 
 final sl = GetIt.instance;
-
 Future<void> init() async {
   //--------------------------------------------------------------------
   //                          PRESENTATION
@@ -62,39 +61,39 @@ Future<void> init() async {
   //------------------
   // Repository
   //------------------
-  sl.registerLazySingleton<ProfileRepositoryContract>(
-    () => ProfileRepository(
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(
       networkDataSource: sl(),
       localDataSource: sl(),
       networkInfo: sl(),
     ),
   );
-  sl.registerLazySingleton<PupukRepositoryContract>(
-        () => PupukRepository(
+  sl.registerLazySingleton<PupukRepository>(
+        () => PupukRepositoryImpl(
       networkDataSource: sl(),
       networkInfo: sl(),
     ),
   );
-  sl.registerLazySingleton<PanenRepositoryContract>(
-        () => PanenRepository(
+  sl.registerLazySingleton<PanenRepository>(
+        () => PanenRepositoryImpl(
       networkDataSource: sl(),
       networkInfo: sl(),
     ),
   );
-  sl.registerLazySingleton<LahanRepositoryContract>(
-        () => LahanRepository(
+  sl.registerLazySingleton<LahanRepository>(
+        () => LahanRepositoryImpl(
       networkDataSource: sl(),
       networkInfo: sl(),
     ),
   );
-  sl.registerLazySingleton<WilayahRepositoryContract>(
-        () => WilayahRepository(
+  sl.registerLazySingleton<WilayahRepository>(
+        () => WilayahRepositoryImpl(
       networkDataSource: sl(),
       networkInfo: sl(),
     ),
   );
-  sl.registerLazySingleton<UserRepositoryContract>(
-        () => UserRepository(
+  sl.registerLazySingleton<UserRepository>(
+        () => UserRepositoryImpl(
       networkDataSource: sl(),
       networkInfo: sl(),
     ),
@@ -104,27 +103,27 @@ Future<void> init() async {
   // Data sources
   //------------------
   // Remote
-  sl.registerLazySingleton<UserServicesContract>(
-        () => UserServices(client: sl()),
+  sl.registerLazySingleton<UserServices>(
+        () => UserServicesImpl(client: sl()),
   );
-  sl.registerLazySingleton<ProfileServicesContract>(
-    () => ProfileServices(client: sl()),
+  sl.registerLazySingleton<ProfileServices>(
+    () => ProfileServicesImpl(client: sl()),
   );
-  sl.registerLazySingleton<PupukServicesContract>(
-        () => PupukServices(client: sl()),
+  sl.registerLazySingleton<PupukServices>(
+        () => PupukServicesImpl(client: sl()),
   );
-  sl.registerLazySingleton<PanenServicesContract>(
-        () => PanenServices(client: sl()),
+  sl.registerLazySingleton<PanenServices>(
+        () => PanenServicesImpl(client: sl()),
   );
-  sl.registerLazySingleton<LahanServicesContract>(
-        () => LahanServices(client: sl()),
+  sl.registerLazySingleton<LahanServices>(
+        () => LahanServicesImpl(client: sl()),
   );
-  sl.registerLazySingleton<WilayahServicesContract>(
-        () => WilayahServices(client: sl()),
+  sl.registerLazySingleton<WilayahServices>(
+        () => WilayahServicesImpl(client: sl()),
   );
   // Local
-  sl.registerLazySingleton<ProfileLocalServicesContract>(
-    () => ProfileLocalServices(sharedPreferences: sl()),
+  sl.registerLazySingleton<ProfileLocalServices>(
+    () => ProfileLocalServicesImpl(sharedPreferences: sl()),
   );
 
   //--------------------------------------------------------------------

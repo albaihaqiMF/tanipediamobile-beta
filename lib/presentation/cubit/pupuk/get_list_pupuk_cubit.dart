@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 
 part 'get_list_pupuk_state.dart';
 
 class GetListPupukCubit extends Cubit<GetListPupukState> {
-  final PupukRepositoryContract repository;
+  final PupukRepository repository;
   GetListPupukCubit({@required this.repository}): assert(repository != null),super(GetListPupukInitial());
 
   void toInitial() {

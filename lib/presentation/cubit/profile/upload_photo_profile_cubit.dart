@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 
 part 'upload_photo_profile_state.dart';
 
 class UploadPhotoProfileCubit extends Cubit<UploadPhotoProfileState> {
-  final ProfileRepositoryContract repository;
+  final ProfileRepository repository;
   UploadPhotoProfileCubit({@required this.repository}): assert(repository != null),super(UploadPhotoProfileInitial());
 
   Future<void> uploadPhotoProfile({String token, int idProfile, String photoProfile}) async {

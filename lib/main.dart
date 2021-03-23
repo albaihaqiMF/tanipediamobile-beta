@@ -6,7 +6,7 @@ import 'package:get/get.dart' as getX;
 import 'package:tanipedia_mobile_app/presentation/cubit/profile/update_profile_cubit.dart';
 import 'package:tanipedia_mobile_app/injection_container.dart';
 import 'package:tanipedia_mobile_app/core/routes/app_pages.dart';
-import 'package:tanipedia_mobile_app/presentation/shared/shared.dart';
+import 'package:tanipedia_mobile_app/core/shared/shared.dart';
 import 'presentation/cubit/cubit.dart';
 import 'presentation/ui/pages/pages.dart';
 import 'injection_container.dart' as di;

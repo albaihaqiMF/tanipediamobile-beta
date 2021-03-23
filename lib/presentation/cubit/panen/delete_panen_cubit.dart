@@ -2,11 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 part 'delete_panen_state.dart';
 
 class DeletePanenCubit extends Cubit<DeletePanenState> {
-  final PanenRepositoryContract repository;
+  final PanenRepository repository;
   DeletePanenCubit({@required this.repository})
       : assert(repository != null),super(DeletePanenInitial());
 

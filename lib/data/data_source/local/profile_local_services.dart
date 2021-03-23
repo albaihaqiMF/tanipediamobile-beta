@@ -1,13 +1,13 @@
 part of 'local_services.dart';
 
-abstract class ProfileLocalServicesContract {
+abstract class ProfileLocalServices {
   Future<ApiReturnValue<Profile>> getDataProfile();
   Future<void> cacheDataProfile(Profile triviaToCache);
 }
 
-class ProfileLocalServices implements ProfileLocalServicesContract {
+class ProfileLocalServicesImpl implements ProfileLocalServices {
   final SharedPreferences sharedPreferences;
-  ProfileLocalServices({@required this.sharedPreferences});
+  ProfileLocalServicesImpl({@required this.sharedPreferences});
 
   @override
   Future<ApiReturnValue<Profile>> getDataProfile() async {

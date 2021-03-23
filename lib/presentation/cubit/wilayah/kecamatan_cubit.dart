@@ -2,11 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:meta/meta.dart';
-import 'package:tanipedia_mobile_app/data/repository/repositories_contract.dart';
+import 'package:tanipedia_mobile_app/data/repository/repositories.dart';
 part 'kecamatan_state.dart';
 
 class KecamatanCubit extends Cubit<KecamatanState> {
-  final WilayahRepositoryContract repository;
+  final WilayahRepository repository;
   KecamatanCubit({@required this.repository}) : assert(repository != null), super(KecamatanInitial());
 
   Future<void> getKecamatan(String provinsi, String kabupaten,
