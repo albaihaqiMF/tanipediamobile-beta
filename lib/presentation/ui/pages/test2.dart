@@ -6,15 +6,28 @@ class Test2Page extends StatelessWidget {
   Widget build(BuildContext context) {
     // print('SINGLETON : ${identical(prefs, sharedPreferences)}');
     return Scaffold(
-      body: Center(
-        child: CustomButton(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomButton(
+              onPress: () async {
+                String apiToken = prefs.getString(KeySharedPreference.apiToken);
+                int idProfile = prefs.getInt(KeySharedPreference.idProfile);
+                await context
+                    .read<GetProfileCubit>()
+                    .getProfile(apiToken, idProfile);
+              },
+              text: 'Cache Data Profile',
+              color: mainColor),
+          CustomButton(
+            text: 'Delete SQFlite',
+            color: mainColor,
             onPress: () async {
-              String apiToken = prefs.getString(KeySharedPreference.apiToken);
-              int idProfile = prefs.getInt(KeySharedPreference.idProfile);
-              await context.read<GetProfileCubit>().getProfile(apiToken, idProfile);
+              ProfileDao dao = sl<ProfileDao>();
+              await dao.deleteAll();
             },
-            text: 'Cache Data Profile',
-            color: mainColor),
+          )
+        ],
       ),
     );
   }

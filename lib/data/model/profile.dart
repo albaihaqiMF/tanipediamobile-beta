@@ -130,4 +130,12 @@ class Profile {
       'foto_profil': fotoProfil,
     };
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id':1,
+      'id_profile': id,
+      'name': nama,
+    };
+  }
 }

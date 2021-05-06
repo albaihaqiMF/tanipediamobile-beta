@@ -15,7 +15,7 @@ import 'package:tanipedia_mobile_app/presentation/cubit/pupuk/get_list_pupuk_cub
 import 'package:tanipedia_mobile_app/presentation/cubit/profile/get_profile_cubit.dart';
 import 'package:tanipedia_mobile_app/presentation/cubit/profile/upload_photo_profile_cubit.dart';
 import 'package:tanipedia_mobile_app/presentation/cubit/user/register_cubit.dart';
-import 'package:tanipedia_mobile_app/data/local_storage/sharedpreference/key_shared_preference.dart';
+import 'package:tanipedia_mobile_app/core/local_storage/sharedpreference/key_shared_preference.dart';
 import 'package:tanipedia_mobile_app/data/model/dropdown_data/data.dart';
 import 'package:tanipedia_mobile_app/data/model/models.dart';
 import 'package:tanipedia_mobile_app/core/network/api_url.dart';
@@ -24,6 +24,7 @@ import 'package:tanipedia_mobile_app/core/shared/shared.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
+import 'package:tanipedia_mobile_app/core/local_storage/database/dao/dao.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';

@@ -18,12 +18,16 @@ class ProfileRepositoryImpl implements ProfileRepository {
     if (await networkInfo.isConnected) {
       final networkData = await networkDataSource.read(token:token, idProfile:idProfile);
       localDataSource.cacheDataProfile(networkData.value);
+      localDataSource.cacheSQLite(networkData.value);
+      print('$tag, Cache Data : ${networkData.value}');
       print('$tag, isConnected');
       return networkData;
     } else {
       final localData = await localDataSource.getDataProfile();
-      print('$tag, isDisconnected : $localData');
-      print('$tag, Local Data : $localData');
+      final localDataSQlite = await localDataSource.getFromSQLite();
+      print('$tag, isDisconnected');
+      print('$tag, Local Data : data Prefs = ${localData.value.nama}');
+      print('$tag, Local Data : data SQLite = ${localDataSQlite.value.nama}');
       return localData;
     }
   }

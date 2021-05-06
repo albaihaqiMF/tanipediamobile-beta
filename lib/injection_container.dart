@@ -2,6 +2,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tanipedia_mobile_app/core/local_storage/database/dao/dao.dart';
 import 'package:tanipedia_mobile_app/presentation/cubit/cubit.dart';
 
 import 'data/data_source/local/local_services.dart';
@@ -138,4 +139,10 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => DataConnectionChecker());
+
+  //------------------
+  // SQFlite
+  //------------------
+  // DAO
+  sl.registerSingleton(ProfileDao());
 }
