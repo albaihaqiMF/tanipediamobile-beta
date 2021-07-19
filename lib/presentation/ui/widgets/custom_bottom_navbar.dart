@@ -31,7 +31,7 @@ class CustomBottomNavBar extends StatelessWidget {
           buildItem('Beranda', Icons.home_outlined, 0),
           buildItem('Sosmed', Icons.language_outlined, 1),
           buildItem('Belajar', Icons.chrome_reader_mode_outlined, 2),
-          buildItem('Pasar', Icons.monetization_on_outlined, 3),
+          // buildItem('Pasar', Icons.monetization_on_outlined, 3),
           buildItem('Keuangan', Icons.shopping_basket_outlined, 4),
           buildItem('Profil', Icons.person_outline, 5)
         ],
